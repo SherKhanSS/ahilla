@@ -3,14 +3,32 @@
 
 .header {
   border-bottom: 5px solid #363636;
+
+  button {
+    border: none;
+    outline: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+  }
 }
 
 .wrap {
   max-width: $max-width;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 10px 11px;
+  position: relative;
 }
 
-.logo_link {
+.logo {
+  display: block;
+  width: 114px;
+  height: 23px;
+
   &:hover {
     fill: $color;
     path {
@@ -26,7 +44,18 @@
   }
 }
 
+.controls {
+  display: flex;
+  margin-top: -5px;
+}
+
 .search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  margin-right: 10px;
+
   &:hover {
     path {
       stroke: $color;
@@ -42,36 +71,63 @@
   }
 }
 
-.menu_list {
-  @include list-reset;
-  font-family: Gill Sans;
+.burger {
+  width: 30px;
+  height: 30px;
+}
+
+.nav {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  padding: 30px 0;
+  width: 100%;
+  border-bottom: 5px solid #363636;
+  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
 }
 
-.menu_item:hover {
-  .menu_link {
-    color: $color;
-  }
-
-  path {
-    fill: $color;
-  }
+.menu_list,
+.submenu_list {
+  @include list-reset;
+  @include flex-mobile;
 }
 
-.menu_item:active {
-  .menu_link {
-    color: $color-hover;
-  }
+.submenu_list {
+  padding: 10px 0;
+}
 
-  path {
-    fill: $color-hover;
-  }
+.menu_item_arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu_link {
+  display: block;
   text-decoration: none;
   color: inherit;
+  padding: 5px 0;
+}
+
+.menu_link:active {
+  color: $color-hover;
+}
+
+.menu_link:hover {
+  color: $color;
+}
+
+.arrow {
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: $desktop-width) {
+  .menu_item:hover path {
+    fill: $color;
+  }
 }

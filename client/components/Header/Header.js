@@ -5,9 +5,8 @@ import SearchIcon from '../Icons/SearchIcon'
 import BurgerIcon from '../Icons/BurgerIcon'
 import CloseIcon from '../Icons/CloseIcon'
 import styles from './header.module.scss'
-import menu from './menu'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
-import MenuItem from './MenuItem'
+import MenuList from './MenuList'
 
 const DESCTOP_WIDTH = 1279
 
@@ -25,41 +24,29 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.wrap}>
-        <div className={styles.logo}>
-          <Link href='/'>
-            <a className={styles.logo_link}>
-              <LogoIcon />
+        <Link href='/'>
+          <a className={styles.logo}>
+            <LogoIcon />
+          </a>
+        </Link>
+        {isShowMenu && <MenuList styles={styles} isDesktop={isDesktop} />}
+        <div className={styles.controls}>
+          <Link href='/search'>
+            <a className={styles.search}>
+              <SearchIcon />
             </a>
           </Link>
+          {!isDesktop && (
+            <button
+              className={styles.burger}
+              onClick={() => {
+                setIsShowMenu(!isShowMenu)
+              }}
+            >
+              {isShowMenu ? <CloseIcon /> : <BurgerIcon />}
+            </button>
+          )}
         </div>
-        {isShowMenu && (
-          <nav className={styles.nav}>
-            <ul className={styles.menu_list}>
-              {menu.map((it, i) => {
-                return (
-                  <MenuItem
-                    item={it}
-                    isDesktop={isDesktop}
-                    styles={styles}
-                    key={i}
-                  />
-                )
-              })}
-            </ul>
-          </nav>
-        )}
-        <div className={styles.search}>
-          <SearchIcon />
-        </div>
-        {!isDesktop && (
-          <button
-            onClick={() => {
-              setIsShowMenu(!isShowMenu)
-            }}
-          >
-            {isShowMenu ? <CloseIcon /> : <BurgerIcon />}
-          </button>
-        )}
       </div>
     </header>
   )

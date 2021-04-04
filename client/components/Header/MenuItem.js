@@ -15,26 +15,29 @@ const MenuItem = ({ item, isDesktop, styles }) => {
         isDesktop && isShowSubMenu && setIsShowSubMenu(false)
       }}
     >
-      <Link href={item.link}>
-        <a className={styles.menu_link}>{item.title}</a>
-      </Link>
-      {item.subMenu && (
-        <button
-          onClick={() => {
-            isDesktop ? null : setIsShowSubMenu(!isShowSubMenu)
-          }}
-          style={{
-            transform: isShowSubMenu ? 'rotate(180deg)' : 'rotate(0deg)',
-          }}
-        >
-          <Arrow />
-        </button>
-      )}
+      <div className={styles.menu_item_arrow}>
+        <Link href={item.link}>
+          <a className={styles.menu_link}>{item.title}</a>
+        </Link>
+        {item.subMenu && (
+          <button
+            className={styles.arrow}
+            onClick={() => {
+              isDesktop ? null : setIsShowSubMenu(!isShowSubMenu)
+            }}
+            style={{
+              transform: isShowSubMenu ? 'rotate(180deg)' : 'rotate(0deg)',
+            }}
+          >
+            <Arrow />
+          </button>
+        )}
+      </div>
       {isShowSubMenu && item.subMenu && (
-        <ul className={styles.menu_list}>
+        <ul className={styles.submenu_list}>
           {item.subMenu.map((it, i) => {
             return (
-              <li className={styles.menu_item} key={i}>
+              <li className={styles.submenu_item} key={i}>
                 <Link href={it.link}>
                   <a className={styles.menu_link}>{it.title}</a>
                 </Link>
