@@ -1,0 +1,65 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.header {
+  border-bottom: 5px solid #363636;
+}
+
+.wrap {
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.logo_link {
+  &:hover {
+    fill: $color;
+    path {
+      stroke: $color;
+    }
+  }
+
+  &:active {
+    fill: $color-hover;
+    path {
+      stroke: $color-hover;
+    }
+  }
+}
+
+.search {
+  &:hover {
+    path {
+      stroke: $color;
+      fill: $color;
+    }
+  }
+
+  &:active {
+    path {
+      stroke: $color-hover;
+      fill: $color-hover;
+    }
+  }
+}
+
+.menu_list {
+  @include list-reset;
+  font-family: Gill Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.menu_link {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-hover;
+  }
+}
