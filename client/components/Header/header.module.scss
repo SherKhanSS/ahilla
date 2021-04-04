@@ -51,15 +51,27 @@
   line-height: 19px;
 }
 
-.menu_link {
-  text-decoration: none;
-  color: inherit;
-
-  &:hover {
+.menu_item:hover {
+  .menu_link {
     color: $color;
   }
 
-  &:active {
+  path {
+    fill: $color;
+  }
+}
+
+.menu_item:active {
+  .menu_link {
     color: $color-hover;
   }
+
+  path {
+    fill: $color-hover;
+  }
+}
+
+.menu_link {
+  text-decoration: none;
+  color: inherit;
 }

@@ -37,7 +37,12 @@ const Header = () => {
             <ul className={styles.menu_list}>
               {menu.map((it, i) => {
                 return (
-                  <MenuItem item={it} isDesktop={isDesktop} key={i} />
+                  <MenuItem
+                    item={it}
+                    isDesktop={isDesktop}
+                    styles={styles}
+                    key={i}
+                  />
                 )
               })}
             </ul>
