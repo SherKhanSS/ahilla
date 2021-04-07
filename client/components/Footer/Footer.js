@@ -1,4 +1,5 @@
 import styles from './footer.module.scss'
+import Social from '../SocialList/SocialList'
 
 const Footer = () => {
   return (
@@ -70,7 +71,9 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className={styles.social}>Social</div>
+          <div className={styles.social}>
+            <Social />
+          </div>
         </div>
         <div className={styles.opinion}>
           Мнение авторов может не совпадать с мнением редакции. За достоверность
