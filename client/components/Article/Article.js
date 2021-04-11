@@ -11,15 +11,15 @@ const Article = ({ name, author, image, date, content }) => {
         </a>
       </Link>
       <div className={styles.wrap}>
+        <div className={styles.info}>
+          {formatDate(date)}
+          {author}
+        </div>
         <h3 className={styles.title}>
           <Link href='/'>
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
-        <div className={styles.info}>
-          {formatDate(date)}
-          {author}
-        </div>
         <div className={styles.text}>{content}</div>
         <Link href='/'>
           <a className={styles.link}>Подробнее</a>

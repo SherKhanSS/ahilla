@@ -5,3 +5,12 @@
 .news_list {
   @include list-reset;
 }
+
+.articles_titile,
+.news_titile {
+  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}

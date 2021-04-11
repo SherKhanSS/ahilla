@@ -2,7 +2,9 @@ import styles from './tags.module.scss'
 import articles from '../../mocks/articles'
 import Link from 'next/link'
 
-const tags = [...new Set(articles.map((it) => it.tags).flat())]
+// const tags = [...new Set(articles.map((it) => it.tags).flat())]
+
+const tags = [...new Set([].concat(...articles.map((it) => it.tags)))]
 
 const Tags = () => {
   return (

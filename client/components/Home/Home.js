@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <section className={styles.main}>
       <section className={styles.articles}>
-        <h2>articles</h2>
+        <h2 className={styles.articles_titile}>Статьи</h2>
         <ul className={styles.articles_list}>
           {articlesSort.map((it, i) => {
             return (
@@ -24,7 +24,7 @@ const Home = () => {
         </ul>
       </section>
       <section className={styles.news}>
-        <h2>news</h2>
+        <h2 className={styles.news_titile}>Новости</h2>
         <ul className={styles.news_list}>
           {newsSort.map((it, i) => {
             return (
