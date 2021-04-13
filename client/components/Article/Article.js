@@ -3,6 +3,7 @@ import styles from './article.module.scss'
 import { formatDate } from '../../utils/utils'
 
 const Article = ({ name, author, image, date, content }) => {
+  const sliceContent = content.split(' ').slice(0, 60).join(' ')
   return (
     <article className={styles.main}>
       <Link href='/'>
@@ -20,7 +21,7 @@ const Article = ({ name, author, image, date, content }) => {
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
-        <div className={styles.text}>{content}</div>
+        <div className={styles.text}>{sliceContent}</div>
         <Link href='/'>
           <a className={styles.link}>Подробнее</a>
         </Link>

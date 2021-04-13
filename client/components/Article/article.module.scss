@@ -1,4 +1,40 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
-.info {}
+.main {
+  padding: 10px 0 40px;
+}
+
+.info {
+  font-family: 'Gill Sans';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: $color-gray;
+  padding: 10px 0 5px;
+}
+
+.title {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.title_link {
+  font-family: Gill Sans;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 25px;
+  text-decoration: none;
+  color: #000;
+}
+
+.text {
+  // text-align: justify;
+}
+
+.link {
+  @include button;
+  width: 140px;
+  margin: 20px auto 0;
+}

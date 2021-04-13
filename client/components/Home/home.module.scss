@@ -1,16 +1,36 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
-.articles_list,
-.news_list {
+.articles,
+.news {
+  padding: 0 10px;
+}
+.articles__list,
+.news__list {
   @include list-reset;
 }
 
-.articles_titile,
-.news_titile {
+.articles__titile,
+.news__titile {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.articles__link,
+.news__link {
   font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
+  text-decoration: none;
+  color: #000;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+  }
 }

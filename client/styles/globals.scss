@@ -56,6 +56,15 @@
     url('/fonts/GillSans-SemiBold.woff') format('woff');
 }
 
+@font-face {
+  font-display: swap;
+  font-family: 'Myriad Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Myriad Pro'), local('Myriad-Pro'),
+    url('/fonts/MyriadProSemiBold.woff') format('woff');
+}
+
 html {
   box-sizing: border-box;
   overflow-x: hidden;

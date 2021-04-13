@@ -38,9 +38,9 @@
   }
 
   &:active {
-    fill: $color-hover;
+    fill: $color-active;
     path {
-      stroke: $color-hover;
+      stroke: $color-active;
     }
   }
 }
@@ -67,8 +67,8 @@
 
   &:active {
     path {
-      stroke: $color-hover;
-      fill: $color-hover;
+      stroke: $color-active;
+      fill: $color-active;
     }
   }
 }
@@ -101,6 +101,10 @@
 
 .submenu_list {
   padding: 10px 0;
+
+  .menu_link {
+    font-weight: 400;
+  }
 }
 
 .menu_item_arrow {
@@ -118,7 +122,7 @@
 }
 
 .menu_link:active {
-  color: $color-hover;
+  color: $color-active;
 }
 
 .menu_link:hover {
