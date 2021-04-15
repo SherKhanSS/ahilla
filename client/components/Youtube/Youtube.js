@@ -12,7 +12,7 @@ const Youtube = () => {
           <div className={styles.video_wrap}>
             <iframe
               title='Екатеринбург, протесты в сквере у театра драмы'
-              src='https://www.youtube.com/embed/videoseries?list=PLYFpMn8XTK_BIIaljFQPLooRxcUw_celf'
+              src='https://www.youtube.com/embed/CQCUC8qIR3Q'
               frameBorder='0'
               allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
               allowFullScreen
@@ -24,7 +24,7 @@ const Youtube = () => {
           <div className={styles.video_wrap}>
             <iframe
               title='Походы с Ахиллой'
-              src='https://www.youtube.com/embed/videoseries?list=PLYFpMn8XTK_B1c2rB955Cb3CNdPeQSvM0'
+              src='https://www.youtube.com/embed/CQCUC8qIR3Q'
               frameBorder='0'
               allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
               allowFullScreen
