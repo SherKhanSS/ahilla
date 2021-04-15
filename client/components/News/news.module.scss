@@ -1,2 +1,35 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
+
+.info {
+  font-family: 'Gill Sans';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: $color-gray;
+  padding: 10px 0 0;
+}
+
+.title {
+  margin-top: 12px;
+  margin-bottom: 28px;
+}
+
+.title_link {
+  font-family: 'Gill Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  text-decoration: none;
+  color: #000;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+  }
+}

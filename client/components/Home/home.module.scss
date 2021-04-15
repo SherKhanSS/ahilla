@@ -10,10 +10,13 @@
   @include list-reset;
 }
 
-.articles__titile,
-.news__titile {
+.articles__titile {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.news__titile {
+  margin-bottom: 20px;
 }
 
 .articles__link,
@@ -32,5 +35,39 @@
 
   &:active {
     color: $color-active;
+  }
+}
+
+.more {
+  font-family: 'Gill Sans';
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  padding-bottom: 10px;
+
+  span {
+    margin-right: 7px;
+  }
+
+  &:hover {
+    color: $color;
+
+    path {
+      stroke: $color;
+    }
+  }
+
+  &:active {
+    color: $color-active;
+
+     path {
+      stroke: $color-active;
+    }
   }
 }

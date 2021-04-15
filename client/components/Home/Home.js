@@ -3,6 +3,7 @@ import articles from '../../mocks/articles'
 import styles from './home.module.scss'
 import Article from '../Article/Article'
 import News from '../News/News'
+import ArrowMore from '../Icons/ArrowMore'
 
 const articlesSort = articles
   .filter((it) => it.category === 'thoughts')
@@ -27,6 +28,12 @@ const Home = () => {
             )
           })}
         </ul>
+        <Link href='/'>
+          <a className={styles.more}>
+            <span>Все статьи</span>
+            <ArrowMore />
+          </a>
+        </Link>
       </section>
       <section className={styles.news}>
         <h2 className={styles.news__titile}>
@@ -43,6 +50,12 @@ const Home = () => {
             )
           })}
         </ul>
+        <Link href='/'>
+          <a className={styles.more}>
+            <span>Все новости</span>
+            <ArrowMore />
+          </a>
+        </Link>
       </section>
     </section>
   )
