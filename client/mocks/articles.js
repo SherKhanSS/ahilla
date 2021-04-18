@@ -2,7 +2,7 @@ const articles = [
   {
     name: `Третий закон Ньютона против патриарха Кирилла`,
     author: `АХИЛЛА`,
-    image: `./img/1.jpg`,
+    image: `/img/1.jpg`,
     date: new Date(`2020-08-29`),
     views: 111,
     category: `news`,
@@ -17,7 +17,7 @@ const articles = [
   {
     name: `Владимир Легойда рассказал, как патриарх дает моральную оценку действиям властей`,
     author: `ИЛЬЯ ШУЛЬМАН`,
-    image: `./img/2.jpg`,
+    image: `/img/2.jpg`,
     date: new Date(`2020-08-28`),
     views: 1341,
     category: `thoughts`,
@@ -33,7 +33,7 @@ const articles = [
   {
     name: `В РПЦ от ковида за период с апреля по август умерли 29 священнослужителей`,
     author: `ЛЕОНИД АНДРЕЕВ`,
-    image: `./img/3.jpg`,
+    image: `/img/3.jpg`,
     date: new Date(`2020-08-26`),
     views: 3341,
     category: `news`,
@@ -52,7 +52,7 @@ const articles = [
   {
     name: `Архимандрит Савва (Мажуко) надеется, что Лукашенко избавит наивных белорусов от манипуляций извне`,
     author: `АМАЯК ТЕР-АБРАМЯНЦ`,
-    image: `./img/john_muir.jpg`,
+    image: `/img/john_muir.jpg`,
     date: new Date(`2020-08-26`),
     views: 341,
     category: `thoughts`,
@@ -65,7 +65,7 @@ const articles = [
   {
     name: `Православный психотерапевт Вячеслав Боровских дал совет сторонникам Романова`,
     author: `ВИКЕНТИЙ ВЕРЕСАЕВ`,
-    image: `./img/ekb-news.jpg`,
+    image: `/img/ekb-news.jpg`,
     date: new Date(`2020-08-24`),
     views: 7234,
     category: `news`,
@@ -77,7 +77,7 @@ const articles = [
   {
     name: `Решения Синода РПЦ: переводы без благодарности, суд и уходы на покой`,
     author: `ВАСИЛИЙ КЛЮЧЕВСКИЙ`,
-    image: `./img/1.jpg`,
+    image: `/img/1.jpg`,
     date: new Date(`2020-08-22`),
     views: 111,
     category: `news`,
@@ -104,7 +104,7 @@ const articles = [
     name: `
     Сообщают, что белгородский митрополит заболел коронавирусом`,
     author: `АХИЛЛА`,
-    image: `./img/2.jpg`,
+    image: `/img/2.jpg`,
     date: new Date(`2020-08-20`),
     views: 41,
     category: `thoughts`,
@@ -120,7 +120,7 @@ const articles = [
   {
     name: `Патриархия будет наказывать клириков и монахов, сливающих информацию «Ахилле»`,
     author: `ОЛЕГ КУРЗАКОВ`,
-    image: `./img/3.jpg`,
+    image: `/img/3.jpg`,
     date: new Date(`2020-08-18`),
     views: 5641,
     category: `news`,
@@ -139,7 +139,7 @@ const articles = [
   {
     name: `Саратовский митрополит отправляется в Ульяновск, а в Троице-Сергиевой лавре будет новый наместник`,
     author: `КСЕНИЯ ВОЛЯНСКАЯ`,
-    image: `./img/john_muir.jpg`,
+    image: `/img/john_muir.jpg`,
     date: new Date(`2020-08-16`),
     views: 2398,
     category: `thoughts`,
@@ -152,7 +152,7 @@ const articles = [
   {
     name: `Православный психотерапевт Вячеслав Боровских дал совет сторонникам Романова`,
     author: `АХИЛЛА`,
-    image: `./img/ekb-news.jpg`,
+    image: `/img/ekb-news.jpg`,
     date: new Date(`2020-08-14`),
     views: 7234,
     category: `news`,
@@ -164,7 +164,7 @@ const articles = [
   {
     name: `Третий закон Ньютона против патриарха Кирилла`,
     author: `АНДРЕЙ ДУДАРЕВ`,
-    image: `./img/1.jpg`,
+    image: `/img/1.jpg`,
     date: new Date(`2020-08-12`),
     views: 111,
     category: `news`,
@@ -179,7 +179,7 @@ const articles = [
   {
     name: `Владимир Легойда рассказал, как патриарх дает моральную оценку действиям властей`,
     author: `ВЕРА ГАВРИЛКО`,
-    image: `./img/2.jpg`,
+    image: `/img/2.jpg`,
     date: new Date(`2020-08-10`),
     views: 1341,
     category: `thoughts`,
@@ -195,7 +195,7 @@ const articles = [
   {
     name: `В РПЦ от ковида за период с апреля по август умерли 29 священнослужителей`,
     author: `БОРИС ЗАЙЦЕВ`,
-    image: `./img/3.jpg`,
+    image: `/img/3.jpg`,
     date: new Date(`2020-08-08`),
     views: 3341,
     category: `news`,
@@ -214,7 +214,7 @@ const articles = [
   {
     name: `Архимандрит Савва (Мажуко) надеется, что Лукашенко избавит наивных белорусов от манипуляций извне`,
     author: `ОЛЬГА КОЗЭЛЬ`,
-    image: `./img/john_muir.jpg`,
+    image: `/img/john_muir.jpg`,
     date: new Date(`2020-08-06`),
     views: 341,
     category: `thoughts`,
@@ -227,7 +227,7 @@ const articles = [
   {
     name: `Православный психотерапевт Вячеслав Боровских дал совет сторонникам Романова`,
     author: `ЛЕВ ТОЛСТОЙ`,
-    image: `./img/ekb-news.jpg`,
+    image: `/img/ekb-news.jpg`,
     date: new Date(`2020-08-04`),
     views: 7234,
     category: `news`,
@@ -239,7 +239,7 @@ const articles = [
   {
     name: `Решения Синода РПЦ: переводы без благодарности, суд и уходы на покой`,
     author: `АХИЛЛА`,
-    image: `./img/1.jpg`,
+    image: `/img/1.jpg`,
     date: new Date(`2020-08-02`),
     views: 111,
     category: `news`,
@@ -266,7 +266,7 @@ const articles = [
     name: `
     Сообщают, что белгородский митрополит заболел коронавирусом`,
     author: `АХИЛЛА`,
-    image: `./img/2.jpg`,
+    image: `/img/2.jpg`,
     date: new Date(`2020-08-01`),
     views: 41,
     category: `thoughts`,
@@ -282,7 +282,7 @@ const articles = [
   {
     name: `Патриархия будет наказывать клириков и монахов, сливающих информацию «Ахилле»`,
     author: `ДИТРИХ ЛИПАТС`,
-    image: `./img/3.jpg`,
+    image: `/img/3.jpg`,
     date: new Date(`2020-07-28`),
     views: 5641,
     category: `news`,
@@ -301,7 +301,7 @@ const articles = [
   {
     name: `Саратовский митрополит отправляется в Ульяновск, а в Троице-Сергиевой лавре будет новый наместник`,
     author: `АХИЛЛА`,
-    image: `./img/john_muir.jpg`,
+    image: `/img/john_muir.jpg`,
     date: new Date(`2020-07-26`),
     views: 2398,
     category: `thoughts`,
@@ -314,7 +314,7 @@ const articles = [
   {
     name: `Православный психотерапевт Вячеслав Боровских дал совет сторонникам Романова`,
     author: `АХИЛЛА`,
-    image: `./img/ekb-news.jpg`,
+    image: `/img/ekb-news.jpg`,
     date: new Date(`2020-07-24`),
     views: 7234,
     category: `news`,

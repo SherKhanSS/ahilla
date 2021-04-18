@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import styles from './article.module.scss'
 import { formatDate } from '../../utils/utils'
 
@@ -8,7 +9,14 @@ const Article = ({ name, author, image, date, content }) => {
     <article className={styles.main}>
       <Link href='/'>
         <a className={styles.image_link}>
-          <img className={styles.image} src={image} />
+          <Image
+            className={styles.image}
+            src={image}
+            alt={name}
+            layout='responsive'
+            width={700}
+            height={400}
+          />
         </a>
       </Link>
       <div className={styles.wrap}>
