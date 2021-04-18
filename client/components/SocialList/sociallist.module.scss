@@ -3,4 +3,19 @@
 
 .list {
   @include list-reset;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 24px;
 }
+
+.item {
+  width: 25%;
+  display: flex;
+  margin-bottom: 28px;
+}
+
+.link {
+  display: block;
+  margin: auto;
+}
+

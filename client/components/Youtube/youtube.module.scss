@@ -5,9 +5,19 @@
   @include list-reset;
 }
 
+.name {
+  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
 .video_wrap {
   position: relative;
-  padding-bottom: 56.25%; /* задаёт высоту контейнера для 16:9 (если 4:3 — поставьте 75%) */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
 }
