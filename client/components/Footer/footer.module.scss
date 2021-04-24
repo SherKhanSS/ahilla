@@ -1,7 +1,57 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
+.main {
+  border-top: 5px solid #363636;
+  font-family: 'Gill Sans', sans-serif;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+}
+
+.wrap {
+  padding: 40px 10px 30px;
+}
+
 .feedback_list,
 .help_list {
   @include list-reset;
+}
+
+.description {
+  padding-bottom: 20px;
+}
+
+.feedback {
+  padding-bottom: 20px;
+}
+
+.feedback_link,
+.help_link {
+  text-decoration: none;
+  color: #000;
+}
+
+.help {
+  padding-bottom: 30px;
+}
+
+.social {
+  ul {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 0;
+  }
+}
+
+.opinion {
+  font-weight: 300;
+}
+
+.copyright {
+  background-color: #b7b7b7;
+  padding: 25px 0;
+  text-align: center; 
+  color: #fff;
+  font-size: 18px;
 }

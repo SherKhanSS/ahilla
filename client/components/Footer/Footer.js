@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className={styles.main}>
       <div className={styles.wrap}>
         <div className={styles.description}>
-          Независимый аналитический проект «Ахилла»
+          <b>Независимый аналитический проект «Ахилла»</b>
           <br />
           Перепечатка материалов сайта возможна только при условии активной
           гиперссылки
@@ -79,8 +79,8 @@ const Footer = () => {
           Мнение авторов может не совпадать с мнением редакции. За достоверность
           информации ответственность несут авторы.
         </div>
-        <div className={styles.copyright}>Copyright © 2017 Ahilla.ru</div>
       </div>
+      <div className={styles.copyright}>Copyright © 2017 Ahilla.ru</div>
     </footer>
   )
 }

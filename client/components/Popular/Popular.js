@@ -15,7 +15,8 @@ const Popular = () => {
               <Link href='/'>
                 <a className={styles.link}>{it.name}</a>
               </Link>
-              <p className={styles.views}>- Просмотров: {it.views}</p>
+              <br />
+              <span className={styles.views}>- Просмотров: {it.views}</span>
             </li>
           )
         })}

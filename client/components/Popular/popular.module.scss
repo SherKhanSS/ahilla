@@ -3,4 +3,22 @@
 
 .list {
   @include list-reset;
+  padding: 10px 10px 30px;
+}
+
+.item {
+  margin-bottom: 20px;
+}
+.link,
+.views {
+  font-family: 'Gill Sans', sans-serif;
+  
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.link {
+  font-weight: 600;
+  text-decoration: none;
+  color: #000;
 }
