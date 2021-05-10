@@ -12,13 +12,21 @@
 .link,
 .views {
   font-family: 'Gill Sans', sans-serif;
-  
   font-size: 18px;
-  line-height: 18px;
+  line-height: 21px;
 }
 
 .link {
   font-weight: 600;
   text-decoration: none;
   color: #000;
+  transition: $delay;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+  }
 }

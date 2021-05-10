@@ -6,6 +6,7 @@
   display: flex;
   flex-wrap: wrap;
   padding: 10px 24px;
+  max-width: 300px;
 }
 
 .item {
@@ -17,5 +18,20 @@
 .link {
   display: block;
   margin: auto;
-}
 
+  path {
+    transition: $delay;
+  }
+
+  &:hover {
+    path {
+      fill: $color;
+    }
+  }
+
+  &:active {
+    path {
+      fill: $color-active;
+    }
+  }
+}

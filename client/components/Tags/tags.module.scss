@@ -29,6 +29,17 @@
   display: block;
   border: 1px solid #000;
   padding: 8px 20px;
+  transition: $delay;
+
+  &:hover {
+    color: $color;
+    border-color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+    border-color: $color-active;
+  }
 }
 
 @media (min-width: $desktop-width) {

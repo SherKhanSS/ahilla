@@ -30,6 +30,15 @@
 .help_link {
   text-decoration: none;
   color: #000;
+  transition: $delay;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+  }
 }
 
 .help {
@@ -37,6 +46,9 @@
 }
 
 .social {
+  display: flex;
+  justify-content: center;
+  
   ul {
     padding-left: 40px;
     padding-right: 40px;
@@ -104,5 +116,14 @@
   .wrap {
     max-width: 1040px;
     margin: 0 auto;
+  }
+
+  .help {
+    width: 30%;
+    margin-right: 0;
+  }
+
+  .feedback {
+    margin-right: 0;
   }
 }

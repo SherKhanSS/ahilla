@@ -2,7 +2,7 @@
 @import '../../styles/mixins.scss';
 
 .articles,
-.news__wrap {
+.news {
   padding: 0 10px;
 }
 .articles__list,
@@ -28,6 +28,7 @@
   line-height: 24px;
   text-decoration: none;
   color: #000;
+  transition: $delay;
 
   &:hover {
     color: $color;
@@ -50,6 +51,7 @@
   justify-content: flex-end;
   padding-right: 10px;
   padding-bottom: 10px;
+  transition: $delay;
 
   span {
     margin-right: 7px;
@@ -107,6 +109,10 @@
 
   .articles {
     width: 60%;
+
+    .more {
+      margin-top: -30px;
+    }
   }
 
   .news {
@@ -124,9 +130,5 @@
   .news__link {
     font-size: 22px;
     line-height: 26px;
-  }
-
-  .more {
-    margin-top: -30px;
   }
 }

@@ -56,7 +56,10 @@
   align-items: center;
   width: 30px;
   margin-right: 10px;
-  transition: $delay;
+
+  path {
+    transition: $delay;
+  }
 
   &:hover {
     path {

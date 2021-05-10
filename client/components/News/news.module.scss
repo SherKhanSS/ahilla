@@ -24,6 +24,7 @@
   line-height: 21px;
   text-decoration: none;
   color: #000;
+  transition: $delay;
 
   &:hover {
     color: $color;
@@ -31,5 +32,17 @@
 
   &:active {
     color: $color-active;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .info {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .title_link {
+    font-size: 18px;
+    line-height: 21px;
   }
 }
