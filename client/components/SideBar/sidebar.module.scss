@@ -16,3 +16,41 @@
 .social {
   padding-top: 40px;
 }
+
+@media (min-width: $tablet-width) {
+  .main {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    section {
+      width: calc(50% - 15px);
+    }
+
+    section:nth-child(odd) {
+      margin-right: 30px;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main {
+    width: 28%;
+    flex-direction: column;
+    border: 1px solid #b3b3b3;
+    padding-top: 0;
+
+    section {
+      width: 100%;
+    }
+
+    section:nth-child(odd) {
+      margin-right: 0;
+    }
+
+    h2 {
+      font-size: 22px;
+      line-height: 26px;
+    }
+  }
+}

@@ -2,7 +2,7 @@
 @import '../../styles/mixins.scss';
 
 .articles,
-.news {
+.news__wrap {
   padding: 0 10px;
 }
 .articles__list,
@@ -90,8 +90,43 @@
     padding: 0 20px 0 8px;
   }
 
-  .news__list {
+  .news__titile {
+    margin-top: 10px;
+  }
+
+  .news__wrap {
     border: 1px solid #000;
     padding: 23px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main {
+    justify-content: space-between;
+  }
+
+  .articles {
+    width: 60%;
+  }
+
+  .news {
+    width: 40%;
+    padding-left: 55px;
+    padding-right: 75px;
+  }
+
+  .news__wrap {
+    border: none;
+    padding: 0;
+  }
+
+  .articles__link,
+  .news__link {
+    font-size: 22px;
+    line-height: 26px;
+  }
+
+  .more {
+    margin-top: -30px;
   }
 }

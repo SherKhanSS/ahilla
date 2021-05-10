@@ -1,2 +1,17 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
+
+@media (min-width: $desktop-width) {
+  .wrap {
+    max-width: $content-max-width;
+    padding: 40px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .content {
+    width: 72%;
+  }
+}

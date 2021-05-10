@@ -145,7 +145,7 @@
 
 @media (min-width: $desktop-width) {
   .wrap {
-    padding: 20px 88px 20px 60px;
+    padding: 20px 65px 20px 60px;
   }
 
   .logo {
@@ -200,5 +200,9 @@
     .menu_link {
       padding: 8px 0;
     }
+  }
+
+  .search {
+    margin-right: 0;
   }
 }

@@ -41,21 +41,23 @@ const Home = () => {
             <a className={styles.news__link}>Новости</a>
           </Link>
         </h2>
-        <ul className={styles.news__list}>
-          {newsSort.map((it, i) => {
-            return (
-              <li className={styles.news__item} key={i}>
-                <News {...it} />
-              </li>
-            )
-          })}
-        </ul>
-        <Link href='/'>
-          <a className={styles.more}>
-            <span>Все новости</span>
-            <ArrowMore />
-          </a>
-        </Link>
+        <div className={styles.news__wrap}>
+          <ul className={styles.news__list}>
+            {newsSort.map((it, i) => {
+              return (
+                <li className={styles.news__item} key={i}>
+                  <News {...it} />
+                </li>
+              )
+            })}
+          </ul>
+          <Link href='/'>
+            <a className={styles.more}>
+              <span>Все новости</span>
+              <ArrowMore />
+            </a>
+          </Link>
+        </div>
       </section>
     </section>
   )
