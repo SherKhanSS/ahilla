@@ -1,0 +1,114 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 10px 0 40px;
+}
+
+.info {
+  font-family: 'Gill Sans';
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: $color-gray;
+  padding: 10px 0 5px;
+}
+
+.title {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.title_link {
+  font-family: Gill Sans;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 25px;
+  text-decoration: none;
+  color: #000;
+  transition: $delay;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+  }
+}
+
+.link {
+  @include button;
+  width: 140px;
+  margin: 20px auto 0;
+}
+
+.text {
+  line-height: 17px;
+}
+
+@media (min-width: $tablet-width) {
+  .main {
+    display: flex;
+    position: relative;
+    padding: 0;  
+  }
+
+  .image_link {
+    width: 44%;
+    margin-right: 4%;
+  }
+
+  .wrap {
+    width: 52%;  
+  }
+
+  .info {
+    padding-top: 0;
+    padding-bottom: 3px;
+  }
+
+  .title {
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+
+  .text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .link {
+    display: none;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main {
+    padding-right: 40px;
+  }
+
+  .info {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .title {
+    margin: 3px 0 10px;
+  }
+
+  .title_link {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .link {
+    margin-top: 30px;
+  }
+
+  .text {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

@@ -81,6 +81,10 @@
   height: 30px;
 }
 
+.nav__closed {
+  display: none;
+}
+
 .nav {
   position: absolute;
   top: 50px;
@@ -101,6 +105,10 @@
 .submenu_list {
   @include list-reset;
   @include flex-mobile;
+}
+
+.submenu_list__closed {
+  display: none;
 }
 
 .submenu_list {

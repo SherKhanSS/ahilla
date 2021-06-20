@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 0 10px;
+}
+
+.articles__list {
+  @include list-reset;
+}
+
+.articles__item:not(:last-child) {
+  margin-bottom: 50px;
+}
+
+.articles__titile {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+@media (min-width: $tablet-width) {
+
+  .main {
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+
+}

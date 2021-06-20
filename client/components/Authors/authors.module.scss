@@ -1,0 +1,158 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 20px 10px;
+}
+
+.tabs_list,
+.authors_list {
+  @include list-reset;
+}
+
+.tabs_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tabs_item {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  outline: none;
+  border: 1px solid #000000;
+  background-color: inherit;
+  font-family: 'Gill Sans', sans-serif;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+
+  &:hover {
+    background-color: $color;
+    color: #fff;
+    border-color: $color;
+  }
+
+  &:active {
+    background-color: $color-active;
+    border-color: $color-active;
+  }
+}
+
+.button__active {
+  width: 32px;
+  height: 32px;
+  border: none;
+  outline: none;
+  border: 1px solid #000000;
+  background-color: inherit;
+  font-family: 'Gill Sans', sans-serif;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  background-color: $color;
+  color: #fff;
+
+  &:hover {
+    background-color: $color;
+    color: #fff;
+    border-color: $color;
+  }
+
+  &:active {
+    background-color: $color-active;
+    border-color: $color-active;
+  }
+}
+
+.arrow_button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  display: flex;
+
+  svg {
+    margin: auto;
+  }
+}
+
+.title {
+  font-family: 'Gill Sans', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.description {
+  font-family: 'Gill Sans', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  margin-bottom: 30px;
+}
+
+.authors_item {
+  margin: 10px 0;
+}
+
+.authors_item:last-child {
+  margin-bottom: 0;
+}
+
+.authors_link {
+  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  transition: $delay;
+  text-decoration: none;
+  color: #000;
+
+  &:hover {
+    color: $color;
+  }
+
+  &:active {
+    color: $color-active;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .main {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  .description {
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .authors_link {
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  .tabs_list {
+    justify-content: center;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .title {
+    margin-top: 50px;
+  }
+}

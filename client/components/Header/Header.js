@@ -29,10 +29,15 @@ const Header = () => {
             <LogoIcon />
           </a>
         </Link>
-        {isShowMenu && <MenuList styles={styles} isDesktop={isDesktop} />}
+        <MenuList
+          styles={styles}
+          isDesktop={isDesktop}
+          isShowMenu={isShowMenu}
+        />
         <div className={styles.controls}>
           <Link href='/search'>
             <a className={styles.search}>
+              <span className='visually-hidden'>Поиск</span>
               <SearchIcon />
             </a>
           </Link>

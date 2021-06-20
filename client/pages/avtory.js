@@ -1,10 +1,10 @@
 import Layout from '../components/Layout/Layout'
-import Home from '../components/Home/Home'
+import Authors from '../components/Authors/Authors'
 
 const Main = () => {
   return (
     <Layout>
-      <Home />
+      <Authors />
     </Layout>
   )
 }

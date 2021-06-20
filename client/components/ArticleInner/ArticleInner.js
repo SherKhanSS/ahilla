@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import styles from './article.module.scss'
+import styles from './article-inner.module.scss'
 import { formatDate } from '../../utils/utils'
 
-const Article = ({ name, author, image, date, content }) => {
-  const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...'
+const ArticleInner = ({ name, author, image, date, content }) => {
+  const sliceContent = content.split(' ').slice(0, 40).join(' ') + ' ...'
   return (
     <article className={styles.main}>
       <Link href='/'>
@@ -38,4 +38,4 @@ const Article = ({ name, author, image, date, content }) => {
   )
 }
 
-export default Article
+export default ArticleInner

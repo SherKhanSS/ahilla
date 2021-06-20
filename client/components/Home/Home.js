@@ -15,7 +15,7 @@ const Home = () => {
     <section className={styles.main}>
       <section className={styles.articles}>
         <h2 className={styles.articles__titile}>
-          <Link href='/'>
+          <Link href='/articles'>
             <a className={styles.articles__link}>Статьи</a>
           </Link>
         </h2>
@@ -28,7 +28,7 @@ const Home = () => {
             )
           })}
         </ul>
-        <Link href='/'>
+        <Link href='/articles'>
           <a className={styles.more}>
             <span>Все статьи</span>
             <ArrowMore />
@@ -37,7 +37,7 @@ const Home = () => {
       </section>
       <section className={styles.news}>
         <h2 className={styles.news__titile}>
-          <Link href='/'>
+          <Link href='/news'>
             <a className={styles.news__link}>Новости</a>
           </Link>
         </h2>
@@ -51,7 +51,7 @@ const Home = () => {
               )
             })}
           </ul>
-          <Link href='/'>
+          <Link href='/news'>
             <a className={styles.more}>
               <span>Все новости</span>
               <ArrowMore />

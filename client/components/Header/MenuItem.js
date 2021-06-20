@@ -33,8 +33,12 @@ const MenuItem = ({ item, isDesktop, styles }) => {
           </button>
         )}
       </div>
-      {isShowSubMenu && item.subMenu && (
-        <ul className={styles.submenu_list}>
+      {item.subMenu && (
+        <ul
+          className={
+            isShowSubMenu ? styles.submenu_list : styles.submenu_list__closed
+          }
+        >
           {item.subMenu.map((it, i) => {
             return (
               <li className={styles.submenu_item} key={i}>
