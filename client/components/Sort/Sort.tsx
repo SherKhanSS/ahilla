@@ -6,8 +6,6 @@ const Sort: FC = () => {
   const [dateState, setDateState] = useState<SetStateAction<null | string>>(null)
   const [viewsState, setViewsState] = useState<SetStateAction<null | string>>(null)
 
-  console.log(dateState, viewsState)
-
   return (
     <section className={styles.main}>
       <div className={styles.name}>Сортировать:</div>
