@@ -8,7 +8,7 @@ import styles from './header.module.scss'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 import MenuList from './MenuList'
 
-const DESCTOP_WIDTH = 1279
+const DESKTOP_WIDTH = 1279
 
 const Header: FC = () => {
   const { width } = useWindowDimensions()
@@ -16,7 +16,7 @@ const Header: FC = () => {
   const [isShowMenu, setIsShowMenu] = useState(isDesktop)
 
   useEffect(() => {
-    const isDesktop = width === null ? false : width > DESCTOP_WIDTH
+    const isDesktop = width === null ? false : width > DESKTOP_WIDTH
     setIsDesktop(isDesktop)
     setIsShowMenu(isDesktop)
   }, [width])
