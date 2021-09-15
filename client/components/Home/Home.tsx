@@ -1,17 +1,18 @@
 import { FC } from 'react'
 import Link from 'next/link'
-import articles from '../../mocks/articles'
 import styles from './home.module.scss'
 import Article from '../Article/Article'
 import News from '../News/News'
 import ArrowMore from '../Icons/ArrowMore'
 
-const articlesSort = articles
-  .filter((it) => it.category === 'thoughts')
-  .slice(0, 5)
-const newsSort = articles.filter((it) => it.category === 'news').slice(0, 5)
+const Home: FC<any> = ({publications}) => {
+  console.log(publications)
 
-const Home: FC = () => {
+  const articlesSort = publications
+    .filter((it) => it.category === 'thoughts')
+    .slice(0, 5)
+  const newsSort = publications.filter((it) => it.category === 'news').slice(0, 5)
+
   return (
     <section className={styles.main}>
       <section className={styles.articles}>

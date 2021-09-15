@@ -1,4 +1,5 @@
 export const formatDate = (date: Date): string => {
+  const parsedDate = new Date(date)
   const MONTH_NAMES = [
     `Января`,
     `Февраля`,
@@ -15,7 +16,7 @@ export const formatDate = (date: Date): string => {
   ]
 
   return `
-    ${date.getDate()}
-    ${MONTH_NAMES[date.getMonth()]}
-    ${date.getFullYear()} `
+    ${parsedDate.getDate()}
+    ${MONTH_NAMES[parsedDate.getMonth()]}
+    ${parsedDate.getFullYear()} `
 }
