@@ -7,7 +7,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() tagDto: CreateTagsDto) {
     return this.tagsService.createTag(tagDto);

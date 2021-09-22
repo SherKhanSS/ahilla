@@ -4,8 +4,10 @@ import Image from 'next/image'
 import styles from './article.module.scss'
 import { formatDate } from '../../utils/utils'
 import { ArticleType } from '../../types'
+import {DangerousHtml} from '../DangerousHtml'
 
-const Article: FC<ArticleType> = ({ name, author, image, date, content }) => {
+const Article: FC<ArticleType> = ({ name, author, image, date, content, updated_at, id, slug }) => {
+  console.log(author)
   const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...'
   return (
     <article className={styles.main}>
@@ -23,15 +25,17 @@ const Article: FC<ArticleType> = ({ name, author, image, date, content }) => {
       </Link>
       <div className={styles.wrap}>
         <div className={styles.info}>
-          {formatDate(date)}
-          {author}
+          {formatDate(updated_at)}
+          {author?.name}
         </div>
         <h3 className={styles.title}>
-          <Link href='/'>
+          <Link href={`/${id}`} >
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
-        <div className={styles.text}>{sliceContent}</div>
+        <div className={styles.text}>
+          <DangerousHtml str={sliceContent} />
+        </div>
         <Link href='/'>
           <a className={styles.link}>Подробнее</a>
         </Link>

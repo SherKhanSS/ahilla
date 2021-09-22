@@ -11,6 +11,8 @@ export class CreatePublicationsDto {
   category: string;
   tags: string[];
   content: string;
+  is_news: boolean;
+  is_published: boolean;
 }
 
 //TODO: написать валидацию для публикации

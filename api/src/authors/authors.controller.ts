@@ -7,7 +7,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class AuthorsController {
   constructor(private authorsService: AuthorsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() authorDto: CreateAuthorsDto) {
     return this.authorsService.createAuthor(authorDto);

@@ -22,11 +22,11 @@ export class PublicationsTags extends Model<PublicationsTags> {
   @Column({
     type: DataType.INTEGER,
   })
-  publicationId: number;
+  publication_id: number;
 
   @ForeignKey(() => Tag)
   @Column({
     type: DataType.INTEGER,
   })
-  tagId: number;
+  tag_id: number;
 }

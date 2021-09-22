@@ -11,11 +11,16 @@ import { PublicationsTags } from './publications/publications-tags.model';
 import { AuthModule } from './auth/auth.module';
 import { AdminsModule } from './admins/admins.module';
 import { Admin } from './admins/admins.model';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, 'uploads'),
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',

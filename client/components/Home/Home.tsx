@@ -5,14 +5,8 @@ import Article from '../Article/Article'
 import News from '../News/News'
 import ArrowMore from '../Icons/ArrowMore'
 
-const Home: FC<any> = ({publications}) => {
-  console.log(publications)
-
-  const articlesSort = publications
-    .filter((it) => it.category === 'thoughts')
-    .slice(0, 5)
-  const newsSort = publications.filter((it) => it.category === 'news').slice(0, 5)
-
+const Home: FC<any> = ({articles, news}) => {
+  console.log(news)
   return (
     <section className={styles.main}>
       <section className={styles.articles}>
@@ -22,7 +16,7 @@ const Home: FC<any> = ({publications}) => {
           </Link>
         </h2>
         <ul className={styles.articles__list}>
-          {articlesSort.map((it, i) => {
+          {articles.map((it: any, i: number) => {
             return (
               <li className={styles.articles__item} key={i}>
                 <Article {...it} />
@@ -44,15 +38,15 @@ const Home: FC<any> = ({publications}) => {
           </Link>
         </h2>
         <div className={styles.news__wrap}>
-          <ul className={styles.news__list}>
-            {newsSort.map((it, i) => {
-              return (
-                <li className={styles.news__item} key={i}>
-                  <News {...it} />
-                </li>
-              )
-            })}
-          </ul>
+          {/*<ul className={styles.news__list}>*/}
+          {/*  {news.map((it: any, i: number) => {*/}
+          {/*    return (*/}
+          {/*      <li className={styles.news__item} key={i}>*/}
+          {/*        <News {...it} />*/}
+          {/*      </li>*/}
+          {/*    )*/}
+          {/*  })}*/}
+          {/*</ul>*/}
           <Link href='/news'>
             <a className={styles.more}>
               <span>Все новости</span>

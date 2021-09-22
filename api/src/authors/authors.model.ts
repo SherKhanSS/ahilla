@@ -6,7 +6,7 @@ interface AuthorCreationAttrs {
   slug: string;
 }
 
-@Table({ tableName: 'authors' })
+@Table({ tableName: 'authors', createdAt: false, updatedAt: false })
 export class Author extends Model<Author, AuthorCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
@@ -18,14 +18,12 @@ export class Author extends Model<Author, AuthorCreationAttrs> {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   name: string;
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   slug: string;

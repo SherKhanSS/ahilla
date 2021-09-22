@@ -22,7 +22,11 @@ interface PublicationCreationAttrs {
   content: string;
 }
 
-@Table({ tableName: 'publications' })
+@Table({
+  tableName: 'publications',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
 export class Publication extends Model<Publication, PublicationCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
@@ -34,14 +38,12 @@ export class Publication extends Model<Publication, PublicationCreationAttrs> {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   name: string;
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   slug: string;
@@ -50,14 +52,13 @@ export class Publication extends Model<Publication, PublicationCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
   })
-  authorId: number;
+  author_id: number;
 
   @BelongsTo(() => Author)
   author: Author;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
   })
   image: string;
 
@@ -78,13 +79,13 @@ export class Publication extends Model<Publication, PublicationCreationAttrs> {
     allowNull: false,
   })
   category: string;
+  // TODO: грохнуть
 
   @BelongsToMany(() => Tag, () => PublicationsTags)
   tags: Tag[];
 
   @Column({
     type: DataType.TEXT,
-    allowNull: false,
   })
   description: string;
 
@@ -98,5 +99,11 @@ export class Publication extends Model<Publication, PublicationCreationAttrs> {
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
-  isPublished: boolean;
+  is_news: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: true,
+  })
+  is_published: boolean;
 }

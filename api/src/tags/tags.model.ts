@@ -13,7 +13,7 @@ interface TagCreationAttrs {
   slug: string;
 }
 
-@Table({ tableName: 'tags' })
+@Table({ tableName: 'tags', createdAt: false, updatedAt: false })
 export class Tag extends Model<Tag, TagCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
@@ -25,14 +25,12 @@ export class Tag extends Model<Tag, TagCreationAttrs> {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   name: string;
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: false,
   })
   slug: string;
