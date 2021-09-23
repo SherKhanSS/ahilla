@@ -39,8 +39,17 @@ export class PublicationsService {
     });
   }
 
-  async getPublicationById(id) {
-    return await this.publicationRepository.findByPk(id, {
+  // async getPublicationById(id) {
+  //   return await this.publicationRepository.findByPk(id, {
+  //     include: { all: true },
+  //   });
+  // }
+
+  async getPublicationBySlug(slug) {
+    return await this.publicationRepository.findOne({
+      where: {
+        slug,
+      },
       include: { all: true },
     });
   }

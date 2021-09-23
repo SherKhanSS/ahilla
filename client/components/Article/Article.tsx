@@ -6,8 +6,7 @@ import { formatDate } from '../../utils/utils'
 import { ArticleType } from '../../types'
 import {DangerousHtml} from '../DangerousHtml'
 
-const Article: FC<ArticleType> = ({ name, author, image, date, content, updated_at, id, slug }) => {
-  console.log(author)
+const Article: FC<ArticleType> = ({ name, author, image, date, content, slug }) => {
   const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...'
   return (
     <article className={styles.main}>
@@ -25,18 +24,18 @@ const Article: FC<ArticleType> = ({ name, author, image, date, content, updated_
       </Link>
       <div className={styles.wrap}>
         <div className={styles.info}>
-          {formatDate(updated_at)}
+          {formatDate(date)}
           {author?.name}
         </div>
         <h3 className={styles.title}>
-          <Link href={`/${id}`} >
+          <Link href={`/${slug}`} >
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
         <div className={styles.text}>
           <DangerousHtml str={sliceContent} />
         </div>
-        <Link href='/'>
+        <Link href={`/${slug}`}>
           <a className={styles.link}>Подробнее</a>
         </Link>
       </div>

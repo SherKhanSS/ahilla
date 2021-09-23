@@ -2,13 +2,14 @@ import { FC } from 'react'
 import Layout from '../components/Layout/Layout'
 import Home from '../components/Home/Home'
 import {GetServerSideProps} from "next";
+import {ArticleType} from "../types";
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
-const Main: FC<any> = ({articles, news}) => {
+const Main: FC<{articles: ArticleType[], news: ArticleType[]}> = ({articles, news}) => {
   return (
     <Layout>
-      <Home articles={articles} news={news}/>
+      <Home articles={articles} news={news} />
     </Layout>
   )
 }

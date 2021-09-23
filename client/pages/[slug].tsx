@@ -4,7 +4,6 @@ import { GetServerSideProps } from 'next';
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
 const Article: FC<any> = ({ article }) => {
-  console.log(article)
   return (
     <div>
       {article.name}
@@ -13,12 +12,10 @@ const Article: FC<any> = ({ article }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const id = params?.id;
-
-  console.log(id)
+  const slug = params?.slug;
 
   try {
-    const response = await fetch(`${domainURL}/publications/${id}`);
+    const response = await fetch(`${domainURL}/publications/${slug}`);
     const article = await response.json();
 
     return {

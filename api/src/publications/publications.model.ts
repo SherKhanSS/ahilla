@@ -17,9 +17,11 @@ interface PublicationCreationAttrs {
   author: string;
   image: string;
   date: Date;
-  category: string;
   tags: string[];
+  description: string;
   content: string;
+  is_news: boolean;
+  is_published: boolean;
 }
 
 @Table({
@@ -73,13 +75,6 @@ export class Publication extends Model<Publication, PublicationCreationAttrs> {
     defaultValue: 0,
   })
   views: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  category: string;
-  // TODO: грохнуть
 
   @BelongsToMany(() => Tag, () => PublicationsTags)
   tags: Tag[];

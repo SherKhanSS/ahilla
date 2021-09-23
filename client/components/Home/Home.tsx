@@ -4,9 +4,9 @@ import styles from './home.module.scss'
 import Article from '../Article/Article'
 import News from '../News/News'
 import ArrowMore from '../Icons/ArrowMore'
+import {ArticleType} from '../../types'
 
-const Home: FC<any> = ({articles, news}) => {
-  console.log(news)
+const Home: FC<{ articles: ArticleType[], news: ArticleType[] }> = ({articles, news}) => {
   return (
     <section className={styles.main}>
       <section className={styles.articles}>
@@ -16,7 +16,7 @@ const Home: FC<any> = ({articles, news}) => {
           </Link>
         </h2>
         <ul className={styles.articles__list}>
-          {articles.map((it: any, i: number) => {
+          {articles.map((it: ArticleType, i: number) => {
             return (
               <li className={styles.articles__item} key={i}>
                 <Article {...it} />
@@ -38,15 +38,15 @@ const Home: FC<any> = ({articles, news}) => {
           </Link>
         </h2>
         <div className={styles.news__wrap}>
-          {/*<ul className={styles.news__list}>*/}
-          {/*  {news.map((it: any, i: number) => {*/}
-          {/*    return (*/}
-          {/*      <li className={styles.news__item} key={i}>*/}
-          {/*        <News {...it} />*/}
-          {/*      </li>*/}
-          {/*    )*/}
-          {/*  })}*/}
-          {/*</ul>*/}
+          <ul className={styles.news__list}>
+            {news.map((it: ArticleType, i: number) => {
+              return (
+                <li className={styles.news__item} key={i}>
+                  <News {...it} />
+                </li>
+              )
+            })}
+          </ul>
           <Link href='/news'>
             <a className={styles.more}>
               <span>Все новости</span>

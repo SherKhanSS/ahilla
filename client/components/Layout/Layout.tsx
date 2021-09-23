@@ -5,7 +5,7 @@ import SideBar from '../SideBar/SideBar'
 import styles from './layout.module.scss'
 import Head from 'next/head'
 
-const Layout: FC<ReactNode> = ({ children }) => {
+const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <Head>

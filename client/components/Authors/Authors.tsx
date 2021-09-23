@@ -1,19 +1,17 @@
 import { useEffect, useState, FC, SetStateAction } from 'react'
 import Link from 'next/link'
-import articles from '../../mocks/articles'
 import styles from './authors.module.scss'
 import Arrow from '../Icons/Arrow'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
+import {AuthorType} from "../../types";
 
 const MOBILE_WIDTH = 660
 
-const authors = Array.from(new Set(articles.map((it) => it.author)))
+const Authors: FC<{authors: AuthorType[]}> = ({authors}) => {
+  const alphabet = Array.from(new Set(authors.map((it) => it.name.slice(0, 1).toUpperCase()))).sort(
+    (a, b) => a.localeCompare(b)
+  )
 
-const alphabet = Array.from(new Set(authors.map((it) => it.slice(0, 1)))).sort(
-  (a, b) => a.localeCompare(b)
-)
-
-const Authors: FC = () => {
   const { width } = useWindowDimensions()
   const [isMobile, setIsMobile] = useState(false)
   const [currentSymbol, setCurrentSymbol] = useState(alphabet[0])
@@ -27,9 +25,9 @@ const Authors: FC = () => {
   }, [width])
 
   useEffect(() => {
-    const selectedAuthors = authors.filter((it) => it[0] === currentSymbol)
+    const selectedAuthors = authors.filter((it) => it.name[0].toUpperCase() === currentSymbol)
     setCurrentAuthors(selectedAuthors)
-  }, [currentSymbol])
+  }, [authors, currentSymbol])
 
   const mobileAlphabet = isSlice ? alphabet.slice(0, 3) : alphabet
 
@@ -72,11 +70,11 @@ const Authors: FC = () => {
           нажав на имя/фамилию нужного автора:
         </div>
         <ul className={styles.authors_list}>
-          {currentAuthors?.map((it: string, i: number) => {
+          {currentAuthors?.map((it: any, i: number) => {
             return (
               <li className={styles.authors_item} key={i}>
                 <Link href={'/'}>
-                  <a className={styles.authors_link}>{it}</a>
+                  <a className={styles.authors_link}>{it.name}</a>
                 </Link>
               </li>
             )

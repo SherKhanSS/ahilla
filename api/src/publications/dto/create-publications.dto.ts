@@ -8,8 +8,8 @@ export class CreatePublicationsDto {
   author: string;
   image: string;
   date: Date;
-  category: string;
   tags: string[];
+  description: string;
   content: string;
   is_news: boolean;
   is_published: boolean;

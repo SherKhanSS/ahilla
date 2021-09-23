@@ -4,15 +4,15 @@ import styles from './news.module.scss'
 import { formatDate } from '../../utils/utils'
 import { ArticleType } from '../../types'
 
-const News: FC<ArticleType> = ({ name, author, date }) => {
+const News: FC<ArticleType> = ({ name, author, date, slug }) => {
   return (
     <article className={styles.main}>
       <div className={styles.info}>
         {formatDate(date)}
-        {author}
+        {author?.name}
       </div>
       <h3 className={styles.title}>
-        <Link href='/'>
+        <Link href={`/${slug}`}>
           <a className={styles.title_link}>{name}</a>
         </Link>
       </h3>

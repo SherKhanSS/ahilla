@@ -40,8 +40,13 @@ export class PublicationsController {
     );
   }
 
-  @Get(':id')
-  getOneById(@Param() params) {
-    return this.publicationsService.getPublicationById(params.id);
+  // @Get(':id')
+  // getOneById(@Param() params) {
+  //   return this.publicationsService.getPublicationById(params.id);
+  // }
+
+  @Get(':slug')
+  getOneBySlug(@Param() params) {
+    return this.publicationsService.getPublicationBySlug(params.slug);
   }
 }

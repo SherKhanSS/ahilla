@@ -11,6 +11,9 @@ export class TagsService {
   }
 
   async getAllTag() {
-    return await this.tagRepository.findAll();
+    return await this.tagRepository.findAll({
+      offset: 0,
+      limit: 10,
+    });
   }
 }

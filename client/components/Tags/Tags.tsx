@@ -1,22 +1,20 @@
 import { FC } from 'react'
 import styles from './tags.module.scss'
-import articles from '../../mocks/articles'
 import Link from 'next/link'
-
-const tags = Array.from(new Set(articles.map((it) => it.tags).flat()))
-
-// const tags = [...new Set([].concat(...articles.map((it) => it.tags)))]
+import {useTagsState} from "../../context/tags";
 
 const Tags: FC = () => {
+  const { tags } = useTagsState();
+  const tagsSlice = tags.slice(0, 10)
   return (
     <section className={styles.main}>
       <h2 className={styles.title}>Поиск по меткам</h2>
       <ul className={styles.list}>
-        {tags.map((it, i) => {
+        {tagsSlice.map((it, i) => {
           return (
             <li className={styles.item} key={i}>
               <Link href='/'>
-                <a className={styles.link}>{it}</a>
+                <a className={styles.link}>{it.name}</a>
               </Link>
             </li>
           )
