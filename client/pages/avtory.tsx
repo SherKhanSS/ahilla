@@ -1,16 +1,18 @@
-import { FC } from 'react'
-import Layout from '../components/Layout/Layout'
-import Authors from '../components/Authors/Authors'
-import {GetServerSideProps} from "next";
-import {AuthorType} from "../types";
+import { FC } from 'react';
+import Layout from '../components/Layout/Layout';
+import Authors from '../components/Authors/Authors';
+import { GetServerSideProps } from 'next';
+import { AuthorType } from '../types';
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
-const Main: FC<{ authors: AuthorType }> = ({authors}) => {
-  return <Layout>
-    <Authors authors={authors} />
+const Main: FC<{ authors: AuthorType[] }> = ({ authors }) => {
+  return (
+    <Layout>
+      <Authors authors={authors} />
     </Layout>
-}
+  );
+};
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -32,4 +34,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 };
 
-export default Main
+export default Main;

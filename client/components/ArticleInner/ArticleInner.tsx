@@ -1,43 +1,51 @@
-import { FC } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import styles from './article-inner.module.scss'
-import { formatDate } from '../../utils/utils'
-import { ArticleType } from '../../types'
+import { FC } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from './article-inner.module.scss';
+import { ArticleType } from '../../types';
+import { formatDate } from '../../utils/utils';
 
-const ArticleInner: FC<ArticleType> = ({ name, author, image, date, content }) => {
-  const sliceContent = content.split(' ').slice(0, 40).join(' ') + ' ...'
+const ArticleInner: FC<ArticleType> = ({
+  name,
+  author,
+  image,
+  date,
+  description,
+}) => {
+  console.log(image);
   return (
     <article className={styles.main}>
-      <Link href='/'>
+      <Link href="/">
         <a className={styles.image_link}>
-          <Image
-            className={styles.image}
-            src={image}
-            alt={name}
-            layout='responsive'
-            width={700}
-            height={400}
-          />
+          {image && (
+            <Image
+              className={styles.image}
+              src={image}
+              alt={name}
+              layout="responsive"
+              width={700}
+              height={400}
+            />
+          )}
         </a>
       </Link>
       <div className={styles.wrap}>
         <div className={styles.info}>
           {formatDate(date)}
-          {author}
+          {author?.name}
         </div>
         <h3 className={styles.title}>
-          <Link href='/'>
+          <Link href="/">
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
-        <div className={styles.text}>{sliceContent}</div>
-        <Link href='/'>
+        <div className={styles.text}>{description}</div>
+        <Link href="/">
           <a className={styles.link}>Подробнее</a>
         </Link>
       </div>
     </article>
-  )
-}
+  );
+};
 
-export default ArticleInner
+export default ArticleInner;

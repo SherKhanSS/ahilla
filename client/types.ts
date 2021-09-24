@@ -1,14 +1,14 @@
-export type AuthorType =  {
-  id: number
+export type AuthorType = {
+  id: number;
   name: string;
   slug: string;
-}
+};
 
-export type TagType =  {
-  id: number
+export type TagType = {
+  id: number;
   name: string;
   slug: string;
-}
+};
 
 export type ArticleType = {
   id: number;
@@ -24,23 +24,22 @@ export type ArticleType = {
   is_published: boolean;
   created_at: string;
   updated_at: string;
-  author: AuthorType,
-  tags:
-    {
+  author: AuthorType;
+  tags: {
+    id: number;
+    name: string;
+    slug: string;
+    PublicationsTags: {
       id: number;
-      name: string;
-      slug: string;
-      PublicationsTags: {
-        id: number;
-        publication_id: number;
-        tag_id: number;
-      }
-    }[];
-}
+      publication_id: number;
+      tag_id: number;
+    };
+  }[];
+};
 
 export type ContextType = {
   state: {
-    tags: TagType[]
+    tags: TagType[];
   };
   setState: (status: null | boolean) => void;
 };

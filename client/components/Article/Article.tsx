@@ -1,22 +1,30 @@
-import { FC } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import styles from './article.module.scss'
-import { formatDate } from '../../utils/utils'
-import { ArticleType } from '../../types'
-import {DangerousHtml} from '../DangerousHtml'
+import { FC } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from './article.module.scss';
+import { formatDate } from '../../utils/utils';
+import { ArticleType } from '../../types';
+import { DangerousHtml } from '../DangerousHtml';
 
-const Article: FC<ArticleType> = ({ name, author, image, date, content, slug }) => {
-  const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...'
+const Article: FC<ArticleType> = ({
+  name,
+  author,
+  image,
+  date,
+  content,
+  slug,
+  description,
+}) => {
+  const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...';
   return (
     <article className={styles.main}>
-      <Link href='/'>
+      <Link href="/">
         <a className={styles.image_link}>
           <Image
             className={styles.image}
             src={image}
             alt={name}
-            layout='responsive'
+            layout="responsive"
             width={700}
             height={400}
           />
@@ -28,19 +36,19 @@ const Article: FC<ArticleType> = ({ name, author, image, date, content, slug }) 
           {author?.name}
         </div>
         <h3 className={styles.title}>
-          <Link href={`/${slug}`} >
+          <Link href={`/${slug}`}>
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
         <div className={styles.text}>
-          <DangerousHtml str={sliceContent} />
+          <DangerousHtml str={description} />
         </div>
         <Link href={`/${slug}`}>
           <a className={styles.link}>Подробнее</a>
         </Link>
       </div>
     </article>
-  )
-}
+  );
+};
 
-export default Article
+export default Article;

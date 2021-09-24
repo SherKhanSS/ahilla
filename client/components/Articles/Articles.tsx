@@ -1,19 +1,17 @@
-import { FC } from 'react'
-import Link from 'next/link'
-import styles from './articles.module.scss'
-import ArticleInner from '../ArticleInner/ArticleInner'
-import Sort from '../Sort/Sort'
-import { ArticleType } from '../../types'
+import { FC } from 'react';
+import styles from './articles.module.scss';
+import ArticleInner from '../ArticleInner/ArticleInner';
+import Sort from '../Sort/Sort';
+import { ArticleType } from '../../types';
 
-type Props = {
-  articles: ArticleType[]
-}
-
-const Articles: FC<Props> = ({ articles }) => {
+const Articles: FC<{ articles: ArticleType[]; title: string }> = ({
+  articles,
+  title,
+}) => {
   return (
     <section className={styles.main}>
       <section className={styles.articles}>
-        <h2 className={styles.articles__titile}>Статьи</h2>
+        <h2 className={styles.articles__titile}>{title}</h2>
         <Sort />
         <ul className={styles.articles__list}>
           {articles.slice(0, 10).map((it: ArticleType, i: number) => {
@@ -21,13 +19,13 @@ const Articles: FC<Props> = ({ articles }) => {
               <li className={styles.articles__item} key={i}>
                 <ArticleInner {...it} />
               </li>
-            )
+            );
           })}
         </ul>
       </section>
       {/* <Pagination /> */}
     </section>
-  )
-}
+  );
+};
 
-export default Articles
+export default Articles;

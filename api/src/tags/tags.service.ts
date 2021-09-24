@@ -6,14 +6,19 @@ import { Tag } from './tags.model';
 @Injectable()
 export class TagsService {
   constructor(@InjectModel(Tag) private tagRepository: typeof Tag) {}
+
   async createTag(dto: CreateTagsDto) {
     return await this.tagRepository.create(dto);
   }
 
   async getAllTag() {
+    return await this.tagRepository.findAll();
+  }
+
+  async getTagForMainPage() {
     return await this.tagRepository.findAll({
       offset: 0,
-      limit: 10,
+      limit: 20,
     });
   }
 }

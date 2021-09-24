@@ -5,12 +5,10 @@ import {
   Param,
   Post,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { CreatePublicationsDto } from './dto/create-publications.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('publications')
@@ -44,6 +42,21 @@ export class PublicationsController {
   // getOneById(@Param() params) {
   //   return this.publicationsService.getPublicationById(params.id);
   // }
+
+  @Get('main-news')
+  getMainNews() {
+    return this.publicationsService.getNewsForMainPage();
+  }
+
+  @Get('main-articles')
+  getMainArticles() {
+    return this.publicationsService.getArticlesForMainPage();
+  }
+
+  @Get('populars')
+  getPopulars() {
+    return this.publicationsService.getPopularsPublication();
+  }
 
   @Get(':slug')
   getOneBySlug(@Param() params) {
