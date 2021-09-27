@@ -1,0 +1,87 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 10px;
+}
+
+.link {
+  text-decoration: none;
+  cursor: pointer;
+  color: $color-gray;
+}
+
+.info {
+  font-family: 'Gill Sans', sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: $color-gray;
+  padding: 10px 0 5px;
+}
+
+.title {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-family: 'Gill Sans', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 25px;
+  color: #000;
+}
+
+.text {
+  line-height: 17px;
+
+  a {
+    color: #000;
+  }
+}
+
+.views {
+  display: flex;
+  align-items: center;
+  padding: 15px 0 20px;
+
+
+  svg {
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .main {
+    padding: 20px;
+  }
+
+  .img_wrap {
+    padding: 0 40px;
+  }
+
+  .title {
+    margin-bottom: 40px;
+  }
+
+  .views {
+    padding: 20px 0 24px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main {
+    padding: 0 40px 20px 0;
+  }
+
+  .info {
+    font-size: 16px;
+    line-height: 18px;
+    padding-top: 0;
+  }
+
+  .title {
+    margin: 3px 0 18px;
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
