@@ -1,8 +1,8 @@
-import { FC } from 'react'
-import Link from 'next/link'
-import styles from './news.module.scss'
-import { formatDate } from '../../utils/utils'
-import { ArticleType } from '../../types'
+import { FC } from 'react';
+import Link from 'next/link';
+import styles from './news.module.scss';
+import { formatDate } from '../../utils';
+import { ArticleType } from '../../types';
 
 const News: FC<ArticleType> = ({ name, author, date, slug }) => {
   return (
@@ -17,7 +17,7 @@ const News: FC<ArticleType> = ({ name, author, date, slug }) => {
         </Link>
       </h3>
     </article>
-  )
-}
+  );
+};
 
-export default News
+export default News;

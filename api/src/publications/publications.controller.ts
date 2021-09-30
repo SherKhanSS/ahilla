@@ -22,21 +22,52 @@ export class PublicationsController {
     return this.publicationsService.createPublication(publicationDto, image);
   }
 
-  @Get('news/:offset/:limit')
+  @Get('news/:offset/:limit/:increase/:sort')
   getNews(@Param() params) {
     return this.publicationsService.getNewsFromPublication(
       params.offset,
       params.limit,
+      params.increase,
+      params.sort,
     );
   }
 
-  @Get('articles/:offset/:limit')
+  @Get('articles/:offset/:limit/:increase/:sort')
   getArticles(@Param() params) {
     return this.publicationsService.getArticlesFromPublication(
       params.offset,
       params.limit,
+      params.increase,
+      params.sort,
     );
   }
+
+  @Get('authors/:id/:offset/:limit/:increase/:sort')
+  getAuthorsPublications(@Param() params) {
+    return this.publicationsService.getAuthorsPublications(
+      params.id,
+      params.offset,
+      params.limit,
+      params.increase,
+      params.sort,
+    );
+  }
+
+  @Get('search/:str')
+  search(@Param() params) {
+    return this.publicationsService.getPublicationsByString(params.str);
+  }
+
+  // @Get('tags/:id/:offset/:limit/:increase/:sort')
+  // getTagsPublications(@Param() params) {
+  //   return this.publicationsService.getTagsPublications(
+  //     params.id,
+  //     params.offset,
+  //     params.limit,
+  //     params.increase,
+  //     params.sort,
+  //   );
+  // }
 
   // @Get(':id')
   // getOneById(@Param() params) {

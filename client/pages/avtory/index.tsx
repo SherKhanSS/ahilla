@@ -1,15 +1,25 @@
 import { FC } from 'react';
-import Layout from '../components/Layout/Layout';
-import Authors from '../components/Authors/Authors';
+import Layout from '../../components/Layout/Layout';
+import Authors from '../../components/Authors/Authors';
 import { GetServerSideProps } from 'next';
-import { AuthorType } from '../types';
+import { AuthorType } from '../../types';
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
 const Main: FC<{ authors: AuthorType[] }> = ({ authors }) => {
+  const path = 'avtory';
+  const title = 'Авторы';
+  const description =
+    'На этой странице вы можете найти все тексты наших авторов, просто нажав на имя/фамилию нужного автора:';
+
   return (
     <Layout>
-      <Authors authors={authors} />
+      <Authors
+        authors={authors}
+        path={path}
+        title={title}
+        description={description}
+      />
     </Layout>
   );
 };

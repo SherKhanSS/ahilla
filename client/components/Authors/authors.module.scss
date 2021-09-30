@@ -21,7 +21,7 @@
 }
 
 .button {
-  width: 32px;
+  min-width: 32px;
   height: 32px;
   border: none;
   outline: none;
@@ -45,7 +45,7 @@
 }
 
 .button__active {
-  width: 32px;
+  min-width: 32px;
   height: 32px;
   border: none;
   outline: none;

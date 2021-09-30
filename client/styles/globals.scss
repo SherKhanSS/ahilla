@@ -4,8 +4,8 @@
   font-style: normal;
   font-weight: 400;
   src: local('Verdana Regular'), local('Verdana-Regular'),
-    url('/fonts/Verdana.woff2') format('woff2'),
-    url('/fonts/Verdana.woff') format('woff');
+  url('/fonts/Verdana.woff2') format('woff2'),
+  url('/fonts/Verdana.woff') format('woff');
 }
 
 @font-face {
@@ -14,8 +14,8 @@
   font-style: italic;
   font-weight: 400;
   src: local('Verdana Italic'), local('Verdana-Italic'),
-    url('/fonts/Verdana-Italic.woff2') format('woff2'),
-    url('/fonts/Verdana-Italic.woff') format('woff');
+  url('/fonts/Verdana-Italic.woff2') format('woff2'),
+  url('/fonts/Verdana-Italic.woff') format('woff');
 }
 
 @font-face {
@@ -24,8 +24,8 @@
   font-style: normal;
   font-weight: 700;
   src: local('Verdana Bold'), local('Verdana-Bold'),
-    url('/fonts/Verdana-Bold.woff2') format('woff2'),
-    url('/fonts/Verdana-Bold.woff') format('woff');
+  url('/fonts/Verdana-Bold.woff2') format('woff2'),
+  url('/fonts/Verdana-Bold.woff') format('woff');
 }
 
 @font-face {
@@ -34,8 +34,8 @@
   font-style: italic;
   font-weight: 700;
   src: local('Verdana Bold Italic'), local('Verdana-Bold-Italic'),
-    url('/fonts/Verdana-Bold-Italic.woff2') format('woff2'),
-    url('/fonts/Verdana-Bold-Italic.woff') format('woff');
+  url('/fonts/Verdana-Bold-Italic.woff2') format('woff2'),
+  url('/fonts/Verdana-Bold-Italic.woff') format('woff');
 }
 
 @font-face {
@@ -44,7 +44,7 @@
   font-style: normal;
   font-weight: 400;
   src: local('Gill Sans'), local('GillSans'),
-    url('/fonts/GillSans.woff') format('woff');
+  url('/fonts/GillSans.woff') format('woff');
 }
 
 @font-face {
@@ -53,7 +53,7 @@
   font-style: normal;
   font-weight: 600;
   src: local('Gill Sans Semi Bold'), local('GillSans-SemiBold'),
-    url('/fonts/GillSans-SemiBold.woff') format('woff');
+  url('/fonts/GillSans-SemiBold.woff') format('woff');
 }
 
 @font-face {
@@ -62,7 +62,7 @@
   font-style: normal;
   font-weight: 600;
   src: local('Myriad Pro'), local('Myriad-Pro'),
-    url('/fonts/MyriadProSemiBold.woff') format('woff');
+  url('/fonts/MyriadProSemiBold.woff') format('woff');
 }
 
 html {
@@ -102,4 +102,20 @@ img {
   clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
+}
+
+.pagination .active a {
+  background-color: #9cd382;
+  color: #fff;
+}
+
+.pagination .active a:hover {
+  background-color: #9cd382;
+  color: #fff;
+  border-color: #9cd382;
+}
+
+.pagination .active a:active {
+  background-color: #bdf1a5;
+  border-color: #bdf1a5;
 }

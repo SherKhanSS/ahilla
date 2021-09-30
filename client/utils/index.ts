@@ -1,5 +1,7 @@
+import { ParsedUrlQuery } from 'querystring';
+
 export const formatDate = (date: string): string => {
-  const parsedDate = new Date(date)
+  const parsedDate = new Date(date);
   const MONTH_NAMES = [
     `Января`,
     `Февраля`,
@@ -13,10 +15,10 @@ export const formatDate = (date: string): string => {
     `Октября`,
     `Ноября`,
     `Декабря`,
-  ]
+  ];
 
   return `
     ${parsedDate.getDate()}
     ${MONTH_NAMES[parsedDate.getMonth()]}
-    ${parsedDate.getFullYear()} `
-}
+    ${parsedDate.getFullYear()} `;
+};

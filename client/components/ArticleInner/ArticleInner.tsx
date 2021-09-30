@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './article-inner.module.scss';
 import { ArticleType } from '../../types';
-import { formatDate } from '../../utils/utils';
+import { formatDate } from '../../utils';
 
 const ArticleInner: FC<ArticleType> = ({
   name,
@@ -12,7 +12,6 @@ const ArticleInner: FC<ArticleType> = ({
   date,
   description,
 }) => {
-  console.log(image);
   return (
     <article className={styles.main}>
       <Link href="/">

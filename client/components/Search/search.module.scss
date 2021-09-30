@@ -13,6 +13,37 @@
   margin-bottom: 50px;
 }
 
+.search__wrap {
+  padding: 10px 0 15px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+
+  input {
+    outline-color: #9cd382;
+    padding: 6px 8px;
+    width: calc(100% - 55px);
+  }
+
+  div {
+    width: 32px;
+    height: 32px;
+    position: relative;
+  }
+
+  svg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+  }
+}
+
 .articles__titile {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -27,6 +58,14 @@
 
   .main {
     padding: 0 20px;
+  }
+
+  .search__wrap {
+    padding: 15px 0 20px;
+  }
+
+  .search {
+    padding: 12px 0;
   }
 }
 

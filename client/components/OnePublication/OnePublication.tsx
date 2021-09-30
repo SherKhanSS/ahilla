@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './one-publication.module.scss';
-import { formatDate } from '../../utils/utils';
+import { formatDate } from '../../utils';
 import { ArticleType } from '../../types';
 import { DangerousHtml } from '../DangerousHtml';
 import Views from '../Icons/Views';

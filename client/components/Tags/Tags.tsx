@@ -13,14 +13,14 @@ const Tags: FC = () => {
         {tags.map((it, i) => {
           return (
             <li className={styles.item} key={i}>
-              <Link href="/">
+              <Link href={`/tags/${it.id}`}>
                 <a className={styles.link}>{it.name}</a>
               </Link>
             </li>
           );
         })}
       </ul>
-      <Link href="/">
+      <Link href="/tags">
         <a className={styles.button}>Все метки</a>
       </Link>
     </section>

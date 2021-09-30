@@ -8,17 +8,29 @@
   font-size: 18px;
   line-height: 21px;
   padding: 10px 0;
+}
 
-  button {
-    border: none;
-    outline: none;
-    background-color: inherit;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2px;
+.button {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+
+  svg {
+    width: 9px;
+    height: 6px;
+
+    @media (min-width: $tablet-width) {
+      width: 12px;
+      height: 8px;
+    }
   }
+}
+
+.button:last-child {
+  margin-left: 15px;
+  transform: rotate(180deg);
 }
 
 .date,
@@ -29,7 +41,7 @@
 }
 
 .category {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 @media (min-width: $tablet-width) {
@@ -52,3 +64,57 @@
     padding-bottom: 30px;
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px 10px;
+
+  @media (min-width: $tablet-width) {
+    padding-top: 40px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 22px;
+    line-height: 1.4;
+
+    li {
+      margin: 5px;
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      border: 1px solid #000000;
+      height: 32px;
+      transition: $delay;
+      padding: 0 8px;
+      color: #000;
+
+      &:hover {
+        background-color: $color;
+        color: #fff;
+        border-color: $color;
+      }
+
+      &:active {
+        background-color: $color-active;
+        border-color: $color-active;
+      }
+    }
+  }
+
+  @media (min-width: $desktop-width) {
+    padding: 60px;
+    max-width: $max-width;
+    margin: 0 auto;
+  }
+}
+
