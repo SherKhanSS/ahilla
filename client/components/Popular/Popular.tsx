@@ -16,7 +16,7 @@ const Popular: FC = () => {
         {popularPublications.map((it, i) => {
           return (
             <li className={styles.item} key={i}>
-              <Link href="/">
+              <Link href={`/${it.slug}`}>
                 <a className={styles.link}>{it.name}</a>
               </Link>
               <br />

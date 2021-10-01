@@ -18,7 +18,7 @@ const Article: FC<ArticleType> = ({
   const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...';
   return (
     <article className={styles.main}>
-      <Link href="/">
+      <Link href={`/${slug}`}>
         <a className={styles.image_link}>
           <Image
             className={styles.image}

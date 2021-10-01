@@ -1,6 +1,6 @@
-import { FC } from 'react'
-import styles from './sociallist.module.scss'
-import Link from 'next/link'
+import { FC } from 'react';
+import styles from './sociallist.module.scss';
+import Link from 'next/link';
 import {
   FBIcon,
   IGIcon,
@@ -9,38 +9,38 @@ import {
   TVIcon,
   VKIcon,
   YUIcon,
-} from '../Icons/SocialIcons'
+} from '../Icons/SocialIcons';
 
 const socials = [
   {
     icon: <FBIcon />,
-    link: '/',
+    link: 'https://www.facebook.com/groups/ahilla/',
   },
   {
     icon: <VKIcon />,
-    link: '/',
+    link: 'https://vk.com/ahilla_ru',
   },
   {
     icon: <TGIcon />,
-    link: '/',
+    link: 'https://t.me/ahilla_ru',
   },
   {
     icon: <TVIcon />,
-    link: '/',
+    link: 'https://twitter.com/ahilla_ru',
   },
   {
     icon: <JJIcon />,
-    link: '/',
+    link: 'https://ahilla-ru.livejournal.com/',
   },
   {
     icon: <IGIcon />,
-    link: '/',
+    link: 'https://www.instagram.com/ahilla.ru/',
   },
   {
     icon: <YUIcon />,
-    link: '/',
+    link: 'https://www.youtube.com/c/%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9%D0%9F%D0%BB%D1%83%D0%B6%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2',
   },
-]
+];
 
 const Social: FC = () => {
   return (
@@ -52,10 +52,10 @@ const Social: FC = () => {
               <a className={styles.link}>{it.icon}</a>
             </Link>
           </li>
-        )
+        );
       })}
     </ul>
-  )
-}
+  );
+};
 
-export default Social
+export default Social;

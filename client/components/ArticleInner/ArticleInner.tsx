@@ -11,10 +11,11 @@ const ArticleInner: FC<ArticleType> = ({
   image,
   date,
   description,
+  slug,
 }) => {
   return (
     <article className={styles.main}>
-      <Link href="/">
+      <Link href={`/${slug}`}>
         <a className={styles.image_link}>
           {image && (
             <Image
@@ -34,12 +35,12 @@ const ArticleInner: FC<ArticleType> = ({
           {author?.name}
         </div>
         <h3 className={styles.title}>
-          <Link href="/">
+          <Link href={`/${slug}`}>
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
         <div className={styles.text}>{description}</div>
-        <Link href="/">
+        <Link href={`/${slug}`}>
           <a className={styles.link}>Подробнее</a>
         </Link>
       </div>

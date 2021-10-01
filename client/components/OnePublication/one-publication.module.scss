@@ -9,6 +9,12 @@
   text-decoration: none;
   cursor: pointer;
   color: $color-gray;
+  transition: $delay;
+
+
+  &:hover {
+    color: #9cd382;
+  }
 }
 
 .info {

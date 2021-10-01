@@ -7,6 +7,8 @@ import { ArticleType } from '../../types';
 import { DangerousHtml } from '../DangerousHtml';
 import Views from '../Icons/Views';
 
+//TODO добавить стили на ховвер
+
 const OnePublication: FC<ArticleType> = ({
   name,
   author,
@@ -15,6 +17,7 @@ const OnePublication: FC<ArticleType> = ({
   content,
   views,
   description,
+  author_id,
 }) => {
   const editContent =
     description === '' ? content.replace(/\n/g, '</br>') : content;
@@ -23,7 +26,7 @@ const OnePublication: FC<ArticleType> = ({
     <article className={styles.main}>
       <div className={styles.info}>
         {formatDate(date)}
-        <Link href="/">
+        <Link href={`/avtory/${author_id}?order=0&sort=updated_at&page=1`}>
           <a className={styles.link}>{author?.name}</a>
         </Link>
       </div>
