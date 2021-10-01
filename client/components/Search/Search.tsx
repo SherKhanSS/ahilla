@@ -11,7 +11,7 @@ const Search: FC = () => {
   const [isSent, setIsSent] = useState(false);
   const [isInputFill, setIsInputFill] = useState(false);
   const info =
-    isInputFill && articles.length === 0
+    isInputFill && articles.length === 0 && !isSent
       ? 'Ничего не найдено!'
       : articles.length !== 0
       ? 'Результаты поиска:'
@@ -42,13 +42,11 @@ const Search: FC = () => {
                     `${domainURL}/publications/search/${str}`
                   );
                   const foundArticles = await response.json();
-                  console.log(foundArticles);
                   setArticles(foundArticles);
                   setIsSent(false);
                 } catch (err) {
                   setArticles([]);
                   setIsSent(false);
-                  console.log('err');
                 }
               }}
             />

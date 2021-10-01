@@ -7,10 +7,76 @@
 
 .wrap {
   padding: 0 20px;
+}
 
-  select {
-    width: 100%;
-    padding: 5px;
+.select {
+  width: 100%;
+  border: 1px solid #000;
+  position: relative;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    display: inline-block;
+    padding-left: 10px;
+  }
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: $delay;
+
+  svg {
+    width: 12px;
+    height: 8px;
+    transition: $delay;
+  }
+
+  &:hover path {
+    fill: #9cd382;
+  }
+
+  &:active path {
+    opacity: .5;
+  }
+}
+
+.list {
+  @include list-reset;
+  position: absolute;
+  top: 32px;
+  left: -1px;
+  border: 1px solid #000;
+  border-top: none;
+  background-color: #fff;
+  width: calc(100% + 2px);
+  padding: 0 10px 10px;
+  z-index: 1;
+
+  li {
+    margin: 7px;
+  }
+}
+
+.link {
+  color: #000;
+  font-size: 16px;
+  transition: $delay;
+
+  &:hover {
+    color: #9cd382;
   }
 }
 

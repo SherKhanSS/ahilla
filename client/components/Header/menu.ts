@@ -1,7 +1,7 @@
 const menu = [
   {
     title: 'Новости',
-    link: '/news',
+    link: '/news?order=0&sort=updated_at&page=1',
     subMenu: null,
   },
   {
@@ -56,6 +56,6 @@ const menu = [
     link: '/podderzhat',
     subMenu: null,
   },
-]
+];
 
 export default menu

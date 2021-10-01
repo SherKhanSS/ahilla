@@ -53,9 +53,25 @@ export class PublicationsController {
     );
   }
 
+  @Get('archives/:id/:offset/:limit/:increase/:sort')
+  getPublicationsByDate(@Param() params) {
+    return this.publicationsService.getPublicationsByDate(
+      params.id,
+      params.offset,
+      params.limit,
+      params.increase,
+      params.sort,
+    );
+  }
+
   @Get('search/:str')
   search(@Param() params) {
     return this.publicationsService.getPublicationsByString(params.str);
+  }
+
+  @Get('dates')
+  getDates() {
+    return this.publicationsService.getDateMark();
   }
 
   // @Get('tags/:id/:offset/:limit/:increase/:sort')

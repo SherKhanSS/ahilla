@@ -13,7 +13,7 @@ const Tags: FC = () => {
         {tags.map((it, i) => {
           return (
             <li className={styles.item} key={i}>
-              <Link href={`/tags/${it.id}`}>
+              <Link href={`/tags/${it.id}?order=0&sort=updated_at&page=1`}>
                 <a className={styles.link}>{it.name}</a>
               </Link>
             </li>

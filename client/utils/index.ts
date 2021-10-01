@@ -22,3 +22,22 @@ export const formatDate = (date: string): string => {
     ${MONTH_NAMES[parsedDate.getMonth()]}
     ${parsedDate.getFullYear()} `;
 };
+
+export const formatDateForArchives = (dateArr: number[]): string => {
+  const MONTH_NAMES = [
+    `Январь`,
+    `Февраль`,
+    `Март`,
+    `Апрель`,
+    `Май`,
+    `Июнь`,
+    `Июль`,
+    `Август`,
+    `Сентябрь`,
+    `Октябрь`,
+    `Ноябрь`,
+    `Декабрь`,
+  ];
+
+  return `${MONTH_NAMES[dateArr[1] - 1]} ${dateArr[0]}`;
+};

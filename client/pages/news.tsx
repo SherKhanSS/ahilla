@@ -1,28 +1,28 @@
-import {FC} from 'react';
+import { FC } from 'react';
 import Layout from '../components/Layout/Layout';
 import Articles from '../components/Articles/Articles';
-import {GetServerSideProps} from 'next';
-import {ArticleType} from '../types';
+import { GetServerSideProps } from 'next';
+import { ArticleType } from '../types';
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 const LIMIT = 10;
 
 const NewsPage: FC<{ news: ArticleType[]; count: number }> = ({
-                                                                news,
-                                                                count,
-                                                              }) => {
+  news,
+  count,
+}) => {
   const path = 'news';
   const title = 'Новости';
 
   return (
     <Layout>
-      <Articles articles={news} path={path} title={title} count={count}/>
+      <Articles articles={news} path={path} title={title} count={count} />
     </Layout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({query}) => {
-  const {order, sort, page} = query;
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { order, sort, page } = query;
 
   if (
     order === undefined ||
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     const resNews = await fetch(
       `${domainURL}/publications/news/${start}/${LIMIT}/${order}/${sort}`
     );
-    const {news, count} = await resNews.json();
+    const { news, count } = await resNews.json();
 
     if (count < start) {
       return {

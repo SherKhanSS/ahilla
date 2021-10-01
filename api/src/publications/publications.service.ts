@@ -5,7 +5,7 @@ import { CreatePublicationsDto } from './dto/create-publications.dto';
 import { FilesService } from '../files/files.service';
 import { Author } from '../authors/authors.model';
 import { PublicationsTags } from './publications-tags.model';
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -88,8 +88,30 @@ export class PublicationsService {
     return { articles: rows, count };
   }
 
+  async getPublicationsByDate(id, offset, limit, increase, sort) {
+    const [y, m] = id.split('-');
+    const days = new Date(y, m, 0).getDate();
+    const order = +increase === 0 ? 'DESC' : 'ASC';
+    const validSort = sort ? sort : 'updated_at';
+    const { count, rows } = await this.publicationRepository.findAndCountAll({
+      order: [[validSort, order]],
+      where: {
+        date: {
+          [Op.gte]: new Date(`${id}-01`),
+          [Op.lt]: new Date(`${id}-${days}`),
+        },
+      },
+      offset,
+      limit,
+      distinct: true,
+    });
+
+    checkAndFillDescriptionDeleteContent(rows);
+
+    return { articles: rows, count };
+  }
+
   async getPublicationsByString(str) {
-    console.log(str);
     let articles = await this.publicationRepository.findAll({
       order: [['updated_at', 'DESC']],
       where: {
@@ -155,13 +177,29 @@ export class PublicationsService {
   async getPopularsPublication() {
     return await this.publicationRepository.findAll({
       order: [['views', 'DESC']],
-      where: {
-        is_news: false,
-      },
       offset: 0,
       limit: 10,
       attributes: ['name', 'slug', 'views'],
     });
+  }
+
+  async getDateMark() {
+    const firstPublication = await this.publicationRepository.findAll({
+      order: [['updated_at', 'ASC']],
+      limit: 1,
+      attributes: ['updated_at'],
+    });
+
+    const lastPublication = await this.publicationRepository.findAll({
+      order: [['updated_at', 'DESC']],
+      limit: 1,
+      attributes: ['updated_at'],
+    });
+
+    const first = firstPublication[0]['updated_at'];
+    const last = lastPublication[0]['updated_at'];
+
+    return { first, last };
   }
 
   // async getPublicationById(id) {

@@ -1,17 +1,20 @@
-import { FC } from 'react'
-import Link from 'next/link'
-import styles from './home.module.scss'
-import Article from '../Article/Article'
-import News from '../News/News'
-import ArrowMore from '../Icons/ArrowMore'
-import {ArticleType} from '../../types'
+import { FC } from 'react';
+import Link from 'next/link';
+import styles from './home.module.scss';
+import Article from '../Article/Article';
+import News from '../News/News';
+import ArrowMore from '../Icons/ArrowMore';
+import { ArticleType } from '../../types';
 
-const Home: FC<{ articles: ArticleType[], news: ArticleType[] }> = ({articles, news}) => {
+const Home: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
+  articles,
+  news,
+}) => {
   return (
     <section className={styles.main}>
       <section className={styles.articles}>
         <h2 className={styles.articles__titile}>
-          <Link href='/articles'>
+          <Link href="/articles?order=0&sort=updated_at&page=1">
             <a className={styles.articles__link}>Статьи</a>
           </Link>
         </h2>
@@ -21,10 +24,10 @@ const Home: FC<{ articles: ArticleType[], news: ArticleType[] }> = ({articles, n
               <li className={styles.articles__item} key={i}>
                 <Article {...it} />
               </li>
-            )
+            );
           })}
         </ul>
-        <Link href='/articles'>
+        <Link href="/articles?order=0&sort=updated_at&page=1">
           <a className={styles.more}>
             <span>Все статьи</span>
             <ArrowMore />
@@ -33,7 +36,7 @@ const Home: FC<{ articles: ArticleType[], news: ArticleType[] }> = ({articles, n
       </section>
       <section className={styles.news}>
         <h2 className={styles.news__titile}>
-          <Link href='/news'>
+          <Link href="/news?order=0&sort=updated_at&page=1">
             <a className={styles.news__link}>Новости</a>
           </Link>
         </h2>
@@ -44,10 +47,10 @@ const Home: FC<{ articles: ArticleType[], news: ArticleType[] }> = ({articles, n
                 <li className={styles.news__item} key={i}>
                   <News {...it} />
                 </li>
-              )
+              );
             })}
           </ul>
-          <Link href='/news'>
+          <Link href="/news?order=0&sort=updated_at&page=1">
             <a className={styles.more}>
               <span>Все новости</span>
               <ArrowMore />
@@ -56,7 +59,7 @@ const Home: FC<{ articles: ArticleType[], news: ArticleType[] }> = ({articles, n
         </div>
       </section>
     </section>
-  )
-}
+  );
+};
 
 export default Home

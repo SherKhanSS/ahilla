@@ -19,11 +19,17 @@ const initialPopularPublication = {
   views: 9998,
 };
 
+const initialDates = {
+  first: '2017-03-13T14:02:06.000Z',
+  last: '2019-09-08T12:56:16.000Z',
+};
+
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
 const StateContext = createContext({
   tags: [initialTag],
   popularPublications: [initialPopularPublication],
+  datesMark: initialDates,
 });
 
 export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -31,16 +37,20 @@ export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
   const [popularPublications, setPopularPublications] = useState([
     initialPopularPublication,
   ]);
+  const [datesMark, setDatesMark] = useState(initialDates);
 
   useEffect(() => {
     (async () => {
       try {
         const resTags = await fetch(`${domainURL}/tags/for-main`);
         const resPopular = await fetch(`${domainURL}/publications/populars`);
+        const resDates = await fetch(`${domainURL}/publications/dates`);
         const tags = await resTags.json();
         const popular = await resPopular.json();
+        const datesMark = await resDates.json();
         setTags(tags);
         setPopularPublications(popular);
+        setDatesMark(datesMark);
       } catch (err) {}
     })();
   }, []);
@@ -48,6 +58,7 @@ export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
   const state = {
     tags,
     popularPublications,
+    datesMark,
   };
 
   return (
