@@ -24,7 +24,7 @@ const initialDates = {
   last: '2019-09-08T12:56:16.000Z',
 };
 
-const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
+const domainURL = process.env.NEXT_PUBLIC_FETCH_URL;
 
 const StateContext = createContext({
   tags: [initialTag],

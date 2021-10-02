@@ -4,7 +4,7 @@ import ArticleInner from '../ArticleInner/ArticleInner';
 import { ArticleType } from '../../types';
 import Spinner from '../Icons/Spinner';
 
-const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
+const domainURL = process.env.NEXT_PUBLIC_FETCH_URL;
 
 const Search: FC = () => {
   const [articles, setArticles] = useState([]);
