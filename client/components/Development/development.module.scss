@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 0 10px;
+}
+
+@media (min-width: $tablet-width) {
+  .main {
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+
+}
