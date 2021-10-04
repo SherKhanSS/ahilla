@@ -19,8 +19,10 @@ const Main: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const resArticles = await fetch(`${domainURL}/publications/main-articles`);
-    const resNews = await fetch(`${domainURL}/publications/main-news`);
+    const resArticles = await fetch(
+      `${domainURL}/api/publications/main-articles`
+    );
+    const resNews = await fetch(`${domainURL}/api/publications/main-news`);
     const articles = await resArticles.json();
     const news = await resNews.json();
 

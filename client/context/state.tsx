@@ -42,9 +42,11 @@ export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        const resTags = await fetch(`${domainURL}/tags/for-main`);
-        const resPopular = await fetch(`${domainURL}/publications/populars`);
-        const resDates = await fetch(`${domainURL}/publications/dates`);
+        const resTags = await fetch(`${domainURL}/api/tags/for-main`);
+        const resPopular = await fetch(
+          `${domainURL}/api/publications/populars`
+        );
+        const resDates = await fetch(`${domainURL}/api/publications/dates`);
         const tags = await resTags.json();
         const popular = await resPopular.json();
         const datesMark = await resDates.json();

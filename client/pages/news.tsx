@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   try {
     const resNews = await fetch(
-      `${domainURL}/publications/news/${start}/${LIMIT}/${order}/${sort}`
+      `${domainURL}/api/publications/news/${start}/${LIMIT}/${order}/${sort}`
     );
     const { news, count } = await resNews.json();
 

@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   try {
     const resArticles = await fetch(
-      `${domainURL}/tags/publications/${id}/${start}/${end}/${order}/${sort}`
+      `${domainURL}/api/tags/publications/${id}/${start}/${end}/${order}/${sort}`
     );
 
     if (resArticles.status === 500) {

@@ -26,7 +26,7 @@ const Main: FC<{ authors: AuthorType[] }> = ({ authors }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const resAuthors = await fetch(`${domainURL}/authors`);
+    const resAuthors = await fetch(`${domainURL}/api/authors`);
     const authors = await resAuthors.json();
 
     return {
