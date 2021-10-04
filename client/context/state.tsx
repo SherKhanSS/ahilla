@@ -21,10 +21,10 @@ const initialPopularPublication = {
 
 const initialDates = {
   first: '2017-03-13T14:02:06.000Z',
-  last: '2019-09-08T12:56:16.000Z',
+  last: '2019-04-08T12:56:16.000Z',
 };
 
-const domainURL = process.env.NEXT_PUBLIC_FETCH_URL;
+const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
 const StateContext = createContext({
   tags: [initialTag],
