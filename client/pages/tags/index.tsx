@@ -26,7 +26,7 @@ const Main: FC<{ tags: TagType[] }> = ({ tags }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const resTags = await fetch(`${domainURL}/tags`);
+    const resTags = await fetch(`${domainURL}/api/tags`);
     const tags = await resTags.json();
 
     return {

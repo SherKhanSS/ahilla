@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const slug = params?.slug;
 
   try {
-    const response = await fetch(`${domainURL}/publications/${slug}`);
+    const response = await fetch(`${domainURL}/api/publications/${slug}`);
 
     if (response.status === 500) {
       return {

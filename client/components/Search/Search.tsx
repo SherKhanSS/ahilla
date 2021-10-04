@@ -39,7 +39,7 @@ const Search: FC = () => {
 
                 try {
                   const response = await fetch(
-                    `${domainURL}/publications/search/${str}`
+                    `${domainURL}/api/publications/search/${str}`
                   );
                   const foundArticles = await response.json();
                   setArticles(foundArticles);
