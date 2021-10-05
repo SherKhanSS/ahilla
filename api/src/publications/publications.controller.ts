@@ -100,6 +100,11 @@ export class PublicationsController {
     return this.publicationsService.getArticlesForMainPage();
   }
 
+  @Get('main-mobile')
+  getMobilePublications() {
+    return this.publicationsService.getPublicationsForMobileMainPage();
+  }
+
   @Get('populars')
   getPopulars() {
     return this.publicationsService.getPopularsPublication();

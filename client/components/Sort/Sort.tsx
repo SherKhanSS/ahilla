@@ -55,7 +55,7 @@ const Sort: FC<{
                   order !== undefined &&
                   sort === DATE_SORT &&
                   +order === LAST_FIRST
-                    ? '#9cd382'
+                    ? '#707070'
                     : '#000'
                 }
               />
@@ -71,7 +71,7 @@ const Sort: FC<{
                   order !== undefined &&
                   sort === DATE_SORT &&
                   +order === FIRST_FIRST
-                    ? '#9cd382'
+                    ? '#707070'
                     : '#000'
                 }
               />
@@ -90,7 +90,7 @@ const Sort: FC<{
                   order !== undefined &&
                   sort === VIEWS_SORT &&
                   +order === LAST_FIRST
-                    ? '#9cd382'
+                    ? '#707070'
                     : '#000'
                 }
               />
@@ -106,7 +106,7 @@ const Sort: FC<{
                   order !== undefined &&
                   sort === VIEWS_SORT &&
                   +order === FIRST_FIRST
-                    ? '#9cd382'
+                    ? '#707070'
                     : '#000'
                 }
               />

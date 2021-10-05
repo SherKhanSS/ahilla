@@ -1,16 +1,29 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './tags.module.scss';
 import Link from 'next/link';
 import { useContextState } from '../../context/state';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+
+const MOBILE_WIDTH = 660;
+const INITIAL_COUNT = 10;
+const DESKTOP_COUNT = 20;
 
 const Tags: FC = () => {
   const { tags } = useContextState();
+  const { width } = useWindowDimensions();
+  const [count, setCount] = useState(INITIAL_COUNT);
+
+  useEffect(() => {
+    const isMobile = width === null ? true : width < MOBILE_WIDTH;
+    const currentCount = isMobile ? INITIAL_COUNT : DESKTOP_COUNT;
+    setCount(currentCount);
+  }, [width]);
 
   return (
     <section className={styles.main}>
       <h2 className={styles.title}>Поиск по меткам</h2>
       <ul className={styles.list}>
-        {tags.map((it, i) => {
+        {tags.slice(0, count).map((it, i) => {
           return (
             <li className={styles.item} key={i}>
               <Link href={`/tags/${it.id}?order=0&sort=updated_at&page=1`}>

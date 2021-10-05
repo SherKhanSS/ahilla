@@ -10,7 +10,7 @@ const menu = [
     subMenu: [
       {
         title: 'Колонка редактора',
-        link: 'tags/5?order=0&sort=updated_at&page=1',
+        link: '/tags/5?order=0&sort=updated_at&page=1',
       },
       { title: 'Блоги', link: '/tags/6?order=0&sort=updated_at&page=1' },
       { title: 'Комментарии', link: '/tags/32?order=0&sort=updated_at&page=1' },

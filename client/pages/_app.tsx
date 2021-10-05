@@ -9,7 +9,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <Provider>
       <NextNprogress
-        color="#9cd382"
+        color="#707070"
         startPosition={0.3}
         stopDelayMs={200}
         height={3}

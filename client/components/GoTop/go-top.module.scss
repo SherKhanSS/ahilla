@@ -1,0 +1,51 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.back_to_top {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  //height: 100px;
+}
+
+.wrap {
+  max-width: $content-max-width;
+  padding: 10px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.top {
+  cursor: pointer;
+  right: 15px;
+  font-size: 25px;
+  color: #ffffff;
+  background-color: #000000;
+  z-index: 4;
+  width: 45px;
+  text-align: center;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 50%;
+  transition: $delay;
+}
+
+.top:hover {
+  color: #ffffff;
+  background: #ff3366;
+}
+
+@media (min-width: $tablet-width) {
+  .wrap {
+    padding: 20px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .wrap {
+    padding: 0 60px 30px 0;
+  }
+}

@@ -246,4 +246,18 @@ export class PublicationsService {
 
     return articles;
   }
+
+  async getPublicationsForMobileMainPage() {
+    const articles = await this.publicationRepository.findAll({
+      order: [['date', 'DESC']],
+      offset: 0,
+      limit: 8,
+      attributes: ['name', 'slug', 'date', 'image', 'description', 'content'],
+      include: [{ model: Author, attributes: ['name'] }],
+    });
+
+    checkAndFillDescriptionDeleteContent(articles);
+
+    return articles;
+  }
 }
