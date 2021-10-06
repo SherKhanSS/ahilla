@@ -5,6 +5,7 @@
 .news {
   padding: 0 10px;
 }
+
 .articles__list,
 .news__list {
   @include list-reset;
@@ -21,7 +22,7 @@
 
 .articles__link,
 .news__link {
-  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
+  font-family: 'Myriad Pro', 'Verdana', 'Geneva', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -40,7 +41,7 @@
 }
 
 .more {
-  font-family: 'Gill Sans';
+  font-family: 'Myriad Pro', sans-serif;
   font-weight: normal;
   font-size: 18px;
   line-height: 21px;

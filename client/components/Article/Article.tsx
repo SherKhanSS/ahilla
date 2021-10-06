@@ -11,11 +11,9 @@ const Article: FC<ArticleType> = ({
   author,
   image,
   date,
-  content,
   slug,
   description,
 }) => {
-  const sliceContent = content.split(' ').slice(0, 60).join(' ') + ' ...';
   return (
     <article className={styles.main}>
       <Link href={`/${slug}`}>
@@ -40,9 +38,7 @@ const Article: FC<ArticleType> = ({
             <a className={styles.title_link}>{name}</a>
           </Link>
         </h3>
-        <div className={styles.text}>
-          <DangerousHtml str={description} />
-        </div>
+        <div className={styles.text}>{description}</div>
         <Link href={`/${slug}`}>
           <a className={styles.link}>Подробнее</a>
         </Link>

@@ -6,7 +6,6 @@
   bottom: 0;
   left: 0;
   right: 0;
-  //height: 100px;
 }
 
 .wrap {
@@ -20,27 +19,45 @@
 
 .top {
   cursor: pointer;
-  right: 15px;
-  font-size: 25px;
-  color: #ffffff;
-  background-color: #000000;
+  background-color: $color;
   z-index: 4;
-  width: 45px;
-  text-align: center;
-  height: 45px;
-  line-height: 45px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   transition: $delay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .5;
+  outline: none;
+  border: none;
+
+  svg {
+    width: 22px;
+    height: 25px;
+  }
 }
 
 .top:hover {
-  color: #ffffff;
-  background: #ff3366;
+  opacity: .8;
+}
+
+.top:active {
+  opacity: 1;
 }
 
 @media (min-width: $tablet-width) {
   .wrap {
     padding: 20px;
+  }
+
+  .top {
+    width: 70px;
+    height: 70px;
+
+    svg {
+      width: 30.63px;
+      height: 35px;
+    }
   }
 }
 

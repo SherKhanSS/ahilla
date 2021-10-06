@@ -2,7 +2,7 @@
 @import '../../styles/mixins.scss';
 
 .info {
-  font-family: 'Gill Sans';
+  font-family: 'Myriad Pro', sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 16px;
@@ -12,12 +12,12 @@
 }
 
 .title {
-  margin-top: 12px;
+  margin-top: 10px;
   margin-bottom: 28px;
 }
 
 .title_link {
-  font-family: 'Gill Sans';
+  font-family: 'Myriad Pro', sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -38,7 +38,7 @@
 @media (min-width: $desktop-width) {
   .info {
     font-size: 16px;
-    line-height: 18px;
+    line-height: 20px;
   }
 
   .title_link {

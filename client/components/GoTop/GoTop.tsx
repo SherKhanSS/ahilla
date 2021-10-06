@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './go-top.module.scss';
+import ArrowUp from '../Icons/ArrowUp';
 
 const GoTop: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,9 +32,9 @@ const GoTop: FC = () => {
     <div className={styles.back_to_top}>
       <div className={styles.wrap}>
         {isVisible && (
-          <div className={styles.top} onClick={() => scrollToTop()}>
-            Top
-          </div>
+          <button className={styles.top} onClick={() => scrollToTop()}>
+            <ArrowUp />
+          </button>
         )}
       </div>
     </div>

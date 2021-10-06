@@ -40,29 +40,20 @@
 
 @font-face {
   font-display: swap;
-  font-family: 'Gill Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Gill Sans'), local('GillSans'),
-  url('/fonts/GillSans.woff') format('woff');
-}
-
-@font-face {
-  font-display: swap;
-  font-family: 'Gill Sans';
+  font-family: 'Myriad Pro';
   font-style: normal;
   font-weight: 600;
-  src: local('Gill Sans Semi Bold'), local('GillSans-SemiBold'),
-  url('/fonts/GillSans-SemiBold.woff') format('woff');
+  src: local('Myriad Pro'), local('Myriad-Pro'),
+  url('/fonts/MyriadProSemiBold.woff') format('woff');
 }
 
 @font-face {
   font-display: swap;
   font-family: 'Myriad Pro';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   src: local('Myriad Pro'), local('Myriad-Pro'),
-  url('/fonts/MyriadProSemiBold.woff') format('woff');
+  url('/fonts/MyriadProRegular.woff') format('woff');
 }
 
 html {

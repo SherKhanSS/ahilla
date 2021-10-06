@@ -32,6 +32,7 @@
 
   &:hover {
     fill: $color;
+
     path {
       stroke: $color;
     }
@@ -39,6 +40,7 @@
 
   &:active {
     fill: $color-active;
+
     path {
       stroke: $color-active;
     }
@@ -92,7 +94,7 @@
   padding: 30px 0;
   width: 100%;
   border-bottom: 5px solid #363636;
-  font-family: 'Gill Sans', 'Verdana', 'Geneva', sans-serif;
+  font-family: 'Myriad Pro', 'Verdana', 'Geneva', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
