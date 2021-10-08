@@ -1,9 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './go-top.module.scss';
 import ArrowUp from '../Icons/ArrowUp';
+// import useWindowDimensions from '../../hooks/useWindowDimensions';
+// import { number } from 'prop-types';
 
 const GoTop: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  // const [buttonTop, setButtonTop] = useState(0);
+  // const { height } = useWindowDimensions();
 
   useEffect(() => {
     document.addEventListener('scroll', toggleVisibility);
@@ -11,7 +15,13 @@ const GoTop: FC = () => {
     return () => {
       document.removeEventListener('scroll', toggleVisibility);
     };
-  });
+  }, []);
+
+  // useEffect(() => {
+  //   if (height !== null) {
+  //     setButtonTop(height - 80);
+  //   }
+  // }, [height]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -21,24 +31,22 @@ const GoTop: FC = () => {
   };
 
   const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
+    if (window.scrollY > 300) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
     }
   };
 
-  return (
-    <div className={styles.back_to_top}>
-      <div className={styles.wrap}>
-        {isVisible && (
-          <button className={styles.top} onClick={() => scrollToTop()}>
-            <ArrowUp />
-          </button>
-        )}
-      </div>
-    </div>
-  );
+  if (isVisible) {
+    return (
+      <button className={styles.top} onClick={() => scrollToTop()}>
+        <ArrowUp />
+      </button>
+    );
+  }
+
+  return null;
 };
 
 export default GoTop;
