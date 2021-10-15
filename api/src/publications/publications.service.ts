@@ -31,6 +31,11 @@ export class PublicationsService {
     return await this.publicationRepository.create({ ...dto, image: fileName });
   }
 
+  async createImage(image) {
+    const fileName = await this.fileService.createFile(image);
+    return { uploadedImageName: fileName };
+  }
+
   async getNewsFromPublication(offset, limit, increase, sort) {
     const order = +increase === 0 ? 'DESC' : 'ASC';
     const validSort = sort ? sort : 'updated_at';

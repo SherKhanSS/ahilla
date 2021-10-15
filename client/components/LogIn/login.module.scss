@@ -1,0 +1,71 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid $color;
+
+    h2 {
+      text-transform: uppercase;
+
+      @media (min-width: $tablet-width) {
+        margin-bottom: 40px;
+      }
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+
+      @media (min-width: $tablet-width) {
+        margin-top: 15px;
+      }
+    }
+
+    @media (min-width: $tablet-width) {
+      padding: 60px 110px 85px;
+    }
+  }
+
+  &__form_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input {
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid $color;
+    outline-color: $color-active;
+
+    @media (min-width: $tablet-width) {
+      width: 300px;
+      margin-top: 10px;
+    }
+  }
+
+  button {
+    @include button;
+    margin-top: 15px;
+
+    @media (min-width: $tablet-width) {
+      margin-top: 55px;
+    }
+  }
+}

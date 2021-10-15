@@ -36,10 +36,3 @@ export type ArticleType = {
     };
   }[];
 };
-
-export type ContextType = {
-  state: {
-    tags: TagType[];
-  };
-  setState: (status: null | boolean) => void;
-};

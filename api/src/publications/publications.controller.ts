@@ -22,6 +22,12 @@ export class PublicationsController {
     return this.publicationsService.createPublication(publicationDto, image);
   }
 
+  @Post('add-image')
+  @UseInterceptors(FileInterceptor('image'))
+  createImage(@UploadedFile() image) {
+    return this.publicationsService.createImage(image);
+  }
+
   @Get('news/:offset/:limit/:increase/:sort')
   getNews(@Param() params) {
     return this.publicationsService.getNewsFromPublication(

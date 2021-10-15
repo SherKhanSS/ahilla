@@ -4,6 +4,7 @@ import { Provider } from '../context/state';
 import '../styles/normalize.scss';
 import '../styles/globals.scss';
 import NextNprogress from 'nextjs-progressbar';
+import 'quill/dist/quill.snow.css';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (

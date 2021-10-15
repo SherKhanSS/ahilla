@@ -1,0 +1,44 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.list {
+  @include list-reset;
+  @include flex-mobile;
+  background: $color;
+  padding: 10px;
+  border-bottom: 5px solid #363636;
+}
+
+.button {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: #fff;
+  padding: 5px 20px;
+  font-size: 18px;
+  line-height: 21px;
+  cursor: pointer;
+  transition: $delay;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    opacity: .7;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .button {
+    padding: 5px 30px;
+  }
+}
