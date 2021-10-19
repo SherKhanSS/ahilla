@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Publication } from './publications.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreatePublicationsDto } from './dto/create-publications.dto';
 import { FilesService } from '../files/files.service';
 import { Author } from '../authors/authors.model';
 import { PublicationsTags } from './publications-tags.model';
-import sequelize, { Op } from 'sequelize';
+import { Op } from 'sequelize';
+import { TagsService } from '../tags/tags.service';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -24,11 +25,48 @@ export class PublicationsService {
     @InjectModel(PublicationsTags)
     private publicationsTagsRepository: typeof PublicationsTags,
     private fileService: FilesService,
+    private tagService: TagsService,
   ) {}
 
-  async createPublication(dto: CreatePublicationsDto, image) {
-    const fileName = await this.fileService.createFile(image);
-    return await this.publicationRepository.create({ ...dto, image: fileName });
+  async createPublication(dto: CreatePublicationsDto) {
+    const publication = await this.publicationRepository.create(dto);
+    const tags = await this.tagService.getTagByIds(dto.tags);
+    await publication.$set('tags', tags);
+    return publication;
+  }
+
+  async updatePublication(id: string, dto: CreatePublicationsDto) {
+    const publication = await this.publicationRepository.findByPk(id);
+
+    if (!publication) {
+      throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
+    }
+
+    publication.name = dto.name || publication.name;
+    publication.slug = dto.slug || publication.slug;
+    publication.author_id = dto.author_id || publication.author_id;
+    publication.image = dto.image || publication.image;
+    publication.date = dto.date || publication.date;
+    publication.description = dto.description || publication.description;
+    publication.content = dto.content || publication.content;
+    publication.is_news = dto.is_news || publication.is_news;
+    publication.is_published = dto.is_published || publication.is_published;
+
+    await publication.save();
+    const tags = await this.tagService.getTagByIds(dto.tags);
+    await publication.$set('tags', tags);
+    return publication;
+  }
+
+  async deletePublication(id: string) {
+    const publication = await this.publicationRepository.findByPk(id);
+
+    if (!publication) {
+      throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
+    }
+
+    await publication.destroy();
+    return publication;
   }
 
   async createImage(image) {
@@ -207,19 +245,26 @@ export class PublicationsService {
     return { first, last };
   }
 
-  // async getPublicationById(id) {
-  //   return await this.publicationRepository.findByPk(id, {
-  //     include: { all: true },
-  //   });
-  // }
+  async getPublicationById(id) {
+    return await this.publicationRepository.findByPk(id, {
+      include: { all: true },
+    });
+  }
 
   async getPublicationBySlug(slug) {
-    return await this.publicationRepository.findOne({
+    const publication = await this.publicationRepository.findOne({
       where: {
         slug,
       },
       include: { all: true },
     });
+
+    if (!publication) {
+      throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
+    }
+
+    await publication.increment('views');
+    return publication;
   }
 
   async getNewsForMainPage() {

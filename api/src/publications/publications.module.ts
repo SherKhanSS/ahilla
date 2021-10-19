@@ -8,6 +8,7 @@ import { PublicationsTags } from './publications-tags.model';
 import { AuthModule } from '../auth/auth.module';
 import { Author } from '../authors/authors.model';
 import { FilesModule } from '../files/files.module';
+import { TagsModule } from '../tags/tags.module';
 
 @Module({
   controllers: [PublicationsController],
@@ -16,6 +17,7 @@ import { FilesModule } from '../files/files.module';
     SequelizeModule.forFeature([Publication, Tag, PublicationsTags, Author]),
     AuthModule,
     FilesModule,
+    TagsModule,
   ],
 })
 export class PublicationsModule {}

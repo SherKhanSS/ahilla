@@ -7,14 +7,14 @@ type UseHttpProps = {
     method?: string,
     body?: Record<string, unknown> | null,
     headers?: Record<string, unknown>
-  ) => Promise<Record<string, unknown>>;
+  ) => Promise<any>;
   error: string | null;
   clearError: () => void;
 };
 
 export const useHttp = (): UseHttpProps => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<null | string>(null);
 
   const request = useCallback(
     async (url, method = 'GET', body = null, headers = {}) => {
@@ -39,7 +39,7 @@ export const useHttp = (): UseHttpProps => {
         return data;
       } catch (e) {
         setLoading(false);
-        setError(e.message);
+        setError('Что-то пошло не так');
         throw e;
       }
     },

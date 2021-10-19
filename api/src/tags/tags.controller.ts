@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { CreateTagsDto } from './dto/create-tags.dto';
 
@@ -15,6 +23,16 @@ export class TagsController {
   @Get('for-main')
   getForMain() {
     return this.tagsService.getTagForMainPage();
+  }
+
+  @Put(':id')
+  update(@Body() tagDto: CreateTagsDto, @Param() params) {
+    return this.tagsService.updateTag(params.id, tagDto);
+  }
+
+  @Delete(':id')
+  delete(@Param() params) {
+    return this.tagsService.deleteTag(params.id);
   }
 
   @Get('publications/:id/:start/:end/:increase/:sort')

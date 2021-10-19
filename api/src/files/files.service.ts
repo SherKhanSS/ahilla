@@ -3,6 +3,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as uuid from 'uuid';
 
+const partPath = 'http://localhost:5000/';
+
 @Injectable()
 export class FilesService {
   async createFile(file): Promise<string> {
@@ -15,7 +17,7 @@ export class FilesService {
       }
       fs.writeFileSync(path.join(filePath, fileName), file.buffer);
 
-      return fileName;
+      return `${partPath}${fileName}`;
     } catch (err) {
       throw new HttpException(
         'Произошла ошибка при записи файла',

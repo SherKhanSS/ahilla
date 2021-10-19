@@ -5,10 +5,10 @@ export class CreatePublicationsDto {
   @Length(1, 100, { message: 'Не меньше 4 и не больше 16' })
   name: string;
   slug: string;
-  author: string;
+  author_id: number;
   image: string;
   date: Date;
-  tags: string[];
+  tags: number[];
   description: string;
   content: string;
   is_news: boolean;

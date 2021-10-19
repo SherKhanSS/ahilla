@@ -14,10 +14,10 @@ import { Author } from '../authors/authors.model';
 interface PublicationCreationAttrs {
   name: string;
   slug: string;
-  author: string;
+  author_id: number;
   image: string;
   date: Date;
-  tags: string[];
+  tags: number[];
   description: string;
   content: string;
   is_news: boolean;
@@ -46,6 +46,7 @@ export class Publication extends Model<Publication, PublicationCreationAttrs> {
 
   @Column({
     type: DataType.STRING,
+    unique: true,
     allowNull: false,
   })
   slug: string;

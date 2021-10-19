@@ -2,14 +2,107 @@
 @import '../../styles/mixins.scss';
 
 .main {
-  padding: 0 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: $max-width;
+  margin: 0 auto;
+
+  label {
+    margin: 10px 0;
+  }
+
+  input, textarea {
+    width: 100%;
+    margin-top: 8px;
+    padding: 5px;
+  }
+}
+
+.upload {
+  @include flex-mobile;
+
+  img {
+    margin: 10px 0;
+  }
+
+  input {
+    margin: 10px 0;
+  }
+}
+
+.select_name {
+  margin: 10px 0;
+}
+
+.select_wrap {
+  padding-bottom: 10px;
+}
+
+.check_wrap {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+
+  input {
+    width: 20px;
+    height: 20px;
+    margin: 0 0 0 20px;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0;
+
+  button {
+    @include button;
+    margin-top: 10px;
+  }
 }
 
 @media (min-width: $tablet-width) {
   .main {
-    padding: 0 20px;
+    padding: 20px;
+  }
+
+  .buttons {
+    flex-direction: row;
+    justify-content: center;
+    padding: 20px;
+
+    button {
+      margin: 0 10px;
+    }
+  }
+
+  .upload {
+    img {
+      max-width: 700px;
+      max-height: 400px;
+    }
   }
 }
 
 @media (min-width: $desktop-width) {
+  .main {
+    padding: 40px 200px;
+
+    img {
+      margin-bottom: 30px;
+    }
+  }
+
+  .buttons {
+    padding-top: 40px;
+  }
+
+  .data {
+    input {
+      width: 250px;
+      margin-left: 30px;
+    }
+  }
 }

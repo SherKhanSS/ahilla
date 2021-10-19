@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,9 +19,21 @@ export class PublicationsController {
 
   // @UseGuards(JwtAuthGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
-  create(@Body() publicationDto: CreatePublicationsDto, @UploadedFile() image) {
-    return this.publicationsService.createPublication(publicationDto, image);
+  create(@Body() publicationDto: CreatePublicationsDto) {
+    return this.publicationsService.createPublication(publicationDto);
+  }
+
+  @Put(':id')
+  update(@Body() publicationDto: CreatePublicationsDto, @Param() params) {
+    return this.publicationsService.updatePublication(
+      params.id,
+      publicationDto,
+    );
+  }
+
+  @Delete(':id')
+  delete(@Param() params) {
+    return this.publicationsService.deletePublication(params.id);
   }
 
   @Post('add-image')
@@ -119,5 +133,10 @@ export class PublicationsController {
   @Get(':slug')
   getOneBySlug(@Param() params) {
     return this.publicationsService.getPublicationBySlug(params.slug);
+  }
+
+  @Get('id/:id')
+  getOneById(@Param() params) {
+    return this.publicationsService.getPublicationById(params.id);
   }
 }

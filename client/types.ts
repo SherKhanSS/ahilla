@@ -36,3 +36,25 @@ export type ArticleType = {
     };
   }[];
 };
+
+export type SelectElement = {
+  label: string;
+  value: number;
+};
+
+export type SelectOptions = SelectElement[] | [];
+
+export type InitialArticle = {
+  name: string;
+  slug: string;
+  author_id: number;
+  image: string;
+  date: string;
+  tags: number[];
+  description: string;
+  content: string;
+  is_news: boolean;
+  is_published: boolean;
+
+  [key: string]: string | number | number[] | boolean;
+};

@@ -14,5 +14,6 @@ import { AuthModule } from '../auth/auth.module';
     SequelizeModule.forFeature([Tag, Publication, PublicationsTags]),
     AuthModule,
   ],
+  exports: [TagsService],
 })
 export class TagsModule {}

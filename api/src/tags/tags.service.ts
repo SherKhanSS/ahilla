@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateTagsDto } from './dto/create-tags.dto';
 import { Tag } from './tags.model';
@@ -21,8 +21,41 @@ export class TagsService {
     return await this.tagRepository.create(dto);
   }
 
+  async updateTag(id: string, dto: CreateTagsDto) {
+    const tag = await this.tagRepository.findByPk(id);
+
+    if (!tag) {
+      throw new HttpException('Тэг не найден.', HttpStatus.NOT_FOUND);
+    }
+
+    tag.name = dto.name || tag.name;
+    tag.slug = dto.slug || tag.slug;
+
+    await tag.save();
+    return tag;
+  }
+
+  async deleteTag(id: string) {
+    const tag = await this.tagRepository.findByPk(id);
+
+    if (!tag) {
+      throw new HttpException('Тэг не найден.', HttpStatus.NOT_FOUND);
+    }
+
+    await tag.destroy();
+    return tag;
+  }
+
   async getAllTag() {
     return await this.tagRepository.findAll();
+  }
+
+  async getTagByIds(ids) {
+    return await this.tagRepository.findAll({
+      where: {
+        id: ids,
+      },
+    });
   }
 
   async getTagPublications(id, start, end, increase, sort) {
