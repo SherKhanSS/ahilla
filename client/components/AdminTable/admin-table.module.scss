@@ -1,0 +1,70 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.row, .buttons, .buttons div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  padding: 5px 5px 5px 0;
+}
+
+.row {
+  border-bottom: 1px solid $color;
+}
+
+.body {
+  @include list-reset;
+}
+
+.buttons div {
+  padding: 5px;
+  cursor: pointer;
+
+}
+
+.delete {
+  font-size: 26px;
+  font-weight: bold;
+  color: $color;
+  transform: rotate(45deg);
+  padding: 0;
+  line-height: 0;
+}
+
+@media (min-width: $tablet-width) {
+  .table {
+
+  }
+
+  .name {
+    padding: 10px 20px 10px 0;
+    line-height: 1.4;
+  }
+
+  .buttons div {
+    padding: 10px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .table {
+
+  }
+
+  .name {
+    padding: 5px 5px 5px 0;
+  }
+
+  .buttons div {
+    padding: 5px;
+  }
+}

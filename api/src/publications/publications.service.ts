@@ -58,6 +58,20 @@ export class PublicationsService {
     return publication;
   }
 
+  async setPublished(id: string) {
+    const publication = await this.publicationRepository.findByPk(id);
+
+    if (!publication) {
+      throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
+    }
+
+    const isPublished = publication.is_published;
+    publication.is_published = !isPublished;
+
+    await publication.save();
+    return { status: HttpStatus.OK };
+  }
+
   async deletePublication(id: string) {
     const publication = await this.publicationRepository.findByPk(id);
 
@@ -66,7 +80,7 @@ export class PublicationsService {
     }
 
     await publication.destroy();
-    return publication;
+    return { status: HttpStatus.OK };
   }
 
   async createImage(image) {
@@ -309,5 +323,16 @@ export class PublicationsService {
     checkAndFillDescriptionDeleteContent(articles);
 
     return articles;
+  }
+
+  async getPublicationsForAdminList(start) {
+    const { count, rows } = await this.publicationRepository.findAndCountAll({
+      order: [['date', 'DESC']],
+      offset: +start,
+      limit: 20,
+      attributes: ['id', 'name', 'is_published'],
+    });
+
+    return { count, articles: rows };
   }
 }

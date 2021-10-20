@@ -139,4 +139,14 @@ export class PublicationsController {
   getOneById(@Param() params) {
     return this.publicationsService.getPublicationById(params.id);
   }
+
+  @Get('admins/list/:start')
+  getFullList(@Param() params) {
+    return this.publicationsService.getPublicationsForAdminList(params.start);
+  }
+
+  @Get('admins/status/:id')
+  setStatus(@Param() params) {
+    return this.publicationsService.setPublished(params.id);
+  }
 }

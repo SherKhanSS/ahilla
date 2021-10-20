@@ -3,21 +3,31 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as uuid from 'uuid';
 
-const partPath = 'http://localhost:5000/';
-
 @Injectable()
 export class FilesService {
   async createFile(file): Promise<string> {
     try {
       const fileName = uuid.v4() + '.jpg';
-      const filePath = path.resolve(__dirname, '..', 'uploads');
+      const filePath = path.resolve(
+        __dirname,
+        '..',
+        'static/wp-content/uploads',
+      );
 
       if (!fs.existsSync(filePath)) {
         fs.mkdirSync(filePath, { recursive: true });
       }
-      fs.writeFileSync(path.join(filePath, fileName), file.buffer);
 
-      return `${partPath}${fileName}`;
+      await fs.writeFile(path.join(filePath, fileName), file.buffer, (err) => {
+        if (err) {
+          throw new HttpException(
+            'Произошла ошибка при записи файла',
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }
+      });
+
+      return `${process.env.PART_FILE_PATH}${fileName}`;
     } catch (err) {
       throw new HttpException(
         'Произошла ошибка при записи файла',

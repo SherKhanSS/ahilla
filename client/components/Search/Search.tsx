@@ -41,6 +41,13 @@ const Search: FC = () => {
                   const response = await fetch(
                     `${domainURL}/api/publications/search/${str}`
                   );
+
+                  if (response.status === 404) {
+                    setArticles([]);
+                    setIsSent(false);
+                    return;
+                  }
+
                   const foundArticles = await response.json();
                   setArticles(foundArticles);
                   setIsSent(false);

@@ -4,6 +4,7 @@ import styles from './admin-edit-publication.module.scss';
 import { domainURL } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import { useQuill } from 'react-quilljs';
+import OnePublication from '../OnePublication/OnePublication';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import dynamic from 'next/dynamic';
 import {
@@ -73,6 +74,7 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
     null
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
+  const [preview, setPreview] = useState<any>(null);
   const [id, setId] = useState<number | null>(30);
   const { request } = useHttp();
   const { quill, quillRef } = useQuill();
@@ -166,8 +168,6 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
 
     checkArticle(newArticle);
 
-    console.log(JSON.stringify(newArticle));
-
     try {
       const res =
         id === null
@@ -183,6 +183,15 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
     }
   };
 
+  const handlePreview = () => {
+    const newArticle = {
+      ...article,
+      content,
+      author: selectedAuthor?.label,
+    };
+    setPreview(newArticle);
+  };
+
   useEffect(() => {
     if (quill) {
       quill.clipboard.dangerouslyPasteHTML(initialContent);
@@ -195,115 +204,128 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
 
   return (
     <section className={styles.main}>
-      <div className={styles.upload}>
-        {article.image !== '' && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={article.image} alt="img" />
-        )}
-        <label>
-          Прикрепить изображение (не знаю, сам ты в редакторе выбирал размеры
-          или вордпресс обрезал, везде 700 х 400, пока ориентируюсь на то, что
-          будут грузиться картинки c 700 х 400)
-          <input accept="image/jpg" type="file" onChange={handleChange} />
-        </label>
-      </div>
-      <label>
-        Заголовок статьи
-        <input
-          type={'text'}
-          value={article.name}
-          maxLength={MAX_TITLE}
-          onChange={(e) => {
-            setArticle({
-              ...article,
-              name: e.target.value,
-              slug: transliteration
-                .transform(e.target.value, '-')
-                .toLowerCase(),
-            });
-          }}
-        />
-      </label>
-      <label>
-        Slug (только для чтения, не должен повторяться с уже существующими)
-        <input readOnly={true} type={'text'} value={article.slug} />
-      </label>
-      <div className={styles.select_name}>Автор</div>
-      <div className={styles.select_wrap}>
-        <Select
-          value={selectedAuthor}
-          options={authors}
-          onChange={(value: any) => setSelectedAuthor(value)}
-        />
-      </div>
-      <div className={styles.select_name}>Теги</div>
-      <div className={styles.select_wrap}>
-        <Select
-          value={selectedTags}
-          isMulti
-          options={tags}
-          onChange={(value: any) => setSelectedTags(value)}
-        />
-      </div>
-      <label>
-        Краткое содержание (пока ориентируюсь на 360 символов, обсуждаемо)
-        <textarea
-          rows={3}
-          maxLength={MAX_PREVIEW}
-          value={article.description}
-          onChange={(e) => {
-            setArticle({
-              ...article,
-              description: e.target.value,
-            });
-            if (e.target.value.length > MAX_PREVIEW - 1) {
-              alert('Максимум 360 символов в содержании');
-            }
-          }}
-        />
-      </label>
-      <div className={styles.select_name}>Основное содержание</div>
-      <div className={styles.editor} ref={quillRef} />
-      <label className={styles.check_wrap}>
-        Опубликовано
-        <input
-          type="checkbox"
-          checked={article.is_published}
-          onChange={(e) => {
-            setArticle({
-              ...article,
-              is_published: e.target.checked,
-            });
-          }}
-        />
-      </label>
-      <label className={styles.check_wrap}>
-        Является новостью?
-        <input
-          type="checkbox"
-          checked={article.is_news}
-          onChange={(e) => {
-            setArticle({
-              ...article,
-              is_news: e.target.checked,
-            });
-          }}
-        />
-      </label>
-      <label className={styles.data}>
-        Время публикации
-        <input
-          type={'date'}
-          value={article.date.slice(0, TRIMMING_DATE) ?? ''}
-          onChange={(e) => {
-            setArticle({
-              ...article,
-              date: e.target.value,
-            });
-          }}
-        />
-      </label>
+      {preview ? (
+        <OnePublication {...preview} />
+      ) : (
+        <>
+          <div className={styles.upload}>
+            {article.image !== '' && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={article.image} alt="img" />
+            )}
+            <label>
+              Прикрепить изображение (не знаю, сам ты в редакторе выбирал
+              размеры или вордпресс обрезал, везде 700 х 400, пока ориентируюсь
+              на то, что будут грузиться картинки c 700 х 400)
+              <input accept="image/jpg" type="file" onChange={handleChange} />
+            </label>
+          </div>
+          <label>
+            Заголовок статьи
+            <input
+              type={'text'}
+              value={article.name}
+              maxLength={MAX_TITLE}
+              onChange={(e) => {
+                setArticle({
+                  ...article,
+                  name: e.target.value,
+                  slug: transliteration
+                    .transform(e.target.value, '-')
+                    .toLowerCase(),
+                });
+              }}
+            />
+          </label>
+          <label>
+            Slug (только для чтения, не должен повторяться с уже существующими)
+            <input readOnly={true} type={'text'} value={article.slug} />
+          </label>
+          <div className={styles.select_name}>Автор</div>
+          <div className={styles.select_wrap}>
+            <Select
+              value={selectedAuthor}
+              options={authors}
+              onChange={(value: any) => setSelectedAuthor(value)}
+            />
+          </div>
+          <div className={styles.select_name}>Теги</div>
+          <div className={styles.select_wrap}>
+            <Select
+              value={selectedTags}
+              isMulti
+              options={tags}
+              onChange={(value: any) => setSelectedTags(value)}
+            />
+          </div>
+          <label>
+            Краткое содержание (пока ориентируюсь на 360 символов, обсуждаемо)
+            <textarea
+              rows={3}
+              maxLength={MAX_PREVIEW}
+              value={article.description}
+              onChange={(e) => {
+                setArticle({
+                  ...article,
+                  description: e.target.value,
+                });
+                if (e.target.value.length > MAX_PREVIEW - 1) {
+                  alert('Максимум 360 символов в содержании');
+                }
+              }}
+            />
+          </label>
+          <div className={styles.select_name}>Основное содержание</div>
+          <div className={styles.editor} ref={quillRef} />
+          <label className={styles.check_wrap}>
+            Опубликовано
+            <input
+              type="checkbox"
+              checked={article.is_published}
+              onChange={(e) => {
+                setArticle({
+                  ...article,
+                  is_published: e.target.checked,
+                });
+              }}
+            />
+          </label>
+          <label className={styles.check_wrap}>
+            Является новостью?
+            <input
+              type="checkbox"
+              checked={article.is_news}
+              onChange={(e) => {
+                setArticle({
+                  ...article,
+                  is_news: e.target.checked,
+                });
+              }}
+            />
+          </label>
+          <label className={styles.data}>
+            Время публикации
+            <input
+              type={'date'}
+              value={article.date.slice(0, TRIMMING_DATE) ?? ''}
+              onChange={(e) => {
+                setArticle({
+                  ...article,
+                  date: e.target.value,
+                });
+              }}
+            />
+          </label>
+        </>
+      )}
       <div className={styles.buttons}>
+        <button
+          onClick={() => {
+            !preview ? handlePreview() : setPreview(null);
+          }}
+        >
+          {!preview ? 'Предпросмотр' : 'Редактор'}
+        </button>
         <button onClick={handleSubmit}>Сохранить</button>
         <button
           onClick={() => {
