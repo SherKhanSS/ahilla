@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateTagsDto } from './dto/create-tags.dto';
 import { Tag } from './tags.model';
+import { Op } from 'sequelize';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -18,7 +19,8 @@ export class TagsService {
   constructor(@InjectModel(Tag) private tagRepository: typeof Tag) {}
 
   async createTag(dto: CreateTagsDto) {
-    return await this.tagRepository.create(dto);
+    await this.tagRepository.create(dto);
+    return { status: HttpStatus.CREATED };
   }
 
   async updateTag(id: string, dto: CreateTagsDto) {
@@ -32,7 +34,7 @@ export class TagsService {
     tag.slug = dto.slug || tag.slug;
 
     await tag.save();
-    return tag;
+    return { status: HttpStatus.CREATED };
   }
 
   async deleteTag(id: string) {
@@ -43,7 +45,7 @@ export class TagsService {
     }
 
     await tag.destroy();
-    return tag;
+    return { status: HttpStatus.OK };
   }
 
   async getAllTag() {
@@ -91,5 +93,44 @@ export class TagsService {
       offset: 0,
       limit: 20,
     });
+  }
+
+  async getTagsForAdminList(start) {
+    const { count, rows } = await this.tagRepository.findAndCountAll({
+      order: [['name', 'ASC']],
+      offset: +start,
+      limit: 30,
+      attributes: ['id', 'name'],
+    });
+
+    return { count, tags: rows };
+  }
+
+  async getTagById(id) {
+    return await this.tagRepository.findByPk(+id);
+  }
+
+  async getTagsByString(str) {
+    let tags = await this.tagRepository.findAll({
+      order: [['name', 'ASC']],
+      where: {
+        name: {
+          [Op.substring]: str,
+        },
+      },
+    });
+
+    if (tags.length === 0) {
+      tags = await this.tagRepository.findAll({
+        order: [['name', 'ASC']],
+        where: {
+          slug: {
+            [Op.substring]: str,
+          },
+        },
+      });
+    }
+
+    return tags;
   }
 }

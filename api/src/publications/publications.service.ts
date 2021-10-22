@@ -32,7 +32,7 @@ export class PublicationsService {
     const publication = await this.publicationRepository.create(dto);
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
-    return publication;
+    return { status: HttpStatus.CREATED };
   }
 
   async updatePublication(id: string, dto: CreatePublicationsDto) {
@@ -55,7 +55,7 @@ export class PublicationsService {
     await publication.save();
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
-    return publication;
+    return { status: HttpStatus.CREATED };
   }
 
   async setPublished(id: string) {
@@ -90,11 +90,12 @@ export class PublicationsService {
 
   async getNewsFromPublication(offset, limit, increase, sort) {
     const order = +increase === 0 ? 'DESC' : 'ASC';
-    const validSort = sort ? sort : 'updated_at';
+    const validSort = sort ? sort : 'date';
     const { count, rows } = await this.publicationRepository.findAndCountAll({
       order: [[validSort, order]],
       where: {
         is_news: true,
+        is_published: true,
       },
       offset,
       limit,
@@ -109,11 +110,12 @@ export class PublicationsService {
 
   async getArticlesFromPublication(offset, limit, increase, sort) {
     const order = +increase === 0 ? 'DESC' : 'ASC';
-    const validSort = sort ? sort : 'updated_at';
+    const validSort = sort ? sort : 'date';
     const { count, rows } = await this.publicationRepository.findAndCountAll({
       order: [[validSort, order]],
       where: {
         is_news: false,
+        is_published: true,
       },
       offset,
       limit,
@@ -128,11 +130,12 @@ export class PublicationsService {
 
   async getAuthorsPublications(id, offset, limit, increase, sort) {
     const order = +increase === 0 ? 'DESC' : 'ASC';
-    const validSort = sort ? sort : 'updated_at';
+    const validSort = sort ? sort : 'date';
     const { count, rows } = await this.publicationRepository.findAndCountAll({
       order: [[validSort, order]],
       where: {
         author_id: id,
+        is_published: true,
       },
       offset,
       limit,
@@ -149,7 +152,7 @@ export class PublicationsService {
     const [y, m] = id.split('-');
     const days = new Date(y, m, 0).getDate();
     const order = +increase === 0 ? 'DESC' : 'ASC';
-    const validSort = sort ? sort : 'updated_at';
+    const validSort = sort ? sort : 'date';
     const { count, rows } = await this.publicationRepository.findAndCountAll({
       order: [[validSort, order]],
       where: {
@@ -157,6 +160,7 @@ export class PublicationsService {
           [Op.gte]: new Date(`${id}-01`),
           [Op.lt]: new Date(`${id}-${days}`),
         },
+        is_published: true,
       },
       offset,
       limit,
@@ -170,11 +174,12 @@ export class PublicationsService {
 
   async getPublicationsByString(str) {
     let articles = await this.publicationRepository.findAll({
-      order: [['updated_at', 'DESC']],
+      order: [['date', 'DESC']],
       where: {
         name: {
           [Op.substring]: str,
         },
+        is_published: true,
       },
       offset: 0,
       limit: 10,
@@ -182,7 +187,7 @@ export class PublicationsService {
 
     if (articles.length === 0) {
       articles = await this.publicationRepository.findAll({
-        order: [['updated_at', 'DESC']],
+        order: [['date', 'DESC']],
         where: {
           slug: {
             [Op.substring]: str,
@@ -195,7 +200,7 @@ export class PublicationsService {
 
     if (articles.length === 0) {
       articles = await this.publicationRepository.findAll({
-        order: [['updated_at', 'DESC']],
+        order: [['date', 'DESC']],
         where: {
           content: {
             [Op.substring]: str,
@@ -211,29 +216,12 @@ export class PublicationsService {
     return articles;
   }
 
-  // async getTagsPublications(id, offset, limit, increase, sort) {
-  //   const order = +increase === 0 ? 'DESC' : 'ASC';
-  //   const validSort = sort ? sort : 'updated_at';
-  //   const { count, rows } =
-  //     await this.publicationsTagsRepository.findAndCountAll({
-  //       order: [[validSort, order]],
-  //       where: {
-  //         tag_id: id,
-  //       },
-  //       offset,
-  //       limit,
-  //       include: { all: true },
-  //       distinct: true,
-  //     });
-  //
-  //   checkAndFillDescriptionDeleteContent(rows);
-  //
-  //   return { articles: rows, count };
-  // }
-
   async getPopularsPublication() {
     return await this.publicationRepository.findAll({
       order: [['views', 'DESC']],
+      where: {
+        is_published: true,
+      },
       offset: 0,
       limit: 10,
       attributes: ['name', 'slug', 'views'],
@@ -242,19 +230,25 @@ export class PublicationsService {
 
   async getDateMark() {
     const firstPublication = await this.publicationRepository.findAll({
-      order: [['updated_at', 'ASC']],
+      order: [['date', 'ASC']],
+      where: {
+        is_published: true,
+      },
       limit: 1,
-      attributes: ['updated_at'],
+      attributes: ['date'],
     });
 
     const lastPublication = await this.publicationRepository.findAll({
-      order: [['updated_at', 'DESC']],
+      order: [['date', 'DESC']],
+      where: {
+        is_published: true,
+      },
       limit: 1,
-      attributes: ['updated_at'],
+      attributes: ['date'],
     });
 
-    const first = firstPublication[0]['updated_at'];
-    const last = lastPublication[0]['updated_at'];
+    const first = firstPublication[0]['date'];
+    const last = lastPublication[0]['date'];
 
     return { first, last };
   }
@@ -269,6 +263,7 @@ export class PublicationsService {
     const publication = await this.publicationRepository.findOne({
       where: {
         slug,
+        is_published: true,
       },
       include: { all: true },
     });
@@ -278,6 +273,13 @@ export class PublicationsService {
     }
 
     await publication.increment('views');
+
+    if (publication.description === '') {
+      publication.description =
+        publication.content.replace(/<\/?[^>]+(>|$)/g, '').slice(0, 360) +
+        '...';
+    }
+
     return publication;
   }
 
@@ -286,6 +288,7 @@ export class PublicationsService {
       order: [['date', 'DESC']],
       where: {
         is_news: true,
+        is_published: true,
       },
       offset: 0,
       limit: 20,
@@ -299,6 +302,7 @@ export class PublicationsService {
       order: [['date', 'DESC']],
       where: {
         is_news: false,
+        is_published: true,
       },
       offset: 0,
       limit: 5,
@@ -314,6 +318,9 @@ export class PublicationsService {
   async getPublicationsForMobileMainPage() {
     const articles = await this.publicationRepository.findAll({
       order: [['date', 'DESC']],
+      where: {
+        is_published: true,
+      },
       offset: 0,
       limit: 8,
       attributes: ['name', 'slug', 'date', 'image', 'description', 'content'],
@@ -329,7 +336,7 @@ export class PublicationsService {
     const { count, rows } = await this.publicationRepository.findAndCountAll({
       order: [['date', 'DESC']],
       offset: +start,
-      limit: 20,
+      limit: 30,
       attributes: ['id', 'name', 'is_published'],
     });
 

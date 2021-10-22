@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAdminDto } from '../admins/dto/create-admin.dto';
 import { AdminsService } from '../admins/admins.service';
 import { JwtService } from '@nestjs/jwt';
@@ -11,9 +11,14 @@ export class AuthService {
     private adminsService: AdminsService,
     private jwtService: JwtService,
   ) {}
+
   async login(adminDto: CreateAdminDto) {
     const admin = await this.validateAdmin(adminDto);
     return this.generateToken(admin);
+  }
+
+  async checkAuth() {
+    return { status: HttpStatus.OK };
   }
 
   async registration(adminDto: CreateAdminDto) {

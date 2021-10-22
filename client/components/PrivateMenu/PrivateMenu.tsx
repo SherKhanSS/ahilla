@@ -24,7 +24,11 @@ const PrivateMenu: FC<PropsType> = ({
           <button
             className={styles.button}
             style={
-              currentView === it.name ? { textDecoration: 'underline' } : {}
+              ~currentView
+                .toLowerCase()
+                .indexOf(it.name.toLowerCase().slice(0, 3))
+                ? { textDecoration: 'underline' }
+                : {}
             }
             onClick={() => onMenuItemClick(it.name)}
           >

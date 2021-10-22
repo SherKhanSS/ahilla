@@ -17,17 +17,19 @@ import { CreateTagsDto } from '../tags/dto/create-tags.dto';
 export class AuthorsController {
   constructor(private authorsService: AuthorsService) {}
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() authorDto: CreateAuthorsDto) {
     return this.authorsService.createAuthor(authorDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   update(@Body() tagDto: CreateTagsDto, @Param() params) {
     return this.authorsService.updateAuthor(params.id, tagDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   delete(@Param() params) {
     return this.authorsService.deleteAuthor(params.id);
@@ -36,5 +38,22 @@ export class AuthorsController {
   @Get()
   getAll() {
     return this.authorsService.getAllAuthor();
+  }
+
+  @Get(':id')
+  getOne(@Param() params) {
+    return this.authorsService.getAuthorById(params.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('admins/list/:start')
+  getAllForAdmin(@Param() params) {
+    return this.authorsService.getAuthorsForAdminList(params.start);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('search/:str')
+  search(@Param() params) {
+    return this.authorsService.getAuthorsByString(params.str);
   }
 }

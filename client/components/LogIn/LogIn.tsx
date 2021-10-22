@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { FC, FormEvent, useRef } from 'react';
 import styles from './login.module.scss';
 import { useHttp } from '../../hooks/http';
@@ -12,7 +12,7 @@ const placeholders = {
 
 const LogIn: FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const router = useRouter();
+  // const router = useRouter();
   const { request } = useHttp();
 
   const handleSubmit = async (evt: FormEvent) => {
@@ -25,19 +25,22 @@ const LogIn: FC = () => {
 
     try {
       // путь для регистрации пользователя с правами админа
-      // await request('/api/auth/register', 'POST', logInData)
-      console.log(loginData);
+      // await request(`${domainURL}/api/auth/registration`, 'POST', loginData);
 
       const response = await request(
-        `${domainURL}/api/login`,
+        `${domainURL}/api/auth/login`,
         'POST',
         loginData
       );
-      document.cookie = `token=${response.token}`;
-      localStorage.setItem('token', response.token as string);
-      await router.push('/administration/private');
+      if (response.token) {
+        document.cookie = `token=${response.token}`;
+        localStorage.setItem('token', response.token as string);
+        // await router.push('/administration/private');
+        return window.location.assign('/administration/private');
+      }
+      alert('Неверные данные для входа!');
     } catch (err) {
-      alert('Что-то пошло не так!');
+      alert('Неверные данные для входа!');
     }
   };
 

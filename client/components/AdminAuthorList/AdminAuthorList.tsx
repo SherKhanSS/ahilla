@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './admin-publication-list.module.scss';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import styles from './admin-author-list.module.scss';
 import Spinner from '../Icons/Spinner';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
@@ -9,12 +9,12 @@ import AdminTable from '../AdminTable/AdminTable';
 
 const ITEMS_COUNT_DEFAULT = 30;
 
-const AdminPublicationList: FC<{
+const AdminAuthorList: FC<{
   callback: (view: string) => void;
   setId: (id: number | null) => void;
 }> = ({ callback, setId }) => {
-  const [articles, setArticles] = useState([]);
-  const [articlesCount, setArticlesCount] = useState(0);
+  const [authors, setAuthors] = useState([]);
+  const [authorsCount, setAuthorsCount] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [isInputFill, setIsInputFill] = useState(false);
@@ -26,11 +26,11 @@ const AdminPublicationList: FC<{
       (async () => {
         const start = (activePage - 1) * ITEMS_COUNT_DEFAULT;
         try {
-          const { articles, count } = await request(
-            `${domainURL}/api/publications/admins/list/${start}`
+          const { authors, count } = await request(
+            `${domainURL}/api/authors/admins/list/${start}`
           );
-          setArticles(articles);
-          setArticlesCount(count);
+          setAuthors(authors);
+          setAuthorsCount(count);
         } catch (err) {}
       })();
     }
@@ -42,41 +42,21 @@ const AdminPublicationList: FC<{
     }
     setActivePage(pageNumber);
   };
-  const handlePublished = async (id: number) => {
-    setIsSent(true);
-    try {
-      const res = await request(
-        `${domainURL}/api/publications/admins/status/${id}`
-      );
-      if (res.status === 200) {
-        setIsSent(false);
-      } else {
-        setIsSent(false);
-        alert('Что-то пошло не так!');
-      }
-    } catch (err) {
-      setIsSent(false);
-      alert('Что-то пошло не так!');
-    }
-  };
 
   const handleEdit = (id: number) => {
-    callback(privateViewStates.editPublication);
+    callback(privateViewStates.editAuthor);
     setId(id);
   };
 
   const handleNew = () => {
-    callback(privateViewStates.editPublication);
+    callback(privateViewStates.editAuthor);
     setId(null);
   };
 
   const handleDelete = async (id: number) => {
     setIsSent(true);
     try {
-      const res = await request(
-        `${domainURL}/api/publications/${id}`,
-        'DELETE'
-      );
+      const res = await request(`${domainURL}/api/authors/${id}`, 'DELETE');
       if (res.status === 200) {
         setIsSent(false);
         alert('Удалено!');
@@ -90,6 +70,40 @@ const AdminPublicationList: FC<{
     }
   };
 
+  const handleSearch = async (event: ChangeEvent<HTMLInputElement>) => {
+    setIsSearch(true);
+    const str = event.target.value;
+
+    if (str === '') {
+      setAuthors([]);
+      setIsInputFill(false);
+      setIsSearch(false);
+      setActivePage(1);
+    } else {
+      setIsInputFill(true);
+    }
+
+    if (str !== '') {
+      try {
+        const response = await request(
+          `${domainURL}/api/authors/search/${str}`
+        );
+
+        if (response.status === 404 || response.status === 500) {
+          setAuthors([]);
+          setIsSearch(false);
+          return;
+        }
+
+        setAuthors(response);
+        setIsSearch(false);
+      } catch (err) {
+        setAuthors([]);
+        setIsSearch(false);
+      }
+    }
+  };
+
   return (
     <section className={styles.main}>
       {isSent && (
@@ -99,68 +113,31 @@ const AdminPublicationList: FC<{
       )}
       <section className={styles.articles}>
         <div className={styles.top_wrap}>
-          <h2 className={styles.articles__titile}>Публикации</h2>
-          <button onClick={handleNew}>Создать новую</button>
+          <h2 className={styles.articles__titile}>Авторы</h2>
+          <button onClick={handleNew}>Создать нового</button>
         </div>
         <div className={styles.search__wrap}>
           <div className={styles.search}>
             <div className={styles.search__icon}>
               <SearchIcon />
             </div>
-            <input
-              id={'search'}
-              type={'text'}
-              onChange={async (event) => {
-                setIsSearch(true);
-                const str = event.target.value;
-
-                if (str === '') {
-                  setArticles([]);
-                  setIsInputFill(false);
-                  setIsSearch(false);
-                  setActivePage(1);
-                } else {
-                  setIsInputFill(true);
-                }
-
-                if (str !== '') {
-                  try {
-                    const response = await fetch(
-                      `${domainURL}/api/publications/search/${str.toLowerCase()}`
-                    );
-
-                    if (response.status === 404) {
-                      setArticles([]);
-                      setIsSearch(false);
-                      return;
-                    }
-
-                    const foundArticles = await response.json();
-                    setArticles(foundArticles);
-                    setIsSearch(false);
-                  } catch (err) {
-                    setArticles([]);
-                    setIsSearch(false);
-                  }
-                }
-              }}
-            />
+            <input id={'search'} type={'text'} onChange={handleSearch} />
             <div>{isSearch && <Spinner />}</div>
           </div>
         </div>
         <AdminTable
-          options={articles}
-          isPublications={true}
-          handlePublished={handlePublished}
+          options={authors}
+          isPublications={false}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
+          handlePublished={() => {}}
         />
         <section className={styles.pagination}>
           {!isInputFill && (
             <Pagination
               activePage={activePage}
               itemsCountPerPage={ITEMS_COUNT_DEFAULT}
-              totalItemsCount={articlesCount}
+              totalItemsCount={authorsCount}
               onChange={handlePageChange}
               hideDisabled={true}
               prevPageText={'<'}
@@ -175,4 +152,4 @@ const AdminPublicationList: FC<{
   );
 };
 
-export default AdminPublicationList;
+export default AdminAuthorList;

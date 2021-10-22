@@ -26,7 +26,7 @@ const Tags: FC = () => {
         {tags.slice(0, count).map((it, i) => {
           return (
             <li className={styles.item} key={i}>
-              <Link href={`/tags/${it.id}?order=0&sort=updated_at&page=1`}>
+              <Link href={`/tags/${it.id}?order=0&sort=date&page=1`}>
                 <a className={styles.link}>{it.name}</a>
               </Link>
             </li>

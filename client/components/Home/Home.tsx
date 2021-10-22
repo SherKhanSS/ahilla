@@ -14,7 +14,7 @@ const Home: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
     <section className={styles.main}>
       <section className={styles.articles}>
         <h2 className={styles.articles__titile}>
-          <Link href="/articles?order=0&sort=updated_at&page=1">
+          <Link href="/articles?order=0&sort=date&page=1">
             <a className={styles.articles__link}>Статьи</a>
           </Link>
         </h2>
@@ -27,7 +27,7 @@ const Home: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
             );
           })}
         </ul>
-        <Link href="/articles?order=0&sort=updated_at&page=1">
+        <Link href="/articles?order=0&sort=date&page=1">
           <a className={styles.more}>
             <span>Все статьи</span>
             <ArrowMore />
@@ -36,7 +36,7 @@ const Home: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
       </section>
       <section className={styles.news}>
         <h2 className={styles.news__titile}>
-          <Link href="/news?order=0&sort=updated_at&page=1">
+          <Link href="/news?order=0&sort=date&page=1">
             <a className={styles.news__link}>Новости</a>
           </Link>
         </h2>
@@ -50,7 +50,7 @@ const Home: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
               );
             })}
           </ul>
-          <Link href="/news?order=0&sort=updated_at&page=1">
+          <Link href="/news?order=0&sort=date&page=1">
             <a className={styles.more}>
               <span>Все новости</span>
               <ArrowMore />
@@ -62,4 +62,4 @@ const Home: FC<{ articles: ArticleType[]; news: ArticleType[] }> = ({
   );
 };
 
-export default Home
+export default Home;

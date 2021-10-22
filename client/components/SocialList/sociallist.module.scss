@@ -21,11 +21,12 @@
 
   path {
     transition: $delay;
+    fill: $color;
   }
 
   &:hover {
     path {
-      fill: $color;
+      fill: #000;
     }
   }
 

@@ -8,7 +8,7 @@ import Pagination from 'react-js-pagination';
 const ITEMS_COUNT_DEFAULT = 10;
 const LAST_FIRST = 0;
 const FIRST_FIRST = 1;
-const DATE_SORT = 'updated_at';
+const DATE_SORT = 'date';
 const VIEWS_SORT = 'views';
 
 const Sort: FC<{
@@ -22,7 +22,7 @@ const Sort: FC<{
   const { order, sort, page } =
     query.order && query.sort && query.page
       ? query
-      : { order: 0, sort: 'updated_at', page: 1 };
+      : { order: 0, sort: 'date', page: 1 };
   const initialPage = page ?? 1;
   const [activePage, setActivePage] = useState(+initialPage);
   const compositePath = id === undefined ? path : `${path}/${id}`;

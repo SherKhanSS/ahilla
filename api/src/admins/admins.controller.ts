@@ -7,9 +7,9 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 export class AdminsController {
   constructor(private adminsService: AdminsService) {}
 
-  @UsePipes(ValidationPipe)
-  @Post()
-  create(@Body() adminDto: CreateAdminDto) {
-    return this.adminsService.createAdmin(adminDto);
-  }
+  // @UsePipes(ValidationPipe)
+  // @Post()
+  // create(@Body() adminDto: CreateAdminDto) {
+  //   return this.adminsService.createAdmin(adminDto);
+  // }
 }

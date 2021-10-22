@@ -77,7 +77,7 @@ const Authors: FC<{
           {currentAuthors?.map((it: any, i: number) => {
             return (
               <li className={styles.authors_item} key={i}>
-                <Link href={`/${path}/${it.id}?order=0&sort=updated_at&page=1`}>
+                <Link href={`/${path}/${it.id}?order=0&sort=date&page=1`}>
                   <a className={styles.authors_link}>{it.name}</a>
                 </Link>
               </li>

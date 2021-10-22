@@ -67,7 +67,7 @@ const Archives: FC = () => {
                     <Link
                       href={`/archives/${getDateId(
                         it
-                      )}?order=0&sort=updated_at&page=1`}
+                      )}?order=0&sort=date&page=1`}
                     >
                       <a className={styles.link}>{formatDateForArchives(it)}</a>
                     </Link>

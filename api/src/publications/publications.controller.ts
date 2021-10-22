@@ -7,22 +7,25 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { CreatePublicationsDto } from './dto/create-publications.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('publications')
 export class PublicationsController {
   constructor(private publicationsService: PublicationsService) {}
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() publicationDto: CreatePublicationsDto) {
     return this.publicationsService.createPublication(publicationDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   update(@Body() publicationDto: CreatePublicationsDto, @Param() params) {
     return this.publicationsService.updatePublication(
@@ -31,11 +34,13 @@ export class PublicationsController {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   delete(@Param() params) {
     return this.publicationsService.deletePublication(params.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('add-image')
   @UseInterceptors(FileInterceptor('image'))
   createImage(@UploadedFile() image) {
@@ -94,22 +99,6 @@ export class PublicationsController {
     return this.publicationsService.getDateMark();
   }
 
-  // @Get('tags/:id/:offset/:limit/:increase/:sort')
-  // getTagsPublications(@Param() params) {
-  //   return this.publicationsService.getTagsPublications(
-  //     params.id,
-  //     params.offset,
-  //     params.limit,
-  //     params.increase,
-  //     params.sort,
-  //   );
-  // }
-
-  // @Get(':id')
-  // getOneById(@Param() params) {
-  //   return this.publicationsService.getPublicationById(params.id);
-  // }
-
   @Get('main-news')
   getMainNews() {
     return this.publicationsService.getNewsForMainPage();
@@ -135,16 +124,19 @@ export class PublicationsController {
     return this.publicationsService.getPublicationBySlug(params.slug);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('id/:id')
   getOneById(@Param() params) {
     return this.publicationsService.getPublicationById(params.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('admins/list/:start')
   getFullList(@Param() params) {
     return this.publicationsService.getPublicationsForAdminList(params.start);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('admins/status/:id')
   setStatus(@Param() params) {
     return this.publicationsService.setPublished(params.id);

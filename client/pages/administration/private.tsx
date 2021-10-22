@@ -8,67 +8,108 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import AdminPublicationList from '../../components/AdminPublicationList/AdminPublicationList';
 import AdminEditPublication from '../../components/AdminEditPublication/AdminEditPublication';
-
-const UNAUTHORIZED_STATUS = 401;
+import AdminAuthorList from '../../components/AdminAuthorList/AdminAuthorList';
+import AdminEditAuthor from '../../components/AdminEditAuthor/AdminEditAuthor';
+import AdminTagList from '../../components/AdminTagList/AdminTagList';
+import AdminEditTag from '../../components/AdminEditTag/AdminEditTag';
 
 const redirect = {
   redirect: {
-    destination: '/login',
+    destination: '/administration/login',
     permanent: false,
   },
 };
 
 const getView = (
   view: string,
-  callback: (view: string) => void
+  currentEntityId: number | null,
+  callback: (view: string) => void,
+  setId: (id: number | null) => void
 ): ReactElement | null => {
   switch (view) {
     case privateViewStates.publications:
-      return <AdminPublicationList />;
+      return <AdminPublicationList callback={callback} setId={setId} />;
 
     case privateViewStates.editPublication:
-      return <AdminEditPublication callback={callback} />;
+      return (
+        <AdminEditPublication
+          currentEntityId={currentEntityId}
+          callback={callback}
+          setId={setId}
+        />
+      );
+
+    case privateViewStates.authors:
+      return <AdminAuthorList callback={callback} setId={setId} />;
+
+    case privateViewStates.editAuthor:
+      return (
+        <AdminEditAuthor
+          currentEntityId={currentEntityId}
+          callback={callback}
+          setId={setId}
+        />
+      );
+
+    case privateViewStates.tags:
+      return <AdminTagList callback={callback} setId={setId} />;
+
+    case privateViewStates.editTag:
+      return (
+        <AdminEditTag
+          currentEntityId={currentEntityId}
+          callback={callback}
+          setId={setId}
+        />
+      );
 
     default:
       return null;
   }
 };
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const cookies = ctx.req.headers.cookie;
-//   const { token } =
-//     cookies === undefined ? { token: '' } : cookie.parse(cookies);
-//
-//   try {
-//     const response = await fetch(`${domainURL}/api/check`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//
-//     if (response.status === UNAUTHORIZED_STATUS) return redirect;
-//   } catch (err) {
-//     return redirect;
-//   }
-//
-//   return {
-//     props: {},
-//   };
-// };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const cookies = ctx.req.headers.cookie;
+  const { token, view } =
+    cookies === undefined ? { token: '', view: 'null' } : cookie.parse(cookies);
 
-const Private: FC = () => {
-  const [currentView, setCurrentView] = useState(
-    privateViewStates.publications
-  );
+  try {
+    const response = await fetch(`${domainURL}/api/auth/check`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      return {
+        props: { view },
+      };
+    }
+  } catch (err) {
+    return redirect;
+  }
+  return redirect;
+};
+
+const Private: FC<{ view: string }> = ({ view }) => {
+  const initialView = view !== 'null' ? view : privateViewStates.publications;
+
+  const [currentView, setCurrentView] = useState(initialView);
+  const [currentEntityId, setCurrentEntityId] = useState<number | null>(null);
   const router = useRouter();
+
+  const setId = (id: number | null) => {
+    setCurrentEntityId(id);
+  };
 
   const onMenuItemClick = (menuItem: string) => {
     document.cookie = `view=${menuItem}`;
     setCurrentView(menuItem);
+    setId(null);
   };
 
   const logOut = async () => {
     document.cookie = `token=null`;
+    document.cookie = `view=null`;
     await router.push('/');
   };
 
@@ -81,7 +122,7 @@ const Private: FC = () => {
         onMenuItemClick={onMenuItemClick}
         logOut={logOut}
       />
-      <div>{getView(currentView, onMenuItemClick)}</div>
+      <div>{getView(currentView, currentEntityId, onMenuItemClick, setId)}</div>
       <Footer />
     </>
   );

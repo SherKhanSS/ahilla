@@ -21,10 +21,10 @@ const MobileHome: FC<{
           })}
         </ul>
         <div className={styles.links_wrap}>
-          <Link href="/articles?order=0&sort=updated_at&page=1">
+          <Link href="/articles?order=0&sort=date&page=1">
             <a className={styles.link}>Все статьи</a>
           </Link>
-          <Link href="/news?order=0&sort=updated_at&page=1">
+          <Link href="/news?order=0&sort=date&page=1">
             <a className={styles.link}>Все новости</a>
           </Link>
         </div>

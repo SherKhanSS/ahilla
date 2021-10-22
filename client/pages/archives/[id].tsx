@@ -5,6 +5,7 @@ import OnePublication from '../../components/OnePublication/OnePublication';
 import { ArticleType } from '../../types';
 import Articles from '../../components/Articles/Articles';
 import { formatDateForArchives } from '../../utils';
+import Head from 'next/head';
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 const LIMIT = 10;
@@ -20,6 +21,16 @@ const Article: FC<{ articles: ArticleType[]; count: number; id: string }> = ({
 
   return (
     <Layout>
+      <Head>
+        <title key={'title'}>{title}</title>
+        <meta key={'description'} name="description" content={title} />
+        <meta key={'og-title'} property="og:title" content={title} />
+        <meta
+          key={'og-description'}
+          property="og:description"
+          content={title}
+        />
+      </Head>
       <Articles
         articles={articles}
         path={path}
@@ -50,13 +61,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (
     order === undefined ||
     (+order !== 0 && +order !== 1) ||
-    (sort !== 'updated_at' && sort !== 'views') ||
+    (sort !== 'date' && sort !== 'views') ||
     page === undefined ||
     +page < 1
   ) {
     return {
       redirect: {
-        destination: `/archives/${id}?order=0&sort=updated_at&page=1`,
+        destination: `/archives/${id}?order=0&sort=date&page=1`,
         permanent: false,
       },
     };
@@ -83,7 +94,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     if (count < start) {
       return {
         redirect: {
-          destination: `/archives/${id}?order=0&sort=updated_at&page=1`,
+          destination: `/archives/${id}?order=0&sort=date&page=1`,
           permanent: false,
         },
       };

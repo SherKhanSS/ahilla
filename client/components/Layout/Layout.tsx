@@ -10,8 +10,19 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Ахилла</title>
         <link rel="icon" href="/favicon.ico" />
+        <title key={'title'}>Ахилла</title>
+        <meta
+          key={'description'}
+          name="description"
+          content="Независимый аналитический проект «Ахилла»"
+        />
+        <meta key={'og-title'} property="og:title" content="Ахилла" />
+        <meta
+          key={'og-description'}
+          property="og:description"
+          content="Независимый аналитический проект «Ахилла»"
+        />
       </Head>
       <Header />
       <main className={styles.main}>

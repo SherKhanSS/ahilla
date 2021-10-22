@@ -6,6 +6,7 @@ import { Admin } from './admins.model';
 @Injectable()
 export class AdminsService {
   constructor(@InjectModel(Admin) private adminRepository: typeof Admin) {}
+
   async createAdmin(dto: CreateAdminDto) {
     return await this.adminRepository.create(dto);
   }

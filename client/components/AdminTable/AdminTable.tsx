@@ -21,7 +21,7 @@ const AdminTable: FC<PropsType> = ({
   return (
     <div className={styles.table}>
       <ul className={styles.body}>
-        {options.map((it) => (
+        {options?.map((it) => (
           <li className={styles.row} key={it.id}>
             <div className={styles.name}>{it.name}</div>
             <div className={styles.buttons}>

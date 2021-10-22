@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import styles from './admin-edit-publication.module.scss';
 // import Spinner from '../Icons/Spinner';
-import { domainURL } from '../../constants';
+import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import { useQuill } from 'react-quilljs';
 import OnePublication from '../OnePublication/OnePublication';
@@ -53,18 +53,24 @@ const getOptions = (arr: AuthorType[] | TagType[]) => {
 const saveToServer = async (file: File) => {
   const body = new FormData();
   body.append('image', file);
+  const token = localStorage.token ? localStorage.token : '';
 
   const res = await fetch(`${domainURL}/api/publications/add-image`, {
     method: 'POST',
     body,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   let { uploadedImageName } = await res.json();
   return uploadedImageName;
 };
 
-const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
-  callback,
-}) => {
+const AdminEditPublication: FC<{
+  currentEntityId: number | null;
+  callback: (view: string) => void;
+  setId: (id: number | null) => void;
+}> = ({ currentEntityId, callback, setId }) => {
   const [article, setArticle] = useState<InitialArticle>(initialArticle);
   const [initialContent, setInitialContent] = useState('Хелллоу, миг!');
   const [content, setContent] = useState('');
@@ -75,27 +81,28 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
   const [preview, setPreview] = useState<any>(null);
-  const [id, setId] = useState<number | null>(30);
   const { request } = useHttp();
   const { quill, quillRef } = useQuill();
 
   useEffect(() => {
-    if (id !== null) {
+    if (currentEntityId !== null) {
       (async () => {
         try {
           const article = await request(
-            `${domainURL}/api/publications/id/${id}`
+            `${domainURL}/api/publications/id/${currentEntityId}`
           );
-          const authorArr = [article.author];
+          const authorArr = article.author !== null ? [article.author] : [];
           const authorOptions = getOptions(authorArr);
           setArticle(article);
           setInitialContent(article.content);
           setSelectedAuthor(authorOptions[0]);
           setSelectedTags(getOptions(article.tags));
-        } catch (err) {}
+        } catch (err) {
+          console.log(err);
+        }
       })();
     }
-  }, [id, request]);
+  }, [currentEntityId, request]);
 
   useEffect(() => {
     (async () => {
@@ -170,16 +177,23 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
 
     try {
       const res =
-        id === null
+        currentEntityId === null
           ? await request(`${domainURL}/api/publications`, 'POST', article)
-          : await request('');
-
-      const data = await res.json();
-      console.log(data);
-      // setId(null);
-      // alert('Ok');
+          : await request(
+              `${domainURL}/api/publications/${currentEntityId}`,
+              'PUT',
+              article
+            );
+      if (res.status === 201) {
+        alert('Успешно');
+        setId(null);
+        callback(privateViewStates.publications);
+      } else {
+        alert('Что-то пошло не так');
+      }
     } catch (err) {
       console.log(err);
+      alert('Что-то пошло не так');
     }
   };
 
@@ -329,10 +343,11 @@ const AdminEditPublication: FC<{ callback: (view: string) => void }> = ({
         <button onClick={handleSubmit}>Сохранить</button>
         <button
           onClick={() => {
+            callback(privateViewStates.publications);
             setId(null);
           }}
         >
-          Отменить изменения
+          Вернуться к списку
         </button>
       </div>
     </section>

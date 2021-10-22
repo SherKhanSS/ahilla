@@ -3,6 +3,7 @@ import Layout from '../../components/Layout/Layout';
 import Authors from '../../components/Authors/Authors';
 import { GetServerSideProps } from 'next';
 import { TagType } from '../../types';
+import Head from 'next/head';
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
@@ -14,6 +15,16 @@ const Main: FC<{ tags: TagType[] }> = ({ tags }) => {
 
   return (
     <Layout>
+      <Head>
+        <title key={'title'}>{title}</title>
+        <meta key={'description'} name="description" content={description} />
+        <meta key={'og-title'} property="og:title" content={title} />
+        <meta
+          key={'og-description'}
+          property="og:description"
+          content={description}
+        />
+      </Head>
       <Authors
         authors={tags}
         path={path}
