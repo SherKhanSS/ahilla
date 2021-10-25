@@ -12,6 +12,7 @@ import AdminAuthorList from '../../components/AdminAuthorList/AdminAuthorList';
 import AdminEditAuthor from '../../components/AdminEditAuthor/AdminEditAuthor';
 import AdminTagList from '../../components/AdminTagList/AdminTagList';
 import AdminEditTag from '../../components/AdminEditTag/AdminEditTag';
+import AdminEditPublicationPreview from '../../components/AdminEditPublicationPreview/AdminEditPublicationPreview';
 
 const redirect = {
   redirect: {
@@ -63,6 +64,15 @@ const getView = (
         />
       );
 
+    case privateViewStates.editPublicationPreview:
+      return (
+        <AdminEditPublicationPreview
+          currentEntityId={currentEntityId}
+          callback={callback}
+          setId={setId}
+        />
+      );
+
     default:
       return null;
   }
@@ -70,8 +80,12 @@ const getView = (
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const cookies = ctx.req.headers.cookie;
-  const { token, view } =
+  let { token, view } =
     cookies === undefined ? { token: '', view: 'null' } : cookie.parse(cookies);
+
+  if (view === undefined) {
+    view = 'null';
+  }
 
   try {
     const response = await fetch(`${domainURL}/api/auth/check`, {
@@ -104,7 +118,6 @@ const Private: FC<{ view: string }> = ({ view }) => {
   const onMenuItemClick = (menuItem: string) => {
     document.cookie = `view=${menuItem}`;
     setCurrentView(menuItem);
-    setId(null);
   };
 
   const logOut = async () => {

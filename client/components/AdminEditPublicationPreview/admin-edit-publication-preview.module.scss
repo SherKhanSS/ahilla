@@ -1,0 +1,48 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0;
+
+  button {
+    @include button;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .main {
+    padding: 20px;
+  }
+
+  .buttons {
+    flex-direction: row;
+    justify-content: center;
+    padding: 20px;
+
+    button {
+      margin: 0 10px;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main {
+    padding: 40px 200px;
+  }
+
+  .buttons {
+    padding-top: 40px;
+  }
+}

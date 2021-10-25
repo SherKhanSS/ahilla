@@ -56,7 +56,7 @@ const OnePublication: FC<ArticleType> = ({
             <span>Просмотры: {views}</span>
           </div>
         </div>
-        <div className={styles.wrap}>
+        <div className={'ql-editor'}>
           <div className={styles.text}>
             {/*<div dangerouslySetInnerHTML={{ __html: content }} />*/}
             <DangerousHtml str={editContent} />

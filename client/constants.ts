@@ -7,6 +7,7 @@ export const privateViewStates = {
   editAuthor: 'editAuthor',
   tags: 'tags',
   editTag: 'editTag',
+  editPublicationPreview: 'editPublicationPreview',
 };
 
 export const adminMenu = [

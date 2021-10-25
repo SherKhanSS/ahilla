@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const response = await fetch(`${domainURL}/api/publications/${slug}`);
 
-    if (response.status === 500) {
+    if (response.status === 500 || response.status === 404) {
       return {
         redirect: {
           destination: '/404',

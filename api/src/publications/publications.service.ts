@@ -32,7 +32,7 @@ export class PublicationsService {
     const publication = await this.publicationRepository.create(dto);
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
-    return { status: HttpStatus.CREATED };
+    return { status: HttpStatus.CREATED, id: publication.id };
   }
 
   async updatePublication(id: string, dto: CreatePublicationsDto) {
@@ -55,7 +55,7 @@ export class PublicationsService {
     await publication.save();
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
-    return { status: HttpStatus.CREATED };
+    return { status: HttpStatus.CREATED, id: publication.id };
   }
 
   async setPublished(id: string) {

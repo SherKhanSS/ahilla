@@ -2,9 +2,9 @@ import type { AppProps } from 'next/app';
 import { FC } from 'react';
 import { Provider } from '../context/state';
 import '../styles/normalize.scss';
+import 'quill/dist/quill.snow.css';
 import '../styles/globals.scss';
 import NextNprogress from 'nextjs-progressbar';
-import 'quill/dist/quill.snow.css';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
