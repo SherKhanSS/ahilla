@@ -4,12 +4,27 @@ import OnePublication from '../OnePublication/OnePublication';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 
+const initial = {
+  name: '',
+  author: {
+    name: '',
+    id: 0,
+    slug: '',
+  },
+  image: '',
+  date: '',
+  content: '',
+  views: 0,
+  description: '',
+  author_id: 0,
+};
+
 const AdminEditPublicationPreview: FC<{
   currentEntityId: number | null;
   callback: (view: string) => void;
   setId: (id: number | null) => void;
 }> = ({ currentEntityId, callback, setId }) => {
-  const [publication, setPublication] = useState(null);
+  const [publication, setPublication] = useState(initial);
   const { request } = useHttp();
 
   useEffect(() => {
@@ -25,13 +40,18 @@ const AdminEditPublicationPreview: FC<{
     })();
   }, [currentEntityId, request]);
 
-  const handlePreview = () => {
-    callback(privateViewStates.editPublication);
-  };
-
   return (
     <section className={styles.main}>
-      {publication && <OnePublication {...publication} />}
+      <OnePublication
+        id={0}
+        slug={''}
+        is_news={false}
+        is_published={false}
+        created_at={''}
+        updated_at={''}
+        tags={[]}
+        {...publication}
+      />
       <div className={styles.buttons}>
         <button
           onClick={() => {
