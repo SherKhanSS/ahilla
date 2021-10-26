@@ -93,6 +93,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response);
     if (response.status === 200) {
       return {
         props: { view },

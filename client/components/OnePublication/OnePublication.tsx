@@ -7,6 +7,19 @@ import { ArticleType } from '../../types';
 import { DangerousHtml } from '../DangerousHtml';
 import Views from '../Icons/Views';
 import Head from 'next/head';
+import Tag from '../Icons/Tag';
+import {
+  FacebookShareButton,
+  LivejournalShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  VKShareButton,
+  FacebookShareCount,
+  VKShareCount,
+} from 'react-share';
+import { FBIcon, JJIcon, TGIcon, TVIcon, VKIcon } from '../Icons/SocialIcons';
+
+const domainURL = 'https://ahilla.ru';
 
 const OnePublication: FC<ArticleType> = ({
   name,
@@ -17,6 +30,8 @@ const OnePublication: FC<ArticleType> = ({
   views,
   description,
   author_id,
+  tags,
+  slug,
 }) => {
   const editContent = content.replace(/\n/g, '</br>');
 
@@ -61,6 +76,59 @@ const OnePublication: FC<ArticleType> = ({
             {/*<div dangerouslySetInnerHTML={{ __html: content }} />*/}
             <DangerousHtml str={editContent} />
           </div>
+        </div>
+        <div className={styles.tags}>
+          <Tag />
+          {tags?.map((it, i, arr) => {
+            return (
+              <span key={i}>
+                <Link href={`/tags/${it?.id}?order=0&sort=date&page=1`}>
+                  <a className={styles.tags_link}>{it?.name}</a>
+                </Link>
+                <span>{arr.length - 1 !== i ? ', ' : ''}</span>
+              </span>
+            );
+          })}
+        </div>
+        <div className={styles.socials_wrap}>
+          <div className={styles.socials_title}>Поделиться:</div>
+          <ul className={styles.socials}>
+            <li className={styles.socials_items}>
+              <FacebookShareButton url={`${domainURL}/${slug}`}>
+                <FBIcon />
+              </FacebookShareButton>
+              {/*<div className={styles.socials_count}>*/}
+              {/*  <FacebookShareCount url={`${domainURL}/${slug}`}>*/}
+              {/*    {(count) => count}*/}
+              {/*  </FacebookShareCount>*/}
+              {/*</div>*/}
+            </li>
+            <li className={styles.socials_items}>
+              <VKShareButton url={`${domainURL}/${slug}`}>
+                <VKIcon />
+              </VKShareButton>
+              {/*<div className={styles.socials_count}>*/}
+              {/*  <VKShareCount url={`${domainURL}/${slug}`}>*/}
+              {/*    {(count) => count}*/}
+              {/*  </VKShareCount>*/}
+              {/*</div>*/}
+            </li>
+            <li className={styles.socials_items}>
+              <TelegramShareButton url={`${domainURL}/${slug}`}>
+                <TGIcon />
+              </TelegramShareButton>
+            </li>
+            <li className={styles.socials_items}>
+              <TwitterShareButton url={`${domainURL}/${slug}`}>
+                <TVIcon />
+              </TwitterShareButton>
+            </li>
+            <li className={styles.socials_items}>
+              <LivejournalShareButton url={`${domainURL}/${slug}`}>
+                <JJIcon />
+              </LivejournalShareButton>
+            </li>
+          </ul>
         </div>
       </article>
     </>
