@@ -186,6 +186,8 @@ const AdminEditPublication: FC<{
       return;
     }
 
+    console.log(newArticle);
+
     try {
       const res =
         currentEntityId === null
@@ -201,7 +203,6 @@ const AdminEditPublication: FC<{
           setId(res.id);
           callback(privateViewStates.editPublicationPreview);
         } else {
-          alert('Успешно!');
           setId(null);
           callback(privateViewStates.publications);
         }

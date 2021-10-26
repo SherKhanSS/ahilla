@@ -49,8 +49,8 @@ export class PublicationsService {
     publication.date = dto.date || publication.date;
     publication.description = dto.description || publication.description;
     publication.content = dto.content || publication.content;
-    publication.is_news = dto.is_news || publication.is_news;
-    publication.is_published = dto.is_published || publication.is_published;
+    publication.is_news = dto.is_news;
+    publication.is_published = dto.is_published;
 
     await publication.save();
     const tags = await this.tagService.getTagByIds(dto.tags);
