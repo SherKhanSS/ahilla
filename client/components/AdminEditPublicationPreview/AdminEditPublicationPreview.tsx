@@ -4,27 +4,12 @@ import OnePublication from '../OnePublication/OnePublication';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 
-const initial = {
-  name: '',
-  author: {
-    name: '',
-    id: 0,
-    slug: '',
-  },
-  image: '',
-  date: '',
-  content: '',
-  views: 0,
-  description: '',
-  author_id: 0,
-};
-
 const AdminEditPublicationPreview: FC<{
   currentEntityId: number | null;
   callback: (view: string) => void;
   setId: (id: number | null) => void;
 }> = ({ currentEntityId, callback, setId }) => {
-  const [publication, setPublication] = useState(initial);
+  const [publication, setPublication] = useState(null);
   const { request } = useHttp();
 
   useEffect(() => {
@@ -42,16 +27,10 @@ const AdminEditPublicationPreview: FC<{
 
   return (
     <section className={styles.main}>
-      <OnePublication
-        id={0}
-        slug={''}
-        is_news={false}
-        is_published={false}
-        created_at={''}
-        updated_at={''}
-        tags={[]}
-        {...publication}
-      />
+      {
+        // @ts-ignore
+        publication && <OnePublication {...publication} />
+      }
       <div className={styles.buttons}>
         <button
           onClick={() => {
@@ -63,7 +42,7 @@ const AdminEditPublicationPreview: FC<{
         <button
           onClick={() => {
             setId(null);
-            callback(privateViewStates.editPublication);
+            callback(privateViewStates.publications);
           }}
         >
           К списку публикаций

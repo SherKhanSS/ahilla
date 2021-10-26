@@ -4,7 +4,7 @@ import Image from 'next/image';
 import styles from './one-publication.module.scss';
 import { formatDate } from '../../utils';
 import { ArticleType } from '../../types';
-import { DangerousHtml } from '../DangerousHtml';
+// import { DangerousHtml } from '../DangerousHtml';
 import Views from '../Icons/Views';
 import Head from 'next/head';
 import Tag from '../Icons/Tag';
@@ -18,8 +18,7 @@ import {
   VKShareCount,
 } from 'react-share';
 import { FBIcon, JJIcon, TGIcon, TVIcon, VKIcon } from '../Icons/SocialIcons';
-
-const domainURL = 'https://ahilla.ru';
+import { domainURL } from '../../constants';
 
 const OnePublication: FC<ArticleType> = ({
   name,
@@ -73,8 +72,8 @@ const OnePublication: FC<ArticleType> = ({
         </div>
         <div className={'ql-editor'}>
           <div className={styles.text}>
-            {/*<div dangerouslySetInnerHTML={{ __html: content }} />*/}
-            <DangerousHtml str={editContent} />
+            <div dangerouslySetInnerHTML={{ __html: content }} />
+            {/*<DangerousHtml str={editContent} />*/}
           </div>
         </div>
         <div className={styles.tags}>
