@@ -186,8 +186,6 @@ const AdminEditPublication: FC<{
       return;
     }
 
-    console.log(newArticle);
-
     try {
       const res =
         currentEntityId === null
