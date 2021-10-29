@@ -3,7 +3,6 @@ import styles from './admin-edit-publication.module.scss';
 // import Spinner from '../Icons/Spinner';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
-import { useQuill } from 'react-quilljs';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
 import dynamic from 'next/dynamic';
 import {
@@ -15,6 +14,9 @@ import {
 } from '../../types';
 
 const Select = dynamic(() => import('react-select'), {
+  ssr: false,
+});
+const Editor = dynamic(() => import('../AdminEditor/AdminEditor'), {
   ssr: false,
 });
 const transliteration = new cyrillicToTranslit();
@@ -90,7 +92,6 @@ const AdminEditPublication: FC<{
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
   const { request } = useHttp();
-  const { quill, quillRef } = useQuill();
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -123,40 +124,40 @@ const AdminEditPublication: FC<{
     })();
   }, [request]);
 
-  const insertToEditor = useCallback(
-    (url: string) => {
-      const range = quill?.getSelection();
-      if (range === null || range === undefined) {
-        alert('Ошибка вставки в редактор');
-        throw new Error('Ошибка вставки в редактор');
-      }
-      quill?.insertEmbed(range.index, 'image', url);
-    },
-    [quill]
-  );
+  // const insertToEditor = useCallback(
+  //   (url: string) => {
+  //     const range = quill?.getSelection();
+  //     if (range === null || range === undefined) {
+  //       alert('Ошибка вставки в редактор');
+  //       throw new Error('Ошибка вставки в редактор');
+  //     }
+  //     quill?.insertEmbed(range.index, 'image', url);
+  //   },
+  //   [quill]
+  // );
 
-  const insertImgToEditor = useCallback(
-    async (file: File) => {
-      insertToEditor(await saveToServer(file));
-    },
-    [insertToEditor]
-  );
+  // const insertImgToEditor = useCallback(
+  //   async (file: File) => {
+  //     insertToEditor(await saveToServer(file));
+  //   },
+  //   [insertToEditor]
+  // );
 
-  const selectLocalImage = useCallback(async () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/jpg');
-    input.click();
-
-    input.onchange = () => {
-      if (input.files === null) {
-        alert('Ошибка вставки файла');
-        throw new Error('Ошибка вставки файла');
-      }
-      const file = input.files[0];
-      insertImgToEditor(file);
-    };
-  }, [insertImgToEditor]);
+  // const selectLocalImage = useCallback(async () => {
+  //   const input = document.createElement('input');
+  //   input.setAttribute('type', 'file');
+  //   input.setAttribute('accept', 'image/jpg');
+  //   input.click();
+  //
+  //   input.onchange = () => {
+  //     if (input.files === null) {
+  //       alert('Ошибка вставки файла');
+  //       throw new Error('Ошибка вставки файла');
+  //     }
+  //     const file = input.files[0];
+  //     insertImgToEditor(file);
+  //   };
+  // }, [insertImgToEditor]);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
@@ -214,16 +215,6 @@ const AdminEditPublication: FC<{
       alert('Что-то пошло не так');
     }
   };
-
-  useEffect(() => {
-    if (quill) {
-      quill.clipboard.dangerouslyPasteHTML(initialContent);
-      quill.on('text-change', () => {
-        quill.getModule('toolbar').addHandler('image', selectLocalImage);
-        setContent(quill.root.innerHTML);
-      });
-    }
-  }, [initialContent, quill, selectLocalImage]);
 
   return (
     <section className={styles.main}>
@@ -295,7 +286,7 @@ const AdminEditPublication: FC<{
         />
       </label>
       <div className={styles.select_name}>Основное содержание</div>
-      <div className={styles.editor} ref={quillRef} />
+      <Editor />
       <label className={styles.check_wrap}>
         Опубликовано
         <input

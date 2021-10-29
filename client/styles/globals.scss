@@ -112,10 +112,15 @@ img {
   border-color: #bdf1a5;
 }
 
-.ql-container {
-  font-size: 14px;
-}
+//.ql-container {
+//  font-size: 14px;
+//}
+//
+//.ql-editor {
+//  padding: 0;
+//}
 
-.ql-editor {
-  padding: 0;
+.document-editor__editable-container {
+  border: 1px solid var(--ck-color-base-border);
+  border-radius: var(--ck-border-radius);
 }
