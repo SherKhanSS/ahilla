@@ -78,34 +78,34 @@ const getView = (
   }
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = ctx.req.headers.cookie;
-  let { token, view } =
-    cookies === undefined ? { token: '', view: 'null' } : cookie.parse(cookies);
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const cookies = ctx.req.headers.cookie;
+//   let { token, view } =
+//     cookies === undefined ? { token: '', view: 'null' } : cookie.parse(cookies);
+//
+//   if (view === undefined) {
+//     view = 'null';
+//   }
+//
+//   try {
+//     const response = await fetch(`${domainURL}/api/auth/check`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     console.log(response);
+//     if (response.status === 200) {
+//       return {
+//         props: { view },
+//       };
+//     }
+//   } catch (err) {
+//     return redirect;
+//   }
+//   return redirect;
+// };
 
-  if (view === undefined) {
-    view = 'null';
-  }
-
-  try {
-    const response = await fetch(`${domainURL}/api/auth/check`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(response);
-    if (response.status === 200) {
-      return {
-        props: { view },
-      };
-    }
-  } catch (err) {
-    return redirect;
-  }
-  return redirect;
-};
-
-const Private: FC<{ view: string }> = ({ view }) => {
+const Private: FC<{ view: string }> = ({ view=privateViewStates.editPublication }) => {
   const initialView = view !== 'null' ? view : privateViewStates.publications;
 
   const [currentView, setCurrentView] = useState(initialView);
