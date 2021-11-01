@@ -72,7 +72,7 @@ const OnePublication: FC<ArticleType> = ({
         </div>
         <div className={'ql-editor'}>
           <div className={styles.text}>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <div dangerouslySetInnerHTML={{ __html: editContent }} />
             {/*<DangerousHtml str={editContent} />*/}
           </div>
         </div>

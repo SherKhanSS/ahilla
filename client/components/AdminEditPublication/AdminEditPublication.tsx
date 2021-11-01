@@ -12,6 +12,7 @@ import {
   SelectOptions,
   TagType,
 } from '../../types';
+import { saveToServer } from '../../utils';
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
@@ -51,40 +52,14 @@ const getOptions = (arr: AuthorType[] | TagType[]) => {
   });
 };
 
-const getReversOptions = (arr: { label: string; value: number }[]) => {
-  return arr.map((it) => {
-    return {
-      id: it.value,
-      name: it.label,
-      slug: transliteration.transform(it.label, '-').toLowerCase(),
-    };
-  });
-};
-
-const saveToServer = async (file: File) => {
-  const body = new FormData();
-  body.append('image', file);
-  const token = localStorage.token ? localStorage.token : '';
-
-  const res = await fetch(`${domainURL}/api/publications/add-image`, {
-    method: 'POST',
-    body,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  let { uploadedImageName } = await res.json();
-  return uploadedImageName;
-};
-
 const AdminEditPublication: FC<{
   currentEntityId: number | null;
   callback: (view: string) => void;
   setId: (id: number | null) => void;
 }> = ({ currentEntityId, callback, setId }) => {
   const [article, setArticle] = useState<InitialArticle>(initialArticle);
-  const [initialContent, setInitialContent] = useState('Хелллоу, миг!');
-  const [content, setContent] = useState('');
+  const [initialContent, setInitialContent] = useState('Добавьте контент...');
+  const [content, setContent] = useState('Test');
   const [authors, setAuthors] = useState<SelectOptions>([]);
   const [tags, setTags] = useState<SelectOptions>([]);
   const [selectedAuthor, setSelectedAuthor] = useState<SelectElement | null>(
@@ -92,6 +67,7 @@ const AdminEditPublication: FC<{
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
   const { request } = useHttp();
+  const [isShowCKE, setIsShowCKE] = useState(true);
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -100,10 +76,11 @@ const AdminEditPublication: FC<{
           const article = await request(
             `${domainURL}/api/publications/id/${currentEntityId}`
           );
+          console.log(article);
           const authorArr = article.author !== null ? [article.author] : [];
           const authorOptions = getOptions(authorArr);
           setArticle(article);
-          setInitialContent(article.content);
+          setContent(article.content);
           setSelectedAuthor(authorOptions[0]);
           setSelectedTags(getOptions(article.tags));
         } catch (err) {
@@ -124,41 +101,6 @@ const AdminEditPublication: FC<{
     })();
   }, [request]);
 
-  // const insertToEditor = useCallback(
-  //   (url: string) => {
-  //     const range = quill?.getSelection();
-  //     if (range === null || range === undefined) {
-  //       alert('Ошибка вставки в редактор');
-  //       throw new Error('Ошибка вставки в редактор');
-  //     }
-  //     quill?.insertEmbed(range.index, 'image', url);
-  //   },
-  //   [quill]
-  // );
-
-  // const insertImgToEditor = useCallback(
-  //   async (file: File) => {
-  //     insertToEditor(await saveToServer(file));
-  //   },
-  //   [insertToEditor]
-  // );
-
-  // const selectLocalImage = useCallback(async () => {
-  //   const input = document.createElement('input');
-  //   input.setAttribute('type', 'file');
-  //   input.setAttribute('accept', 'image/jpg');
-  //   input.click();
-  //
-  //   input.onchange = () => {
-  //     if (input.files === null) {
-  //       alert('Ошибка вставки файла');
-  //       throw new Error('Ошибка вставки файла');
-  //     }
-  //     const file = input.files[0];
-  //     insertImgToEditor(file);
-  //   };
-  // }, [insertImgToEditor]);
-
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const file = e.target.files[0];
@@ -168,6 +110,10 @@ const AdminEditPublication: FC<{
         image: urlImg,
       });
     }
+  };
+
+  const onChangeEditor = (data: string) => {
+    setContent(data);
   };
 
   const handleSubmit = async (isWithPreview: boolean) => {
@@ -284,7 +230,26 @@ const AdminEditPublication: FC<{
         />
       </label>
       <div className={styles.select_name}>Основное содержание</div>
-      <Editor />
+      <div className={styles.editor_buttons}>
+        <button onClick={() => setIsShowCKE(true)}>Контент</button>
+        <button onClick={() => setIsShowCKE(false)}>
+          Разметка (не поддерживает историю изменений)
+        </button>
+      </div>
+      {isShowCKE ? (
+        <Editor initial={content} onChangeEditor={onChangeEditor} />
+      ) : (
+        <code>
+          <textarea
+            className={styles.code}
+            rows={3}
+            value={content}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
+          />
+        </code>
+      )}
       <label className={styles.check_wrap}>
         Опубликовано
         <input

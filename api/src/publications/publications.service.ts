@@ -42,6 +42,8 @@ export class PublicationsService {
       throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
     }
 
+    console.log(dto.content);
+
     publication.name = dto.name || publication.name;
     publication.slug = dto.slug || publication.slug;
     publication.author_id = dto.author_id || publication.author_id;

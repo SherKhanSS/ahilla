@@ -1,25 +1,71 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import styles from './admin-editor.module.scss';
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { FC } from 'react';
+// import styles from './admin-editor.module.scss';
+// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+// @ts-ignore
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { saveToServer } from '../../utils';
+// import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
+import Editor from '../ckeditor5/build/ckeditor';
 
-const AdminEditor: FC = () => {
+const AdminEditor: FC<{
+  initial: string;
+  onChangeEditor: (data: string) => void;
+}> = ({ initial, onChangeEditor }) => {
+  function uploadAdapter(loader: any) {
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          loader.file.then((file: File) => {
+            saveToServer(file)
+              .then((res) => {
+                resolve({
+                  default: `${res}`,
+                });
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          });
+        });
+      },
+    };
+  }
+
+  function uploadPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (
+      loader: any
+    ) => {
+      return uploadAdapter(loader);
+    };
+  }
+
   return (
     <div className="document-editor">
-      <div className="document-editor__toolbar"></div>
+      <div className="document-editor__toolbar" />
       <div className="document-editor__editable-container">
         <CKEditor
-          onReady={ editor => {
-            console.log( 'Editor is ready to use!', editor );
+          editor={Editor}
+          data={initial}
+          config={{
+            extraPlugins: [uploadPlugin],
+            // plugins: [HtmlEmbed],
+            // toolbar: ['htmlEmbed'],
+          }}
+          onReady={(editor: any) => {
+            // DecoupledEditor.builtinPlugins.map((it) => {
+            //   console.log(it.pluginName);
+            // });
+            // @ts-ignore
             window.editor = editor;
-
-            // Add these two lines to properly position the toolbar
-            const toolbarContainer = document.querySelector( '.document-editor__toolbar' );
-            toolbarContainer.appendChild( editor.ui.view.toolbar.element );
-          } }
-          onChange={ ( event, editor ) => console.log( { event, editor } ) }
-          editor={ DecoupledEditor }
-          data="<p>Hello from CKEditor 5's DecoupledEditor!</p>"
+            const toolbarContainer = document.querySelector(
+              '.document-editor__toolbar'
+            );
+            // @ts-ignore
+            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+          }}
+          onChange={(event: any, editor: { getData: () => string }) => {
+            onChangeEditor(editor.getData());
+          }}
         />
       </div>
     </div>
