@@ -141,4 +141,10 @@ export class PublicationsController {
   setStatus(@Param() params) {
     return this.publicationsService.setPublished(params.id);
   }
+
+  // @UseGuards(JwtAuthGuard)
+  @Get('admins/fill-meili-search')
+  fillMeiliSearch() {
+    return this.publicationsService.fillMeiliSearchPublications();
+  }
 }

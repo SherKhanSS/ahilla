@@ -1,10 +1,8 @@
 import { FC } from 'react';
 // import styles from './admin-editor.module.scss';
-// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 // @ts-ignore
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { saveToServer } from '../../utils';
-// import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed';
 import Editor from '../ckeditor5/build/ckeditor';
 
 const AdminEditor: FC<{
@@ -48,13 +46,18 @@ const AdminEditor: FC<{
           data={initial}
           config={{
             extraPlugins: [uploadPlugin],
-            // plugins: [HtmlEmbed],
-            // toolbar: ['htmlEmbed'],
+            htmlSupport: {
+              allow: [
+                {
+                  name: /.*/,
+                  attributes: true,
+                  classes: true,
+                  styles: true
+                }
+              ]
+            }
           }}
           onReady={(editor: any) => {
-            // DecoupledEditor.builtinPlugins.map((it) => {
-            //   console.log(it.pluginName);
-            // });
             // @ts-ignore
             window.editor = editor;
             const toolbarContainer = document.querySelector(

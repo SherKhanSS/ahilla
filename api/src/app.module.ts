@@ -13,6 +13,7 @@ import { AdminsModule } from './admins/admins.module';
 import { Admin } from './admins/admins.model';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
+import { MeiliSearchModule } from 'nestjs-meilisearch';
 
 @Module({
   imports: [
@@ -31,6 +32,12 @@ import * as path from 'path';
       database: process.env.POSTGRES_DB,
       models: [Publication, Tag, Author, PublicationsTags, Admin],
       autoLoadModels: true,
+    }),
+    MeiliSearchModule.forRootAsync({
+      useFactory: () => ({
+        host: 'http://127.0.0.1:7700',
+        apiKey: 'masterKey',
+      }),
     }),
     PublicationsModule,
     TagsModule,

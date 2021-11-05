@@ -7,6 +7,8 @@ import { Author } from '../authors/authors.model';
 import { PublicationsTags } from './publications-tags.model';
 import { Op } from 'sequelize';
 import { TagsService } from '../tags/tags.service';
+import { InjectMeiliSearch } from 'nestjs-meilisearch';
+import { MeiliSearch } from 'meilisearch';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -26,6 +28,7 @@ export class PublicationsService {
     private publicationsTagsRepository: typeof PublicationsTags,
     private fileService: FilesService,
     private tagService: TagsService,
+    @InjectMeiliSearch() private readonly meiliSearch: MeiliSearch,
   ) {}
 
   async createPublication(dto: CreatePublicationsDto) {
@@ -175,47 +178,21 @@ export class PublicationsService {
   }
 
   async getPublicationsByString(str) {
-    let articles = await this.publicationRepository.findAll({
-      order: [['date', 'DESC']],
-      where: {
-        name: {
-          [Op.substring]: str,
-        },
-        is_published: true,
-      },
-      offset: 0,
+    const index = this.meiliSearch.index('publications');
+    const search = await index.search(str, {
       limit: 10,
+      // sort: ['name:desc'],
     });
 
-    if (articles.length === 0) {
-      articles = await this.publicationRepository.findAll({
-        order: [['date', 'DESC']],
-        where: {
-          slug: {
-            [Op.substring]: str,
-          },
-        },
-        offset: 0,
-        limit: 10,
-      });
+    if (search.hits.length === 0) {
+      return { status: HttpStatus.NOT_FOUND };
     }
 
-    if (articles.length === 0) {
-      articles = await this.publicationRepository.findAll({
-        order: [['date', 'DESC']],
-        where: {
-          content: {
-            [Op.substring]: str,
-          },
-        },
-        offset: 0,
-        limit: 10,
-      });
-    }
+    const publications = search.hits;
 
-    checkAndFillDescriptionDeleteContent(articles);
+    checkAndFillDescriptionDeleteContent(publications);
 
-    return articles;
+    return publications;
   }
 
   async getPopularsPublication() {
@@ -343,5 +320,28 @@ export class PublicationsService {
     });
 
     return { count, articles: rows };
+  }
+
+  async fillMeiliSearchPublications() {
+    const index = this.meiliSearch.index('publications');
+    const publications = await this.publicationRepository.findAll({
+      where: {
+        is_published: true,
+      },
+      attributes: [
+        'id',
+        'name',
+        'slug',
+        'date',
+        'image',
+        'description',
+        'content',
+        'is_published',
+      ],
+      include: [{ model: Author, attributes: ['name'] }],
+    });
+    const response = await index.addDocuments(publications);
+    console.log({ MeiliSearch: response });
+    return { MeiliSearch: response };
   }
 }

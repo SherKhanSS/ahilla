@@ -67,7 +67,6 @@ const AdminEditPublication: FC<{
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
   const { request } = useHttp();
-  const [isShowCKE, setIsShowCKE] = useState(true);
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -76,11 +75,10 @@ const AdminEditPublication: FC<{
           const article = await request(
             `${domainURL}/api/publications/id/${currentEntityId}`
           );
-          console.log(article);
           const authorArr = article.author !== null ? [article.author] : [];
           const authorOptions = getOptions(authorArr);
           setArticle(article);
-          setContent(article.content);
+          setInitialContent(article.content);
           setSelectedAuthor(authorOptions[0]);
           setSelectedTags(getOptions(article.tags));
         } catch (err) {
@@ -230,26 +228,7 @@ const AdminEditPublication: FC<{
         />
       </label>
       <div className={styles.select_name}>Основное содержание</div>
-      <div className={styles.editor_buttons}>
-        <button onClick={() => setIsShowCKE(true)}>Контент</button>
-        <button onClick={() => setIsShowCKE(false)}>
-          Разметка (не поддерживает историю изменений)
-        </button>
-      </div>
-      {isShowCKE ? (
-        <Editor initial={content} onChangeEditor={onChangeEditor} />
-      ) : (
-        <code>
-          <textarea
-            className={styles.code}
-            rows={3}
-            value={content}
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
-          />
-        </code>
-      )}
+      <Editor initial={initialContent} onChangeEditor={onChangeEditor} />
       <label className={styles.check_wrap}>
         Опубликовано
         <input

@@ -3,6 +3,7 @@ import styles from './search.module.scss';
 import ArticleInner from '../ArticleInner/ArticleInner';
 import { ArticleType } from '../../types';
 import Spinner from '../Icons/Spinner';
+import { useHttp } from '../../hooks/http';
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
@@ -10,12 +11,15 @@ const Search: FC = () => {
   const [articles, setArticles] = useState([]);
   const [isSent, setIsSent] = useState(false);
   const [isInputFill, setIsInputFill] = useState(false);
+  const { request } = useHttp();
   const info =
     isInputFill && articles.length === 0 && !isSent
       ? 'Ничего не найдено!'
       : articles.length !== 0
       ? 'Результаты поиска:'
       : '';
+
+  console.log(articles)
 
   return (
     <section className={styles.main}>
@@ -38,7 +42,7 @@ const Search: FC = () => {
                 }
 
                 try {
-                  const response = await fetch(
+                  const response = await request(
                     `${domainURL}/api/publications/search/${str}`
                   );
 
@@ -48,8 +52,7 @@ const Search: FC = () => {
                     return;
                   }
 
-                  const foundArticles = await response.json();
-                  setArticles(foundArticles);
+                  setArticles(response);
                   setIsSent(false);
                 } catch (err) {
                   setArticles([]);

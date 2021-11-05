@@ -79,7 +79,6 @@ const AdminPublicationList: FC<{
       );
       if (res.status === 200) {
         setIsSent(false);
-        alert('Удалено!');
       } else {
         setIsSent(false);
         alert('Что-то пошло не так!');
@@ -125,7 +124,7 @@ const AdminPublicationList: FC<{
 
                 if (str !== '') {
                   try {
-                    const response = await fetch(
+                    const response = await request(
                       `${domainURL}/api/publications/search/${str.toLowerCase()}`
                     );
 
@@ -135,8 +134,7 @@ const AdminPublicationList: FC<{
                       return;
                     }
 
-                    const foundArticles = await response.json();
-                    setArticles(foundArticles);
+                    setArticles(response);
                     setIsSearch(false);
                   } catch (err) {
                     setArticles([]);

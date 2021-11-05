@@ -70,12 +70,13 @@ const OnePublication: FC<ArticleType> = ({
             <span>Просмотры: {views}</span>
           </div>
         </div>
-        <div className={'ql-editor'}>
           <div className={styles.text}>
-            <div dangerouslySetInnerHTML={{ __html: editContent }} />
+            <div className={'ck-content'}>
+              <div dangerouslySetInnerHTML={{ __html: content }} />
+            </div>
+
             {/*<DangerousHtml str={editContent} />*/}
           </div>
-        </div>
         <div className={styles.tags}>
           <Tag />
           {tags?.map((it, i, arr) => {
