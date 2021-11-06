@@ -142,9 +142,9 @@ export class PublicationsController {
     return this.publicationsService.setPublished(params.id);
   }
 
-  // @UseGuards(JwtAuthGuard)
-  @Get('admins/fill-meili-search')
-  fillMeiliSearch() {
-    return this.publicationsService.fillMeiliSearchPublications();
-  }
+  // для отладки
+  // @Get('admins/fill-meili-search')
+  // fillMeiliSearch() {
+  //   return this.publicationsService.fillMeiliSearchPublications();
+  // }
 }

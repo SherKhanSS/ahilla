@@ -56,4 +56,10 @@ export class AuthorsController {
   search(@Param() params) {
     return this.authorsService.getAuthorsByString(params.str);
   }
+
+  // для отладки
+  // @Get('admins/fill-meili-search')
+  // fillMeiliSearch() {
+  //   return this.authorsService.fillMeiliSearchAuthors();
+  // }
 }

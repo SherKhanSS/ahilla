@@ -2,7 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateTagsDto } from './dto/create-tags.dto';
 import { Tag } from './tags.model';
-import { Op } from 'sequelize';
+import { InjectMeiliSearch } from 'nestjs-meilisearch';
+import { MeiliSearch } from 'meilisearch';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -16,10 +17,15 @@ const checkAndFillDescriptionDeleteContent = (publications) => {
 
 @Injectable()
 export class TagsService {
-  constructor(@InjectModel(Tag) private tagRepository: typeof Tag) {}
+  constructor(
+    @InjectModel(Tag) private tagRepository: typeof Tag,
+    @InjectMeiliSearch() private readonly meiliSearch: MeiliSearch,
+  ) {}
 
   async createTag(dto: CreateTagsDto) {
-    await this.tagRepository.create(dto);
+    const tag = await this.tagRepository.create(dto);
+    const index = this.meiliSearch.index('tags');
+    await index.addDocuments([tag]);
     return { status: HttpStatus.CREATED };
   }
 
@@ -34,6 +40,10 @@ export class TagsService {
     tag.slug = dto.slug || tag.slug;
 
     await tag.save();
+
+    const index = this.meiliSearch.index('tags');
+    await index.updateDocuments([tag]);
+
     return { status: HttpStatus.CREATED };
   }
 
@@ -45,6 +55,10 @@ export class TagsService {
     }
 
     await tag.destroy();
+
+    const index = this.meiliSearch.index('tags');
+    await index.deleteDocument(id);
+
     return { status: HttpStatus.OK };
   }
 
@@ -111,26 +125,25 @@ export class TagsService {
   }
 
   async getTagsByString(str) {
-    let tags = await this.tagRepository.findAll({
-      order: [['name', 'ASC']],
-      where: {
-        name: {
-          [Op.substring]: str,
-        },
-      },
+    const index = this.meiliSearch.index('tags');
+    const search = await index.search(str, {
+      limit: 10,
     });
 
-    if (tags.length === 0) {
-      tags = await this.tagRepository.findAll({
-        order: [['name', 'ASC']],
-        where: {
-          slug: {
-            [Op.substring]: str,
-          },
-        },
-      });
+    if (search.hits.length === 0) {
+      return { status: HttpStatus.NOT_FOUND };
     }
 
-    return tags;
+    return search.hits;
+  }
+
+  async fillMeiliSearchTags() {
+    const index = this.meiliSearch.index('tags');
+    const tags = await this.tagRepository.findAll({
+      attributes: ['id', 'name', 'slug'],
+    });
+    const response = await index.addDocuments(tags);
+    console.log('Теги внесены в поиск, id - ', response.updateId);
+    return { MeiliSearch: response };
   }
 }

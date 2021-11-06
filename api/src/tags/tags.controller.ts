@@ -72,4 +72,10 @@ export class TagsController {
   search(@Param() params) {
     return this.tagsService.getTagsByString(params.str);
   }
+
+  // для отладки
+  // @Get('admins/fill-meili-search')
+  // fillMeiliSearch() {
+  //   return this.tagsService.fillMeiliSearchTags();
+  // }
 }

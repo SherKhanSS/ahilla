@@ -35,6 +35,8 @@ export class PublicationsService {
     const publication = await this.publicationRepository.create(dto);
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
+    const index = this.meiliSearch.index('publications');
+    await index.addDocuments([publication]);
     return { status: HttpStatus.CREATED, id: publication.id };
   }
 
@@ -60,6 +62,10 @@ export class PublicationsService {
     await publication.save();
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
+
+    const index = this.meiliSearch.index('publications');
+    await index.updateDocuments([publication]);
+
     return { status: HttpStatus.CREATED, id: publication.id };
   }
 
@@ -70,10 +76,18 @@ export class PublicationsService {
       throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
     }
 
+    const index = this.meiliSearch.index('publications');
     const isPublished = publication.is_published;
     publication.is_published = !isPublished;
 
     await publication.save();
+
+    if (publication.is_published) {
+      await index.updateDocuments([publication]);
+    } else {
+      await index.deleteDocument(id);
+    }
+
     return { status: HttpStatus.OK };
   }
 
@@ -85,6 +99,10 @@ export class PublicationsService {
     }
 
     await publication.destroy();
+
+    const index = this.meiliSearch.index('publications');
+    await index.deleteDocument(id);
+
     return { status: HttpStatus.OK };
   }
 
@@ -341,7 +359,7 @@ export class PublicationsService {
       include: [{ model: Author, attributes: ['name'] }],
     });
     const response = await index.addDocuments(publications);
-    console.log({ MeiliSearch: response });
+    console.log('Публикации внесены в поиск, id - ', response.updateId);
     return { MeiliSearch: response };
   }
 }

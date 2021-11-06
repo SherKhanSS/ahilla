@@ -35,8 +35,8 @@ import { MeiliSearchModule } from 'nestjs-meilisearch';
     }),
     MeiliSearchModule.forRootAsync({
       useFactory: () => ({
-        host: 'http://127.0.0.1:7700',
-        apiKey: 'masterKey',
+        host: process.env.MEILISEARCH_HOST,
+        apiKey: process.env.MEILISEARCH_PRIVATE_KEY,
       }),
     }),
     PublicationsModule,
