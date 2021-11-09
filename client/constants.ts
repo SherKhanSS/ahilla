@@ -7,6 +7,8 @@ export const privateViewStates = {
   editAuthor: 'editAuthor',
   tags: 'tags',
   editTag: 'editTag',
+  documents: 'documents',
+  editDocument: 'editDocument',
   editPublicationPreview: 'editPublicationPreview',
 };
 
@@ -14,4 +16,5 @@ export const adminMenu = [
   { rusName: 'Публикации', name: privateViewStates.publications },
   { rusName: 'Авторы', name: privateViewStates.authors },
   { rusName: 'Теги', name: privateViewStates.tags },
+  { rusName: 'Файлы', name: privateViewStates.documents },
 ];

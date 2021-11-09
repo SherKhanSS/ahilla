@@ -2,8 +2,7 @@ import * as cookie from 'cookie';
 import { GetServerSideProps } from 'next';
 import { FC, ReactElement, useState } from 'react';
 import PrivateMenu from '../../components/PrivateMenu/PrivateMenu';
-import { domainURL, privateViewStates, adminMenu } from '../../constants';
-import { useRouter } from 'next/router';
+import { domainURL, privateViewStates } from '../../constants';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import AdminPublicationList from '../../components/AdminPublicationList/AdminPublicationList';
@@ -13,6 +12,9 @@ import AdminEditAuthor from '../../components/AdminEditAuthor/AdminEditAuthor';
 import AdminTagList from '../../components/AdminTagList/AdminTagList';
 import AdminEditTag from '../../components/AdminEditTag/AdminEditTag';
 import AdminEditPublicationPreview from '../../components/AdminEditPublicationPreview/AdminEditPublicationPreview';
+import { useContextState } from '../../context/state';
+import AdminDocumentList from '../../components/AdminDocumentList/AdminDocumentList';
+import AdminEditDocument from '../../components/AdminEditDocument/AdminEditDocument';
 
 const redirect = {
   redirect: {
@@ -58,6 +60,18 @@ const getView = (
     case privateViewStates.editTag:
       return (
         <AdminEditTag
+          currentEntityId={currentEntityId}
+          callback={callback}
+          setId={setId}
+        />
+      );
+
+    case privateViewStates.documents:
+      return <AdminDocumentList callback={callback} setId={setId} />;
+
+    case privateViewStates.editDocument:
+      return (
+        <AdminEditDocument
           currentEntityId={currentEntityId}
           callback={callback}
           setId={setId}
@@ -110,8 +124,7 @@ const Private: FC<{ view: string }> = ({
   const initialView = view !== 'null' ? view : privateViewStates.publications;
 
   const [currentView, setCurrentView] = useState(initialView);
-  const [currentEntityId, setCurrentEntityId] = useState<number | null>(null);
-  const router = useRouter();
+  const { currentEntityId, setCurrentEntityId } = useContextState();
 
   const setId = (id: number | null) => {
     setCurrentEntityId(id);
@@ -122,20 +135,12 @@ const Private: FC<{ view: string }> = ({
     setCurrentView(menuItem);
   };
 
-  const logOut = async () => {
-    document.cookie = `token=null`;
-    document.cookie = `view=null`;
-    await router.push('/');
-  };
-
   return (
     <>
       <Header />
       <PrivateMenu
-        menu={adminMenu}
         currentView={currentView}
         onMenuItemClick={onMenuItemClick}
-        logOut={logOut}
       />
       <div>{getView(currentView, currentEntityId, onMenuItemClick, setId)}</div>
       <Footer />

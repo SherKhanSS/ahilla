@@ -35,8 +35,7 @@ export class PublicationsService {
     const publication = await this.publicationRepository.create(dto);
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
-    const index = this.meiliSearch.index('publications');
-    await index.addDocuments([publication]);
+
     return { status: HttpStatus.CREATED, id: publication.id };
   }
 
@@ -46,8 +45,6 @@ export class PublicationsService {
     if (!publication) {
       throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
     }
-
-    console.log(dto.content);
 
     publication.name = dto.name || publication.name;
     publication.slug = dto.slug || publication.slug;
@@ -63,9 +60,6 @@ export class PublicationsService {
     const tags = await this.tagService.getTagByIds(dto.tags);
     await publication.$set('tags', tags);
 
-    const index = this.meiliSearch.index('publications');
-    await index.updateDocuments([publication]);
-
     return { status: HttpStatus.CREATED, id: publication.id };
   }
 
@@ -76,15 +70,13 @@ export class PublicationsService {
       throw new HttpException('Публикация не найдена.', HttpStatus.NOT_FOUND);
     }
 
-    const index = this.meiliSearch.index('publications');
     const isPublished = publication.is_published;
     publication.is_published = !isPublished;
 
     await publication.save();
 
-    if (publication.is_published) {
-      await index.updateDocuments([publication]);
-    } else {
+    if (!publication.is_published) {
+      const index = this.meiliSearch.index('publications');
       await index.deleteDocument(id);
     }
 
@@ -119,6 +111,9 @@ export class PublicationsService {
       where: {
         is_news: true,
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset,
       limit,
@@ -139,6 +134,9 @@ export class PublicationsService {
       where: {
         is_news: false,
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset,
       limit,
@@ -159,6 +157,9 @@ export class PublicationsService {
       where: {
         author_id: id,
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset,
       limit,
@@ -199,7 +200,6 @@ export class PublicationsService {
     const index = this.meiliSearch.index('publications');
     const search = await index.search(str, {
       limit: 10,
-      // sort: ['name:desc'],
     });
 
     if (search.hits.length === 0) {
@@ -218,6 +218,9 @@ export class PublicationsService {
       order: [['views', 'DESC']],
       where: {
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset: 0,
       limit: 10,
@@ -261,6 +264,9 @@ export class PublicationsService {
       where: {
         slug,
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       include: { all: true },
     });
@@ -286,6 +292,9 @@ export class PublicationsService {
       where: {
         is_news: true,
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset: 0,
       limit: 20,
@@ -300,6 +309,9 @@ export class PublicationsService {
       where: {
         is_news: false,
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset: 0,
       limit: 5,
@@ -317,6 +329,9 @@ export class PublicationsService {
       order: [['date', 'DESC']],
       where: {
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       offset: 0,
       limit: 8,
@@ -345,6 +360,9 @@ export class PublicationsService {
     const publications = await this.publicationRepository.findAll({
       where: {
         is_published: true,
+        date: {
+          [Op.lt]: new Date(),
+        },
       },
       attributes: [
         'id',

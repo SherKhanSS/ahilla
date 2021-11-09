@@ -1,43 +1,39 @@
-import { FC, useEffect, useState } from 'react'
-import Link from 'next/link'
-import LogoIcon from '../Icons/LogoIcon'
-import SearchIcon from '../Icons/SearchIcon'
-import BurgerIcon from '../Icons/BurgerIcon'
-import CloseIcon from '../Icons/CloseIcon'
-import styles from './header.module.scss'
-import useWindowDimensions from '../../hooks/useWindowDimensions'
-import MenuList from './MenuList'
+import { FC, useEffect, useState } from 'react';
+import Link from 'next/link';
+import LogoIcon from '../Icons/LogoIcon';
+import SearchIcon from '../Icons/SearchIcon';
+import BurgerIcon from '../Icons/BurgerIcon';
+import CloseIcon from '../Icons/CloseIcon';
+import styles from './header.module.scss';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import MenuList from './MenuList';
 
-const DESKTOP_WIDTH = 1279
+const DESKTOP_WIDTH = 1279;
 
 const Header: FC = () => {
-  const { width } = useWindowDimensions()
-  const [isDesktop, setIsDesktop] = useState(false)
-  const [isShowMenu, setIsShowMenu] = useState(isDesktop)
+  const { width } = useWindowDimensions();
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isShowMenu, setIsShowMenu] = useState(isDesktop);
 
   useEffect(() => {
-    const isDesktop = width === null ? false : width > DESKTOP_WIDTH
-    setIsDesktop(isDesktop)
-    setIsShowMenu(isDesktop)
-  }, [width])
+    const isDesktop = width === null ? false : width > DESKTOP_WIDTH;
+    setIsDesktop(isDesktop);
+    setIsShowMenu(isDesktop);
+  }, [width]);
 
   return (
     <header className={styles.header}>
       <div className={styles.wrap}>
-        <Link href='/'>
+        <Link href="/">
           <a className={styles.logo}>
             <LogoIcon />
           </a>
         </Link>
-        <MenuList
-          styles={styles}
-          isDesktop={isDesktop}
-          isShowMenu={isShowMenu}
-        />
+        <MenuList isShowMenu={isShowMenu} />
         <div className={styles.controls}>
-          <Link href='/search'>
+          <Link href="/search">
             <a className={styles.search}>
-              <span className='visually-hidden'>Поиск</span>
+              <span className="visually-hidden">Поиск</span>
               <SearchIcon />
             </a>
           </Link>
@@ -45,7 +41,7 @@ const Header: FC = () => {
             <button
               className={styles.burger}
               onClick={() => {
-                setIsShowMenu(!isShowMenu)
+                setIsShowMenu(!isShowMenu);
               }}
             >
               {isShowMenu ? <CloseIcon /> : <BurgerIcon />}
@@ -54,7 +50,7 @@ const Header: FC = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

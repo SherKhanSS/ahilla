@@ -18,7 +18,9 @@ import {
   VKShareCount,
 } from 'react-share';
 import { FBIcon, JJIcon, TGIcon, TVIcon, VKIcon } from '../Icons/SocialIcons';
-import { domainURL } from '../../constants';
+import { domainURL, privateViewStates } from '../../constants';
+import { useContextState } from '../../context/state';
+import Edit from '../Icons/Edit';
 
 const OnePublication: FC<ArticleType> = ({
   name,
@@ -31,8 +33,16 @@ const OnePublication: FC<ArticleType> = ({
   author_id,
   tags,
   slug,
+  id,
 }) => {
   const editContent = content.replace(/\n/g, '</br>');
+  const { isAdmin } = useContextState();
+
+  const handleEdit = (id: number) => {
+    document.cookie = `view=${privateViewStates.editPublication}`;
+    localStorage.setItem('currentEntityId', `${id}`);
+    return window.location.assign('/administration/private');
+  };
 
   return (
     <>
@@ -54,6 +64,17 @@ const OnePublication: FC<ArticleType> = ({
           <Link href={`/avtory/${author_id}?order=0&sort=date&page=1`}>
             <a className={styles.link}>{author?.name}</a>
           </Link>
+          {isAdmin && (
+            <div
+              className={styles.edit}
+              title="Редактировать"
+              onClick={() => {
+                handleEdit(id);
+              }}
+            >
+              <Edit />
+            </div>
+          )}
         </div>
         <h3 className={styles.title}>{name}</h3>
         <div className={styles.img_wrap}>
@@ -70,13 +91,12 @@ const OnePublication: FC<ArticleType> = ({
             <span>Просмотры: {views}</span>
           </div>
         </div>
-          <div className={styles.text}>
-            <div className={'ck-content'}>
-              <div dangerouslySetInnerHTML={{ __html: content }} />
-            </div>
-
-            {/*<DangerousHtml str={editContent} />*/}
+        <div className="text">
+          <div className={'ck-content'}>
+            <div dangerouslySetInnerHTML={{ __html: editContent }} />
           </div>
+          {/*<DangerousHtml str={editContent} />*/}
+        </div>
         <div className={styles.tags}>
           <Tag />
           {tags?.map((it, i, arr) => {

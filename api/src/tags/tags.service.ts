@@ -4,6 +4,7 @@ import { CreateTagsDto } from './dto/create-tags.dto';
 import { Tag } from './tags.model';
 import { InjectMeiliSearch } from 'nestjs-meilisearch';
 import { MeiliSearch } from 'meilisearch';
+import { Op } from 'sequelize';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -78,6 +79,12 @@ export class TagsService {
     const { publications, name } = await this.tagRepository.findByPk(id, {
       include: {
         all: true,
+        where: {
+          is_published: true,
+          date: {
+            [Op.lt]: new Date(),
+          },
+        },
       },
     });
 

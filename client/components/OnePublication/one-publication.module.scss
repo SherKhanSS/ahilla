@@ -13,7 +13,7 @@
 
 
   &:hover {
-    color: #000;
+    border-bottom: 1px dotted $color;
   }
 }
 
@@ -37,15 +37,6 @@
   color: #000;
 }
 
-.text {
-  font-size: 12pt;
-  line-height: 23px;
-
-  a {
-    color: #000;
-  }
-}
-
 .views {
   display: flex;
   align-items: center;
@@ -54,6 +45,25 @@
 
   svg {
     margin-right: 10px;
+  }
+}
+
+.edit {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 10px;
+
+  svg {
+    width: 15px;
+    height: 15px;
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:active {
+      opacity: .5;
+    }
   }
 }
 

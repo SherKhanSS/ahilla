@@ -1,34 +1,35 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './admin-edit-author.module.scss';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+import styles from './admin-edit-document.module.scss';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
+import { saveToServer } from '../../utils';
 
 const transliteration = new cyrillicToTranslit();
 
 const MAX_TITLE = 100;
 
-const initialAuthor = {
+const initialTag = {
   name: '',
   slug: '',
 };
 
-const AdminEditAuthor: FC<{
+const AdminEditDocument: FC<{
   currentEntityId: number | null;
   callback: (view: string) => void;
   setId: (id: number | null) => void;
 }> = ({ currentEntityId, callback, setId }) => {
-  const [author, setAuthor] = useState(initialAuthor);
+  const [document, setDocument] = useState(initialTag);
   const { request } = useHttp();
 
   useEffect(() => {
     if (currentEntityId !== null) {
       (async () => {
         try {
-          const author = await request(
-            `${domainURL}/api/authors/${currentEntityId}`
+          const document = await request(
+            `${domainURL}/api/documents/${currentEntityId}`
           );
-          setAuthor(author);
+          setDocument(document);
         } catch (err) {
           console.log(err);
         }
@@ -40,15 +41,15 @@ const AdminEditAuthor: FC<{
     try {
       const res =
         currentEntityId === null
-          ? await request(`${domainURL}/api/authors`, 'POST', author)
+          ? await request(`${domainURL}/api/documents`, 'POST', document)
           : await request(
-              `${domainURL}/api/authors/${currentEntityId}`,
+              `${domainURL}/api/documents/${currentEntityId}`,
               'PUT',
-              author
+              document
             );
       if (res.status === 201) {
         setId(null);
-        callback(privateViewStates.authors);
+        callback(privateViewStates.documents);
       } else {
         alert('Что-то пошло не так');
       }
@@ -58,35 +59,46 @@ const AdminEditAuthor: FC<{
     }
   };
 
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      const file = e.target.files[0];
+      const urlImg = await saveToServer(file);
+      setDocument({
+        ...document,
+        slug: urlImg,
+      });
+    }
+  };
+
   return (
     <section className={styles.main}>
       <label>
-        Имя автора (придется придерживаться начатой традиции - сан, имя,
-        фамилия)
+        Название файла
+        <input type="file" onChange={handleChange} />
+      </label>
+      <label>
+        Название файла
         <input
           type={'text'}
-          value={author.name}
+          value={document.name}
           maxLength={MAX_TITLE}
           onChange={(e) => {
-            setAuthor({
-              ...author,
+            setDocument({
+              ...document,
               name: e.target.value,
-              slug: transliteration
-                .transform(e.target.value, '-')
-                .toLowerCase(),
             });
           }}
         />
       </label>
       <label>
         Slug (только для чтения)
-        <input readOnly={true} type={'text'} value={author.slug} />
+        <input readOnly={true} type={'text'} value={document.slug} />
       </label>
       <div className={styles.buttons}>
         <button onClick={handleSubmit}>Сохранить</button>
         <button
           onClick={() => {
-            callback(privateViewStates.authors);
+            callback(privateViewStates.documents);
             setId(null);
           }}
         >
@@ -97,4 +109,4 @@ const AdminEditAuthor: FC<{
   );
 };
 
-export default AdminEditAuthor;
+export default AdminEditDocument;

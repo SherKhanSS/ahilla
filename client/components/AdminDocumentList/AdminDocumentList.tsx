@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import styles from './admin-tag-list.module.scss';
+import styles from './admin-document-list.module.scss';
 import Spinner from '../Icons/Spinner';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
@@ -9,7 +9,7 @@ import AdminTable from '../AdminTable/AdminTable';
 
 const ITEMS_COUNT_DEFAULT = 30;
 
-const AdminTagList: FC<{
+const AdminDocumentList: FC<{
   callback: (view: string) => void;
   setId: (id: number | null) => void;
 }> = ({ callback, setId }) => {
@@ -27,7 +27,7 @@ const AdminTagList: FC<{
         const start = (activePage - 1) * ITEMS_COUNT_DEFAULT;
         try {
           const { tags, count } = await request(
-            `${domainURL}/api/tags/admins/list/${start}`
+            `${domainURL}/api/documents/admins/list/${start}`
           );
           setTags(tags);
           setTagsCount(count);
@@ -45,20 +45,20 @@ const AdminTagList: FC<{
 
   const handleEdit = (id: number) => {
     localStorage.setItem('currentEntityId', `${id}`);
-    callback(privateViewStates.editTag);
+    callback(privateViewStates.editDocument);
     setId(id);
   };
 
   const handleNew = () => {
     localStorage.removeItem('currentEntityId');
-    callback(privateViewStates.editTag);
+    callback(privateViewStates.editDocument);
     setId(null);
   };
 
   const handleDelete = async (id: number) => {
     setIsSent(true);
     try {
-      const res = await request(`${domainURL}/api/tags/${id}`, 'DELETE');
+      const res = await request(`${domainURL}/api/documents/${id}`, 'DELETE');
       if (res.status === 200) {
         setIsSent(false);
         alert('Удалено!');
@@ -87,7 +87,9 @@ const AdminTagList: FC<{
 
     if (str !== '') {
       try {
-        const response = await request(`${domainURL}/api/tags/search/${str}`);
+        const response = await request(
+          `${domainURL}/api/documents/search/${str}`
+        );
 
         if (response.status === 404 || response.status === 500) {
           setTags([]);
@@ -112,8 +114,13 @@ const AdminTagList: FC<{
         </div>
       )}
       <section className={styles.articles}>
+        <p>
+          Раздел для загрузки используемых в материалах документов - книг, pdf,
+          вордовских файлов и т.д. Так же здесь можно хранить часто используемые
+          постеры для публикаций и вставлять их отсюда ссылкой
+        </p>
         <div className={styles.top_wrap}>
-          <h2 className={styles.articles__titile}>Теги</h2>
+          <h2 className={styles.articles__titile}>Файлы</h2>
           <button onClick={handleNew}>Создать новый</button>
         </div>
         <div className={styles.search__wrap}>
@@ -152,4 +159,4 @@ const AdminTagList: FC<{
   );
 };
 
-export default AdminTagList;
+export default AdminDocumentList;

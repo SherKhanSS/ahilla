@@ -7,7 +7,22 @@ import * as uuid from 'uuid';
 export class FilesService {
   async createFile(file): Promise<string> {
     try {
-      const fileName = uuid.v4() + '.jpg';
+      const { originalname } = file;
+      const nameArr = originalname.split('.');
+      const type = nameArr[nameArr.length - 1];
+      let fileName;
+
+      if (
+        type === 'jpg' ||
+        type === 'jpeg' ||
+        type === 'png' ||
+        type === 'webp'
+      ) {
+        fileName = uuid.v4() + `.${type}`;
+      } else {
+        fileName = originalname;
+      }
+
       const filePath = path.resolve(
         __dirname,
         '..',

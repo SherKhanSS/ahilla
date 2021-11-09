@@ -61,11 +61,13 @@ const AdminPublicationList: FC<{
   };
 
   const handleEdit = (id: number) => {
+    localStorage.setItem('currentEntityId', `${id}`);
     callback(privateViewStates.editPublication);
     setId(id);
   };
 
   const handleNew = () => {
+    localStorage.removeItem('currentEntityId');
     callback(privateViewStates.editPublication);
     setId(null);
   };

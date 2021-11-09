@@ -5,8 +5,17 @@ import SideBar from '../SideBar/SideBar';
 import styles from './layout.module.scss';
 import Head from 'next/head';
 import GoTop from '../GoTop/GoTop';
+import PrivateMenu from '../PrivateMenu/PrivateMenu';
+import { useContextState } from '../../context/state';
+
+const onMenuItemClick = (menuItem: string) => {
+  document.cookie = `view=${menuItem}`;
+  return window.location.assign('/administration/private');
+};
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
+  const { isAdmin } = useContextState();
+
   return (
     <>
       <Head>
@@ -25,6 +34,9 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
         />
       </Head>
       <Header />
+      {isAdmin && (
+        <PrivateMenu currentView={''} onMenuItemClick={onMenuItemClick} />
+      )}
       <main className={styles.main}>
         <div className={styles.wrap}>
           <section className={styles.content}>{children}</section>

@@ -44,13 +44,15 @@ const AdminAuthorList: FC<{
   };
 
   const handleEdit = (id: number) => {
-    callback(privateViewStates.editAuthor);
+    localStorage.setItem('currentEntityId', `${id}`);
     setId(id);
+    callback(privateViewStates.editAuthor);
   };
 
   const handleNew = () => {
-    callback(privateViewStates.editAuthor);
     setId(null);
+    localStorage.removeItem('currentEntityId');
+    callback(privateViewStates.editAuthor);
   };
 
   const handleDelete = async (id: number) => {

@@ -45,7 +45,6 @@ const AdminEditTag: FC<{
               tag
             );
       if (res.status === 201) {
-        alert('Успешно');
         setId(null);
         callback(privateViewStates.tags);
       } else {

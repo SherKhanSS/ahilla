@@ -1,25 +1,24 @@
 import { FC } from 'react';
 import styles from './private-menu.module.scss';
+import { adminMenu } from '../../constants';
 
 type PropsType = {
-  menu: {
-    rusName: string;
-    name: string;
-  }[];
   currentView: string;
   onMenuItemClick: (name: string) => void;
-  logOut: () => void;
 };
 
-const PrivateMenu: FC<PropsType> = ({
-  menu,
-  currentView,
-  onMenuItemClick,
-  logOut,
-}) => {
+const logOut = async () => {
+  document.cookie = `token=null`;
+  document.cookie = `view=null`;
+  localStorage.removeItem('token');
+  localStorage.removeItem('currentEntityId');
+  return window.location.assign('/');
+};
+
+const PrivateMenu: FC<PropsType> = ({ currentView, onMenuItemClick }) => {
   return (
     <ul className={styles.list}>
-      {menu.map((it, i) => (
+      {adminMenu.map((it, i) => (
         <li className={styles.item} key={i}>
           <button
             className={styles.button}

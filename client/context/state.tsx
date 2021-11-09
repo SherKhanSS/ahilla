@@ -6,6 +6,8 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useHttp } from '../hooks/http';
+import { TagType } from '../types';
 
 const initialTag = {
   id: 1,
@@ -26,10 +28,29 @@ const initialDates = {
 
 const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
 
-const StateContext = createContext({
+const StateContext = createContext<{
+  tags: TagType[];
+  popularPublications: {
+    name: string;
+    slug: string;
+    views: number;
+  }[];
+  datesMark: {
+    first: string;
+    last: string;
+  };
+  isAdmin: boolean;
+  currentEntityId: null | number;
+  setCurrentEntityId: (id: number | null) => void;
+}>({
   tags: [initialTag],
   popularPublications: [initialPopularPublication],
   datesMark: initialDates,
+  isAdmin: false,
+  currentEntityId: null,
+  setCurrentEntityId: (id) => {
+    // nothing
+  },
 });
 
 export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -38,29 +59,54 @@ export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
     initialPopularPublication,
   ]);
   const [datesMark, setDatesMark] = useState(initialDates);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [currentEntityId, setCurrentEntityId] = useState<null | number>(null);
+  const { request } = useHttp();
 
   useEffect(() => {
     (async () => {
       try {
-        const resTags = await fetch(`${domainURL}/api/tags/for-main`);
-        const resPopular = await fetch(
-          `${domainURL}/api/publications/populars`
-        );
-        const resDates = await fetch(`${domainURL}/api/publications/dates`);
-        const tags = await resTags.json();
-        const popular = await resPopular.json();
-        const datesMark = await resDates.json();
+        const tags = await request(`${domainURL}/api/tags/for-main`);
+        const popular = await request(`${domainURL}/api/publications/populars`);
+        const datesMark = await request(`${domainURL}/api/publications/dates`);
+
         setTags(tags);
         setPopularPublications(popular);
         setDatesMark(datesMark);
       } catch (err) {}
+
+      try {
+        const auth = await request(`${domainURL}/api/auth/check`);
+
+        if (auth.status === 200) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (err) {
+        // console.clear();
+        //TODO раскоментировать для прод режима
+      }
     })();
+  }, [request]);
+
+  useEffect(() => {
+    const entityId = localStorage.getItem('currentEntityId') || null;
+    if (entityId !== null) {
+      const id = +entityId;
+      setCurrentEntityId(id);
+    } else {
+      setCurrentEntityId(entityId);
+    }
   }, []);
 
   const state = {
     tags,
     popularPublications,
     datesMark,
+    isAdmin,
+    currentEntityId,
+    setCurrentEntityId,
   };
 
   return (

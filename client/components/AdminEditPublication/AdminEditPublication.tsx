@@ -22,7 +22,7 @@ const Editor = dynamic(() => import('../AdminEditor/AdminEditor'), {
 });
 const transliteration = new cyrillicToTranslit();
 
-const TRIMMING_DATE = 10;
+const TRIMMING_DATE = 16;
 const MAX_TITLE = 100;
 const MAX_PREVIEW = 360;
 
@@ -66,6 +66,7 @@ const AdminEditPublication: FC<{
     null
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
+  const [isShowUpload, setIsShowUpload] = useState(true);
   const { request } = useHttp();
 
   useEffect(() => {
@@ -117,10 +118,12 @@ const AdminEditPublication: FC<{
   const handleSubmit = async (isWithPreview: boolean) => {
     if (article.date === '') return alert('Не выбрана дата');
 
+    const clearedContent = content.replace(/<figure>&nbsp;<\/figure>/g, '');
+
     const date = new Date(article.date);
     const newArticle = {
       ...article,
-      content,
+      content: clearedContent,
       author_id: selectedAuthor?.value,
       tags: selectedTags.map((it) => it.value),
       date,
@@ -165,12 +168,43 @@ const AdminEditPublication: FC<{
           // eslint-disable-next-line @next/next/no-img-element
           <img src={article.image} alt="img" />
         )}
-        <label>
-          Прикрепить изображение (не знаю, сам ты в редакторе выбирал размеры
-          или вордпресс обрезал, везде 700 х 400, пока ориентируюсь на то, что
-          будут грузиться картинки c 700 х 400)
+        <span>
+          Постер (Рекомендованный размер 700 х 400. Часто используемые картинки
+          можно грузить в раздел документы и оттуда копировать ссылку для
+          вставки)
+        </span>
+        <div className={styles.upload_buttons}>
+          <button
+            style={isShowUpload ? { outline: '1px solid #000' } : {}}
+            onClick={() => {
+              setIsShowUpload(true);
+            }}
+          >
+            Загрузка
+          </button>
+          <button
+            style={!isShowUpload ? { outline: '1px solid #000' } : {}}
+            onClick={() => {
+              setIsShowUpload(false);
+            }}
+          >
+            Вставить ссылку
+          </button>
+        </div>
+        {isShowUpload ? (
           <input accept="image/jpg" type="file" onChange={handleChange} />
-        </label>
+        ) : (
+          <input
+            type={'text'}
+            value={article.image}
+            onChange={(e) => {
+              setArticle({
+                ...article,
+                image: e.target.value,
+              });
+            }}
+          />
+        )}
       </div>
       <label>
         Заголовок статьи
@@ -230,7 +264,8 @@ const AdminEditPublication: FC<{
       <div className={styles.select_name}>Основное содержание</div>
       <Editor initial={initialContent} onChangeEditor={onChangeEditor} />
       <label className={styles.check_wrap}>
-        Опубликовано
+        Опубликовано?
+        {/*(публикация будет доступна только если наступило время ее публикации)*/}
         <input
           type="checkbox"
           checked={article.is_published}
@@ -258,7 +293,7 @@ const AdminEditPublication: FC<{
       <label className={styles.data}>
         Время публикации
         <input
-          type={'date'}
+          type={'datetime-local'}
           value={article.date.slice(0, TRIMMING_DATE) ?? ''}
           onChange={(e) => {
             setArticle({
