@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreatePagesDto } from './dto/create-pages.dto';
 import { Page } from './pages.model';
-import { Op } from 'sequelize';
 
 @Injectable()
 export class PagesService {
