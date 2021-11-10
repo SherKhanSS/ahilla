@@ -1,0 +1,67 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.main {
+  padding: 10px;
+}
+
+.socials_wrap {
+  padding: 20px 10px 10px;
+}
+
+.socials {
+  @include list-reset;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.socials_items {
+  display: flex;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  svg path {
+    fill: #666;
+    transition: $delay;
+  }
+
+  &:hover svg path {
+    fill: #000;
+  }
+}
+
+.socials_count {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color;
+  border-radius: 3px;
+  margin-left: 3px;
+}
+
+.socials_title {
+  font-size: 12pt;
+  margin-bottom: 15px;
+}
+
+@media (min-width: $tablet-width) {
+  .main {
+    padding: 20px;
+  }
+
+  .socials_wrap {
+    padding: 20px 40px 10px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .main {
+    padding: 0 40px 20px 0;
+  }
+
+  .socials_wrap {
+    padding-top: 30px;
+  }
+}

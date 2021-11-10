@@ -1,11 +1,11 @@
 const menu = [
   {
-    title: 'Новости',
-    link: '/news?order=0&sort=date&page=1',
-  },
-  {
     title: 'Статьи',
     link: '/articles?order=0&sort=date&page=1',
+  },
+  {
+    title: 'Новости',
+    link: '/news?order=0&sort=date&page=1',
   },
   {
     title: 'Авторы',

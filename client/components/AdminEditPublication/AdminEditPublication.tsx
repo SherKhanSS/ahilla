@@ -196,7 +196,7 @@ const AdminEditPublication: FC<{
         ) : (
           <input
             type={'text'}
-            value={article.image}
+            // value={article.image}
             onChange={(e) => {
               setArticle({
                 ...article,

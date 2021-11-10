@@ -1,5 +1,5 @@
-import { ParsedUrlQuery } from 'querystring';
 import { domainURL } from '../constants';
+import { GetServerSidePropsResult} from "next";
 
 export const formatDate = (date: string): string => {
   const parsedDate = new Date(date);
@@ -58,3 +58,35 @@ export const saveToServer = async (file: File) => {
   let { uploadedImageName } = await res.json();
   return uploadedImageName;
 };
+
+export const getPropsPage = async (slug: string, name: string, description: string): Promise<GetServerSidePropsResult<{ [key: string]: any; }>> => {
+  try {
+    const response = await fetch(`${domainURL}/api/pages/${slug}`);
+
+    if (response.status === 500 || response.status === 404) {
+      return {
+        redirect: {
+          destination: '/404',
+          permanent: false,
+        },
+      };
+    }
+
+    const article = await response.json();
+    article.name = name;
+    article.description = description
+
+    return {
+      props: {
+        article,
+      },
+    };
+  } catch (err) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+}

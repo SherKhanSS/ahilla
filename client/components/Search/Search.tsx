@@ -19,8 +19,6 @@ const Search: FC = () => {
       ? 'Результаты поиска:'
       : '';
 
-  console.log(articles)
-
   return (
     <section className={styles.main}>
       <section className={styles.articles}>

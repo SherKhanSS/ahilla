@@ -28,7 +28,11 @@
 .buttons div {
   padding: 5px;
   cursor: pointer;
+  transition: $delay;
 
+  &:active {
+    opacity: .5;
+  }
 }
 
 .delete {

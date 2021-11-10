@@ -57,7 +57,7 @@ export class AuthorsService {
     return authors.map((it) => {
       return {
         id: it.id,
-        name: it.name.split(' ').reverse().join(' ').replace(/[()]/g, ''),
+        name: it.name.split(' ').reverse().join(' '),
         slug: it.slug,
       };
     });

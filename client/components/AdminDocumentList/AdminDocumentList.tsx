@@ -135,12 +135,13 @@ const AdminDocumentList: FC<{
         <AdminTable
           options={tags}
           isPublications={false}
+          isFiles={true}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           handlePublished={() => {}}
         />
         <section className={styles.pagination}>
-          {!isInputFill && (
+          {!isInputFill && tagsCount > ITEMS_COUNT_DEFAULT && (
             <Pagination
               activePage={activePage}
               itemsCountPerPage={ITEMS_COUNT_DEFAULT}

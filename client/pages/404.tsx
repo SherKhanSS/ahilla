@@ -3,8 +3,6 @@ import Layout from '../components/Layout/Layout';
 import Development from '../components/Development/Development';
 import Head from 'next/head';
 
-const domainURL = process.env.NEXT_PUBLIC_DOMAIN_URL;
-
 const Main: FC = () => {
   return (
     <Layout>

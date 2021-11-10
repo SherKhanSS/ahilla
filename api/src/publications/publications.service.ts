@@ -349,7 +349,7 @@ export class PublicationsService {
       order: [['date', 'DESC']],
       offset: +start,
       limit: 30,
-      attributes: ['id', 'name', 'is_published'],
+      attributes: ['id', 'name', 'date', 'is_published'],
     });
 
     return { count, articles: rows };

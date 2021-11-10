@@ -16,6 +16,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { MeiliSearchModule } from 'nestjs-meilisearch';
 import { DocumentsModule } from './documents/documents.module';
+import { PagesModule } from './pages/pages.module';
+import { Page } from './pages/pages.model';
 
 @Module({
   imports: [
@@ -32,7 +34,15 @@ import { DocumentsModule } from './documents/documents.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [Publication, Tag, Author, PublicationsTags, Admin, Document],
+      models: [
+        Publication,
+        Tag,
+        Author,
+        PublicationsTags,
+        Admin,
+        Document,
+        Page,
+      ],
       autoLoadModels: true,
     }),
     MeiliSearchModule.forRootAsync({
@@ -47,6 +57,7 @@ import { DocumentsModule } from './documents/documents.module';
     AuthModule,
     AdminsModule,
     DocumentsModule,
+    PagesModule,
   ],
 })
 export class AppModule {}
