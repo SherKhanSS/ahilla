@@ -15,7 +15,7 @@ import AdminEditPublicationPreview from '../../components/AdminEditPublicationPr
 import { useContextState } from '../../context/state';
 import AdminDocumentList from '../../components/AdminDocumentList/AdminDocumentList';
 import AdminEditDocument from '../../components/AdminEditDocument/AdminEditDocument';
-import AdminPageList from "../../components/AdminPageList/AdminPageList";
+import AdminPageList from '../../components/AdminPageList/AdminPageList';
 
 const redirect = {
   redirect: {
@@ -89,16 +89,7 @@ const getView = (
       );
 
     case privateViewStates.pages:
-      return <AdminPageList callback={callback} setId={setId} />;
-
-    // case privateViewStates.editPage:
-    //   return (
-    //     <AdminEditDocument
-    //       currentEntityId={currentEntityId}
-    //       callback={callback}
-    //       setId={setId}
-    //     />
-    //   );
+      return <AdminPageList />;
 
     default:
       return null;

@@ -7,7 +7,9 @@ import { DocumentsService } from './documents/documents.service';
 
 async function start() {
   const PORT = process.env.PORT || 5000;
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule, {
+    cors: process.env.NODE_ENV === 'development',
+  });
   app.setGlobalPrefix('api');
   await app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
