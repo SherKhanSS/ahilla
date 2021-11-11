@@ -11,7 +11,7 @@ import AdminAuthorList from '../../components/AdminAuthorList/AdminAuthorList';
 import AdminEditAuthor from '../../components/AdminEditAuthor/AdminEditAuthor';
 import AdminTagList from '../../components/AdminTagList/AdminTagList';
 import AdminEditTag from '../../components/AdminEditTag/AdminEditTag';
-import AdminEditPublicationPreview from '../../components/AdminEditPublicationPreview/AdminEditPublicationPreview';
+// import AdminEditPublicationPreview from '../../components/AdminEditPublicationPreview/AdminEditPublicationPreview';
 import { useContextState } from '../../context/state';
 import AdminDocumentList from '../../components/AdminDocumentList/AdminDocumentList';
 import AdminEditDocument from '../../components/AdminEditDocument/AdminEditDocument';
@@ -43,14 +43,14 @@ const getView = (
         />
       );
 
-    case privateViewStates.editPublicationPreview:
-      return (
-        <AdminEditPublicationPreview
-          currentEntityId={currentEntityId}
-          callback={callback}
-          setId={setId}
-        />
-      );
+    // case privateViewStates.editPublicationPreview:
+    //   return (
+    //     <AdminEditPublicationPreview
+    //       currentEntityId={currentEntityId}
+    //       callback={callback}
+    //       setId={setId}
+    //     />
+    //   );
 
     case privateViewStates.authors:
       return <AdminAuthorList callback={callback} setId={setId} />;

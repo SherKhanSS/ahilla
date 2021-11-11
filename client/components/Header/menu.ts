@@ -12,10 +12,6 @@ const menu = [
     link: '/avtory',
   },
   {
-    title: 'Теги',
-    link: '/tags',
-  },
-  {
     title: 'Проекты',
     link: '/proekti',
   },

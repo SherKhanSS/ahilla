@@ -26,24 +26,31 @@ const TRIMMING_DATE = 16;
 const MAX_TITLE = 100;
 const MAX_PREVIEW = 360;
 
-const initialArticle = {
-  name: '',
-  slug: '',
-  author_id: -1,
-  image: '',
-  date: '',
-  tags: [-1],
-  description: '',
-  content: '',
-  is_news: false,
-  is_published: false,
+const getCurrentDate = (): string => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  return `${year}-${month < 10 ? '0' + month : month}-${
+    day < 10 ? '0' + day : day
+  }T${hours < 10 ? '0' + hours : hours}:${
+    minutes < 10 ? '0' + minutes : minutes
+  }`;
 };
 
-const checkArticle = (obj: any) => {
-  for (const key in obj) {
-    if (obj[key] === '' || obj[key] === -1 || obj[key] === [-1]) return false;
-  }
-  return true;
+const initialArticle = {
+  name: 'Название статьи',
+  slug: 'nazvanie-stati',
+  author_id: 1,
+  image: '/img/youtobe-back.jpg',
+  date: getCurrentDate(),
+  tags: [1],
+  description: 'Краткое содержание',
+  content: 'Полное содержание',
+  is_news: false,
+  is_published: false,
 };
 
 const getOptions = (arr: AuthorType[] | TagType[]) => {
@@ -58,8 +65,8 @@ const AdminEditPublication: FC<{
   setId: (id: number | null) => void;
 }> = ({ currentEntityId, callback, setId }) => {
   const [article, setArticle] = useState<InitialArticle>(initialArticle);
-  const [initialContent, setInitialContent] = useState('Добавьте контент...');
-  const [content, setContent] = useState('Test');
+  const [initialContent, setInitialContent] = useState('Полное содержание');
+  const [content, setContent] = useState('Полное содержание');
   const [authors, setAuthors] = useState<SelectOptions>([]);
   const [tags, setTags] = useState<SelectOptions>([]);
   const [selectedAuthor, setSelectedAuthor] = useState<SelectElement | null>(
@@ -116,8 +123,6 @@ const AdminEditPublication: FC<{
   };
 
   const handleSubmit = async (isWithPreview: boolean) => {
-    if (article.date === '') return alert('Не выбрана дата');
-
     const clearedContent = content.replace(/<figure>&nbsp;<\/figure>/g, '');
 
     const date = new Date(article.date);
@@ -128,11 +133,6 @@ const AdminEditPublication: FC<{
       tags: selectedTags.map((it) => it.value),
       date,
     };
-
-    if (!checkArticle(newArticle)) {
-      alert('Не все поля заполнены');
-      return;
-    }
 
     try {
       const res =
@@ -146,11 +146,12 @@ const AdminEditPublication: FC<{
 
       if (res.status === 201) {
         if (isWithPreview) {
-          setId(res.id);
-          callback(privateViewStates.editPublicationPreview);
-        } else {
-          setId(null);
-          callback(privateViewStates.publications);
+          Object.assign(document.createElement('a'), {
+            target: '_blank',
+            href: `/administration/preview/${res.id}`,
+          }).click();
+          // setId(res.id);
+          // callback(privateViewStates.editPublicationPreview);
         }
       } else {
         alert('Что-то пошло не так');
@@ -319,9 +320,10 @@ const AdminEditPublication: FC<{
           Сохранить
         </button>
         <button
-          onClick={() => {
-            callback(privateViewStates.publications);
+          onClick={async () => {
+            await handleSubmit(false);
             setId(null);
+            callback(privateViewStates.publications);
           }}
         >
           Вернуться к списку
