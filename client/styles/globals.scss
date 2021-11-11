@@ -210,12 +210,12 @@ img {
     padding-bottom: 56.25%; /* задаёт высоту контейнера для 16:9 (если 4:3 — поставьте 75%) */
     overflow: hidden;
 
-    @media (min-width: $tablet-width) {
-      max-width: 640px;
-      padding-bottom: 360px;
-      margin: auto;
-    }
-
+    //@media (min-width: $tablet-width) {
+    //  max-width: 640px;
+    //  padding-bottom: 360px;
+    //  margin: auto;
+    //}
+    //
     iframe {
       position: absolute;
       top: 0;
@@ -224,7 +224,6 @@ img {
       height: 100%;
     }
   }
-
 
   figure {
     margin-left: auto;

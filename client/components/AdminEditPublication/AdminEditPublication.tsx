@@ -227,23 +227,6 @@ const AdminEditPublication: FC<{
         Slug (только для чтения, не должен повторяться с уже существующими)
         <input readOnly={true} type={'text'} value={article.slug} />
       </label>
-      <div className={styles.select_name}>Автор</div>
-      <div className={styles.select_wrap}>
-        <Select
-          value={selectedAuthor}
-          options={authors}
-          onChange={(value: any) => setSelectedAuthor(value)}
-        />
-      </div>
-      <div className={styles.select_name}>Теги</div>
-      <div className={styles.select_wrap}>
-        <Select
-          value={selectedTags}
-          isMulti
-          options={tags}
-          onChange={(value: any) => setSelectedTags(value)}
-        />
-      </div>
       <label>
         Краткое содержание (пока ориентируюсь на 360 символов, обсуждаемо)
         <textarea
@@ -263,6 +246,23 @@ const AdminEditPublication: FC<{
       </label>
       <div className={styles.select_name}>Основное содержание</div>
       <Editor initial={initialContent} onChangeEditor={onChangeEditor} />
+      <div className={styles.select_name}>Автор</div>
+      <div className={styles.select_wrap}>
+        <Select
+          value={selectedAuthor}
+          options={authors}
+          onChange={(value: any) => setSelectedAuthor(value)}
+        />
+      </div>
+      <div className={styles.select_name}>Теги</div>
+      <div className={styles.select_wrap}>
+        <Select
+          value={selectedTags}
+          isMulti
+          options={tags}
+          onChange={(value: any) => setSelectedTags(value)}
+        />
+      </div>
       <label className={styles.check_wrap}>
         Опубликовано?
         {/*(публикация будет доступна только если наступило время ее публикации)*/}
