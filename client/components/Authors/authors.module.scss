@@ -23,7 +23,6 @@
 .button {
   min-width: 32px;
   height: 32px;
-  border: none;
   outline: none;
   border: 1px solid #000000;
   background-color: inherit;
@@ -32,6 +31,8 @@
   line-height: 28px;
   text-align: center;
   cursor: pointer;
+  color: #000;
+  transition: $delay;
 
   &:hover {
     background-color: $color;
@@ -48,10 +49,8 @@
 .button__active {
   min-width: 32px;
   height: 32px;
-  border: none;
   outline: none;
   border: 1px solid #000000;
-  background-color: inherit;
   font-family: 'Myriad Pro', sans-serif;
   font-size: 24px;
   line-height: 28px;
@@ -59,6 +58,7 @@
   background-color: $color;
   color: #fff;
   cursor: pointer;
+  transition: $delay;
 
   &:hover {
     background-color: $color;

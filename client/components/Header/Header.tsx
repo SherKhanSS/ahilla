@@ -27,6 +27,7 @@ const Header: FC = () => {
         <Link href="/">
           <a className={styles.logo}>
             <LogoIcon />
+            <span className={'visually-hidden'}>Логотип</span>
           </a>
         </Link>
         <MenuList isShowMenu={isShowMenu} />
@@ -45,6 +46,7 @@ const Header: FC = () => {
               }}
             >
               {isShowMenu ? <CloseIcon /> : <BurgerIcon />}
+              <span className={'visually-hidden'}>Показать/скрыть</span>
             </button>
           )}
         </div>

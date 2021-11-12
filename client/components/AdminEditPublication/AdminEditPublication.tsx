@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from 'react';
 import styles from './admin-edit-publication.module.scss';
 // import Spinner from '../Icons/Spinner';
 import { domainURL, privateViewStates } from '../../constants';
@@ -26,8 +33,13 @@ const TRIMMING_DATE = 16;
 const MAX_TITLE = 100;
 const MAX_PREVIEW = 360;
 
-const getCurrentDate = (): string => {
-  const date = new Date();
+const getCurrentDate = (dateStr?: string): string => {
+  let date;
+  if (dateStr) {
+    date = new Date(dateStr);
+  } else {
+    date = new Date();
+  }
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
@@ -85,7 +97,10 @@ const AdminEditPublication: FC<{
           );
           const authorArr = article.author !== null ? [article.author] : [];
           const authorOptions = getOptions(authorArr);
-          setArticle(article);
+          setArticle({
+            ...article,
+            date: getCurrentDate(article.date),
+          });
           setInitialContent(article.content);
           setSelectedAuthor(authorOptions[0]);
           setSelectedTags(getOptions(article.tags));
@@ -146,12 +161,17 @@ const AdminEditPublication: FC<{
 
       if (res.status === 201) {
         if (isWithPreview) {
-          Object.assign(document.createElement('a'), {
-            target: '_blank',
-            href: `/administration/preview/${res.id}`,
-          }).click();
+          const win = window.open(
+            `/administration/preview/${res.id}`,
+            article.slug
+          );
+          win?.location.reload();
+
           // setId(res.id);
           // callback(privateViewStates.editPublicationPreview);
+        }
+        if (currentEntityId !== res.id) {
+          setId(res.id);
         }
       } else {
         alert('Что-то пошло не так');
@@ -161,6 +181,14 @@ const AdminEditPublication: FC<{
       alert('Что-то пошло не так');
     }
   };
+
+  useEffect(() => {
+    const timerId = setInterval(async () => {
+      await handleSubmit(false);
+      // console.log('Save');
+    }, 1000 * 30);
+    return () => clearInterval(timerId);
+  });
 
   return (
     <section className={styles.main}>

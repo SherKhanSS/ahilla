@@ -20,6 +20,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <html lang={'ru'} />
         <title key={'title'}>Ахилла</title>
         <meta
           key={'description'}

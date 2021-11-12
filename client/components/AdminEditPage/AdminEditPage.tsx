@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './admin-edit-page.module.scss';
-import { domainURL, privateViewStates } from '../../constants';
+import { domainURL } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import dynamic from 'next/dynamic';
 
@@ -18,21 +18,21 @@ const AdminEditPage: FC<{
   slug: string;
   name: string;
 }> = ({ setIsEditor, slug, name }) => {
-  const [page, setPage] = useState({...initialPage,
-  slug});
+  const [page, setPage] = useState({
+    ...initialPage,
+    slug,
+  });
   const { request } = useHttp();
 
   useEffect(() => {
-      (async () => {
-        try {
-          const page = await request(
-            `${domainURL}/api/pages/${slug}`
-          );
-          setPage(page);
-        } catch (err) {
-          console.log(err);
-        }
-      })();
+    (async () => {
+      try {
+        const page = await request(`${domainURL}/api/pages/${slug}`);
+        setPage(page);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
   }, [request, slug]);
 
   const onChangeEditor = (data: string) => {
@@ -43,12 +43,16 @@ const AdminEditPage: FC<{
   };
 
   const handleSubmit = async () => {
+    const clearedContent = page.content.replace(
+      /<figure>&nbsp;<\/figure>/g,
+      ''
+    );
+
     try {
-      const res = await request(
-              `${domainURL}/api/pages/${slug}`,
-              'PUT',
-              page
-            );
+      const res = await request(`${domainURL}/api/pages/${slug}`, 'PUT', {
+        ...page,
+        content: clearedContent,
+      });
 
       if (res.status === 201) {
         setIsEditor(false);

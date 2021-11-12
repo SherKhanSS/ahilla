@@ -65,6 +65,7 @@ const Authors: FC<{
                 }}
               >
                 <Arrow />
+                <span className={'visually-hidden'}>Показать/скрыть</span>
               </button>
             </li>
           )}

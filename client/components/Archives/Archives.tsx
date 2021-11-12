@@ -57,6 +57,7 @@ const Archives: FC = () => {
               }}
             >
               <Arrow />
+              <span className={'visually-hidden'}>Показать/скрыть</span>
             </button>
           </div>
           {isShowList && (
