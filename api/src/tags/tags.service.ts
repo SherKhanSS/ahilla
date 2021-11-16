@@ -4,7 +4,8 @@ import { CreateTagsDto } from './dto/create-tags.dto';
 import { Tag } from './tags.model';
 import { InjectMeiliSearch } from 'nestjs-meilisearch';
 import { MeiliSearch } from 'meilisearch';
-import { Op } from 'sequelize';
+import { Op, QueryTypes } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
 const checkAndFillDescriptionDeleteContent = (publications) => {
   publications.forEach((article) => {
@@ -18,6 +19,8 @@ const checkAndFillDescriptionDeleteContent = (publications) => {
 
 @Injectable()
 export class TagsService {
+  tagsForMain = [];
+
   constructor(
     @InjectModel(Tag) private tagRepository: typeof Tag,
     @InjectMeiliSearch() private readonly meiliSearch: MeiliSearch,
@@ -110,10 +113,25 @@ export class TagsService {
   }
 
   async getTagForMainPage() {
-    return await this.tagRepository.findAll({
-      offset: 0,
-      limit: 20,
-    });
+    if (this.tagsForMain.length === 0) {
+      const sequelize = new Sequelize(
+        process.env.POSTGRES_DB,
+        process.env.POSTGRES_USER,
+        process.env.POSTGRES_PASSWORD,
+        {
+          dialect: 'postgres',
+          host: process.env.POSTGRES_HOST,
+          port: +process.env.POSTGRES_PORT,
+        },
+      );
+      this.tagsForMain = await sequelize.query(
+        'select * from "tags" left join (select "tag_id" from (select count("publication_id") as "publications", "tag_id" from "publications_tags" group by "tag_id" order by "publications" DESC LIMIT 20) as t) as j on tags.id = j.tag_id where j.tag_id is Not NULL',
+        {
+          type: QueryTypes.SELECT,
+        },
+      );
+    }
+    return this.tagsForMain;
   }
 
   async getTagsForAdminList(start) {

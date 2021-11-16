@@ -22,6 +22,7 @@ const Authors: FC<{
   const [currentSymbol, setCurrentSymbol] = useState(alphabet[0]);
   const [isSlice, setIsSlice] = useState(true);
   const [currentAuthors, setCurrentAuthors] = useState<SetStateAction<any>>([]);
+  const isTags = path === 'tags';
 
   useEffect(() => {
     const isMobile = width === null ? false : width < MOBILE_WIDTH;
@@ -37,6 +38,16 @@ const Authors: FC<{
   }, [authors, currentSymbol]);
 
   const mobileAlphabet = isSlice ? alphabet.slice(0, 3) : alphabet;
+
+  const sortTags = [...authors].sort(function (a, b) {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+    if (nameA < nameB)
+      //сортируем строки по возрастанию
+      return -1;
+    if (nameA > nameB) return 1;
+    return 0; // Никакой сортировки
+  });
 
   return (
     <section className={styles.main}>
@@ -85,6 +96,22 @@ const Authors: FC<{
             );
           })}
         </ul>
+        {isTags && (
+          <>
+            <h2 className={styles.title}>Все метки</h2>
+            <ul className={styles.list}>
+              {sortTags?.map((it, i: number) => {
+                return (
+                  <li className={styles.item} key={i}>
+                    <Link href={`/${path}/${it.id}?order=0&sort=date&page=1`}>
+                      <a className={styles.authors_link}>{it.name}</a>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
       </div>
     </section>
   );

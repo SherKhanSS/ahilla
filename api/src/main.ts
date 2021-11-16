@@ -29,6 +29,4 @@ async function start() {
   );
 }
 
-//TODO cors врубить, блять!!!
-
 start();

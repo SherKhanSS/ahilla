@@ -21,7 +21,7 @@ const Tags: FC = () => {
 
   return (
     <section className={styles.main}>
-      <h2 className={styles.title}>Поиск по тегам</h2>
+      <h2 className={styles.title}>Поиск по меткам</h2>
       <ul className={styles.list}>
         {tags.slice(0, count).map((it, i) => {
           return (
@@ -34,7 +34,7 @@ const Tags: FC = () => {
         })}
       </ul>
       <Link href="/tags">
-        <a className={styles.button}>Все теги</a>
+        <a className={styles.button}>Все метки</a>
       </Link>
     </section>
   );

@@ -6,8 +6,17 @@
 }
 
 .tabs_list,
-.authors_list {
+.authors_list,
+.list {
   @include list-reset;
+}
+
+.item {
+  margin: 5px 0;
+
+  .authors_link {
+    font-weight: 400;
+  }
 }
 
 .tabs_list {
@@ -153,10 +162,24 @@
   .tabs_list {
     justify-content: center;
   }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .item {
+    width: calc(50% - 10px);
+  }
 }
 
 @media (min-width: $desktop-width) {
   .title {
     margin-top: 50px;
+  }
+
+  .item {
+    margin: 1px 0;
   }
 }

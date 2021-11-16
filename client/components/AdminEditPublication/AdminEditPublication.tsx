@@ -185,7 +185,7 @@ const AdminEditPublication: FC<{
   useEffect(() => {
     const timerId = setInterval(async () => {
       await handleSubmit(false);
-      // console.log('Save');
+      console.log('Save');
     }, 1000 * 30);
     return () => clearInterval(timerId);
   });

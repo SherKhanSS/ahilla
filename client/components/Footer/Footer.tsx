@@ -71,9 +71,9 @@ const Footer: FC = () => {
                 </a>
               </li>
               <li className={styles.help_item}>
-                <a className={styles.help_link}>
+                <span className={styles.help_link}>
                   Карта Сбербанка: 4276 1600 2495 4340
-                </a>
+                </span>
               </li>
               <li className={styles.help_item}>
                 <a
