@@ -11,10 +11,7 @@ import AdminAuthorList from '../../components/AdminAuthorList/AdminAuthorList';
 import AdminEditAuthor from '../../components/AdminEditAuthor/AdminEditAuthor';
 import AdminTagList from '../../components/AdminTagList/AdminTagList';
 import AdminEditTag from '../../components/AdminEditTag/AdminEditTag';
-// import AdminEditPublicationPreview from '../../components/AdminEditPublicationPreview/AdminEditPublicationPreview';
-import { useContextState } from '../../context/state';
 import AdminDocumentList from '../../components/AdminDocumentList/AdminDocumentList';
-import AdminEditDocument from '../../components/AdminEditDocument/AdminEditDocument';
 import AdminPageList from '../../components/AdminPageList/AdminPageList';
 
 const redirect = {
@@ -26,67 +23,29 @@ const redirect = {
 
 const getView = (
   view: string,
-  currentEntityId: number | null,
-  callback: (view: string) => void,
-  setId: (id: number | null) => void
+  callback: (view: string) => void
 ): ReactElement | null => {
   switch (view) {
     case privateViewStates.publications:
-      return <AdminPublicationList callback={callback} setId={setId} />;
+      return <AdminPublicationList callback={callback} />;
 
     case privateViewStates.editPublication:
-      return (
-        <AdminEditPublication
-          currentEntityId={currentEntityId}
-          callback={callback}
-          setId={setId}
-        />
-      );
-
-    // case privateViewStates.editPublicationPreview:
-    //   return (
-    //     <AdminEditPublicationPreview
-    //       currentEntityId={currentEntityId}
-    //       callback={callback}
-    //       setId={setId}
-    //     />
-    //   );
+      return <AdminEditPublication callback={callback} />;
 
     case privateViewStates.authors:
-      return <AdminAuthorList callback={callback} setId={setId} />;
+      return <AdminAuthorList callback={callback} />;
 
     case privateViewStates.editAuthor:
-      return (
-        <AdminEditAuthor
-          currentEntityId={currentEntityId}
-          callback={callback}
-          setId={setId}
-        />
-      );
+      return <AdminEditAuthor callback={callback} />;
 
     case privateViewStates.tags:
-      return <AdminTagList callback={callback} setId={setId} />;
+      return <AdminTagList callback={callback} />;
 
     case privateViewStates.editTag:
-      return (
-        <AdminEditTag
-          currentEntityId={currentEntityId}
-          callback={callback}
-          setId={setId}
-        />
-      );
+      return <AdminEditTag callback={callback} />;
 
     case privateViewStates.documents:
-      return <AdminDocumentList callback={callback} setId={setId} />;
-
-    case privateViewStates.editDocument:
-      return (
-        <AdminEditDocument
-          currentEntityId={currentEntityId}
-          callback={callback}
-          setId={setId}
-        />
-      );
+      return <AdminDocumentList />;
 
     case privateViewStates.pages:
       return <AdminPageList />;
@@ -126,13 +85,7 @@ const Private: FC<{ view: string }> = ({
   view = privateViewStates.editPublication,
 }) => {
   const initialView = view !== 'null' ? view : privateViewStates.publications;
-
   const [currentView, setCurrentView] = useState(initialView);
-  const { currentEntityId, setCurrentEntityId } = useContextState();
-
-  const setId = (id: number | null) => {
-    setCurrentEntityId(id);
-  };
 
   const onMenuItemClick = (menuItem: string) => {
     document.cookie = `view=${menuItem}`;
@@ -146,7 +99,7 @@ const Private: FC<{ view: string }> = ({
         currentView={currentView}
         onMenuItemClick={onMenuItemClick}
       />
-      <div>{getView(currentView, currentEntityId, onMenuItemClick, setId)}</div>
+      <div>{getView(currentView, onMenuItemClick)}</div>
       <Footer />
     </>
   );

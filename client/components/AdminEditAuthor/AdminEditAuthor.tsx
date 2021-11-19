@@ -3,6 +3,7 @@ import styles from './admin-edit-author.module.scss';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
+import { useContextState } from '../../context/state';
 
 const transliteration = new cyrillicToTranslit();
 
@@ -14,12 +15,11 @@ const initialAuthor = {
 };
 
 const AdminEditAuthor: FC<{
-  currentEntityId: number | null;
   callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ currentEntityId, callback, setId }) => {
+}> = ({ callback }) => {
   const [author, setAuthor] = useState(initialAuthor);
   const { request } = useHttp();
+  const { currentEntityId, setCurrentEntityId } = useContextState();
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -47,7 +47,7 @@ const AdminEditAuthor: FC<{
               author
             );
       if (res.status === 201) {
-        setId(null);
+        setCurrentEntityId(null);
         callback(privateViewStates.authors);
       } else {
         alert('Что-то пошло не так');
@@ -86,8 +86,8 @@ const AdminEditAuthor: FC<{
         <button onClick={handleSubmit}>Сохранить</button>
         <button
           onClick={() => {
+            setCurrentEntityId(null);
             callback(privateViewStates.authors);
-            setId(null);
           }}
         >
           Вернуться к списку

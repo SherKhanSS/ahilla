@@ -19,6 +19,13 @@
   }
 }
 
+.spinner {
+  position: fixed;
+  top: calc(50% - 32px);
+  left: calc(50% - 32px);
+  z-index: 9;
+}
+
 .upload {
   @include flex-mobile;
 
@@ -32,16 +39,29 @@
 }
 
 .upload_buttons {
-  align-self: flex-start;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px;
+
+  button, input {
+    cursor: pointer;
+  }
 
   button {
-    border: none;
-    outline: none;
-    background-color: hsl(0, 0%, 90%);
-    padding: 5px 10px;
-    margin-right: 1px;
+    margin-top: 5px;
   }
+}
+
+.documents {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9;
+  background-color: #fff;
+  border: 1px solid $color;
+  overflow: scroll;
 }
 
 .select_name {
@@ -99,6 +119,22 @@
       max-height: 400px;
     }
   }
+
+  .upload_buttons {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+
+    input {
+      width: 40%;
+    }
+
+    button {
+      margin-top: 0;
+    }
+  }
 }
 
 @media (min-width: $desktop-width) {
@@ -118,6 +154,18 @@
     input {
       width: 250px;
       margin-left: 30px;
+    }
+  }
+
+  .upload_buttons {
+    justify-content: flex-start;
+
+    input {
+      width: 300px;
+    }
+
+    button {
+      margin-left: 10px;
     }
   }
 }

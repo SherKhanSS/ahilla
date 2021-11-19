@@ -5,36 +5,71 @@ import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import SearchIcon from '../Icons/SearchIcon';
 import Pagination from 'react-js-pagination';
-import AdminTable from '../AdminTable/AdminTable';
+import AdminDocumentsTable from '../AdminDocumentsTable/AdminDocumentsTable';
+import AdminEditDocument from '../AdminEditDocument/AdminEditDocument';
 
 const ITEMS_COUNT_DEFAULT = 30;
+const TRIMMING_DATE = 10;
+
+const documentCategoryList = [
+  {
+    name: 'Все',
+    category: 'all',
+  },
+  {
+    name: 'Изображения',
+    category: 'image',
+  },
+  {
+    name: 'Документы',
+    category: 'other',
+  },
+];
 
 const AdminDocumentList: FC<{
-  callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ callback, setId }) => {
+  handleInsertImage?: (link: string) => void;
+}> = ({ handleInsertImage }) => {
   const [tags, setTags] = useState([]);
   const [tagsCount, setTagsCount] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [isInputFill, setIsInputFill] = useState(false);
   const [activePage, setActivePage] = useState(1);
+  const [options, setOptions] = useState({
+    dateStart: '',
+    dateEnd: '',
+    category: 'all',
+  });
   const { request } = useHttp();
+  const [currentEntityId, setCurrentEntityId] = useState<null | number>(null);
+  const [isShowEdit, setIsShowEdit] = useState(false);
 
   useEffect(() => {
-    if (!isInputFill && !isSent) {
+    if (!isInputFill && !isSent && !isShowEdit) {
       (async () => {
         const start = (activePage - 1) * ITEMS_COUNT_DEFAULT;
+        const dateStart = options.dateStart || 0;
+        const dateEnd = options.dateEnd || 0;
+
         try {
           const { tags, count } = await request(
-            `${domainURL}/api/documents/admins/list/${start}`
+            `${domainURL}/api/documents/admins/list/${start}/${dateStart}/${dateEnd}/${options.category}`
           );
           setTags(tags);
           setTagsCount(count);
         } catch (err) {}
       })();
     }
-  }, [activePage, isInputFill, isSent, request]);
+  }, [
+    activePage,
+    isInputFill,
+    isSent,
+    isShowEdit,
+    options.category,
+    options.dateEnd,
+    options.dateStart,
+    request,
+  ]);
 
   const handlePageChange = async (pageNumber: number) => {
     if (pageNumber === activePage) {
@@ -44,15 +79,13 @@ const AdminDocumentList: FC<{
   };
 
   const handleEdit = (id: number) => {
-    localStorage.setItem('currentEntityId', `${id}`);
-    callback(privateViewStates.editDocument);
-    setId(id);
+    setCurrentEntityId(id);
+    setIsShowEdit(true);
   };
 
   const handleNew = () => {
-    localStorage.removeItem('currentEntityId');
-    callback(privateViewStates.editDocument);
-    setId(null);
+    setCurrentEntityId(null);
+    setIsShowEdit(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -61,7 +94,6 @@ const AdminDocumentList: FC<{
       const res = await request(`${domainURL}/api/documents/${id}`, 'DELETE');
       if (res.status === 200) {
         setIsSent(false);
-        alert('Удалено!');
       } else {
         setIsSent(false);
         alert('Что-то пошло не так!');
@@ -113,16 +145,20 @@ const AdminDocumentList: FC<{
           <Spinner />
         </div>
       )}
+      {isShowEdit && (
+        <AdminEditDocument
+          currentEntityId={currentEntityId}
+          setId={setCurrentEntityId}
+          callback={setIsShowEdit}
+        />
+      )}
       <section className={styles.articles}>
-        <p>
-          Раздел для загрузки используемых в материалах документов - книг, pdf,
-          вордовских файлов и т.д. Так же здесь можно хранить часто используемые
-          постеры для публикаций и вставлять их отсюда ссылкой
-        </p>
-        <div className={styles.top_wrap}>
-          <h2 className={styles.articles__titile}>Файлы</h2>
-          <button onClick={handleNew}>Создать новый</button>
-        </div>
+        {handleInsertImage === undefined && (
+          <div className={styles.top_wrap}>
+            <h2 className={styles.articles__titile}>Файлы</h2>
+            <button onClick={handleNew}>Создать новый</button>
+          </div>
+        )}
         <div className={styles.search__wrap}>
           <div className={styles.search}>
             <div className={styles.search__icon}>
@@ -130,15 +166,82 @@ const AdminDocumentList: FC<{
             </div>
             <input id={'search'} type={'text'} onChange={handleSearch} />
             <div>{isSearch && <Spinner />}</div>
+            {handleInsertImage !== undefined && (
+              <button
+                className={styles.delete}
+                onClick={() => {
+                  handleInsertImage('/img/youtobe-back.jpg');
+                }}
+              >
+                +
+              </button>
+            )}
           </div>
         </div>
-        <AdminTable
+        <div className={styles.date}>
+          <label>
+            Начало выборки
+            <input
+              type={'date'}
+              value={options.dateStart.slice(0, TRIMMING_DATE) ?? ''}
+              onChange={(e) => {
+                setOptions({
+                  ...options,
+                  dateStart: e.target.value,
+                });
+              }}
+            />
+          </label>
+          <label>
+            Конец выборки (минимум день)
+            <input
+              type={'date'}
+              value={options.dateEnd.slice(0, TRIMMING_DATE) ?? ''}
+              onChange={(e) => {
+                setOptions({
+                  ...options,
+                  dateEnd: e.target.value,
+                });
+              }}
+            />
+          </label>
+          <label>
+            Категория документа
+            <select
+              value={options.category}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                setOptions({
+                  ...options,
+                  category: e.target.value,
+                });
+              }}
+            >
+              {documentCategoryList.map((it, i) => {
+                return (
+                  <option value={it.category} key={i}>
+                    {it.name}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+          <button
+            onClick={() => {
+              setOptions({
+                dateStart: '',
+                dateEnd: '',
+                category: 'all',
+              });
+            }}
+          >
+            Очистить все
+          </button>
+        </div>
+        <AdminDocumentsTable
           options={tags}
-          isPublications={false}
-          isFiles={true}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
-          handlePublished={() => {}}
+          handleInsertImage={handleInsertImage}
         />
         <section className={styles.pagination}>
           {!isInputFill && tagsCount > ITEMS_COUNT_DEFAULT && (

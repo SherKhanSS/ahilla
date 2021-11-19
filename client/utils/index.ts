@@ -1,5 +1,5 @@
 import { domainURL } from '../constants';
-import { GetServerSidePropsResult} from "next";
+import { GetServerSidePropsResult } from 'next';
 
 export const formatDate = (date: string): string => {
   const parsedDate = new Date(date);
@@ -45,21 +45,25 @@ export const formatDateForArchives = (dateArr: number[]): string => {
 
 export const saveToServer = async (file: File) => {
   const body = new FormData();
-  body.append('image', file);
+  body.append('file', file);
   const token = localStorage.token ? localStorage.token : '';
 
-  const res = await fetch(`${domainURL}/api/publications/add-image`, {
+  const res = await fetch(`${domainURL}/api/documents`, {
     method: 'POST',
     body,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  let { uploadedImageName } = await res.json();
-  return uploadedImageName;
+  let { path } = await res.json();
+  return path;
 };
 
-export const getPropsPage = async (slug: string, name: string, description: string): Promise<GetServerSidePropsResult<{ [key: string]: any; }>> => {
+export const getPropsPage = async (
+  slug: string,
+  name: string,
+  description: string
+): Promise<GetServerSidePropsResult<{ [key: string]: any }>> => {
   try {
     const response = await fetch(`${domainURL}/api/pages/${slug}`);
 
@@ -74,7 +78,7 @@ export const getPropsPage = async (slug: string, name: string, description: stri
 
     const article = await response.json();
     article.name = name;
-    article.description = description
+    article.description = description;
 
     return {
       props: {
@@ -89,4 +93,4 @@ export const getPropsPage = async (slug: string, name: string, description: stri
       },
     };
   }
-}
+};

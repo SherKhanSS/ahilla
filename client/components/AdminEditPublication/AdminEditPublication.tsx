@@ -1,13 +1,6 @@
-import {
-  ChangeEvent,
-  FC,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from './admin-edit-publication.module.scss';
-// import Spinner from '../Icons/Spinner';
+import Spinner from '../Icons/Spinner';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
@@ -20,6 +13,8 @@ import {
   TagType,
 } from '../../types';
 import { saveToServer } from '../../utils';
+import { useContextState } from '../../context/state';
+import AdminDocumentList from '../AdminDocumentList/AdminDocumentList';
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
@@ -72,10 +67,8 @@ const getOptions = (arr: AuthorType[] | TagType[]) => {
 };
 
 const AdminEditPublication: FC<{
-  currentEntityId: number | null;
   callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ currentEntityId, callback, setId }) => {
+}> = ({ callback }) => {
   const [article, setArticle] = useState<InitialArticle>(initialArticle);
   const [initialContent, setInitialContent] = useState('Полное содержание');
   const [content, setContent] = useState('Полное содержание');
@@ -86,7 +79,8 @@ const AdminEditPublication: FC<{
   );
   const [selectedTags, setSelectedTags] = useState<SelectOptions>([]);
   const [isShowUpload, setIsShowUpload] = useState(true);
-  const { request } = useHttp();
+  const { request, loading } = useHttp();
+  const { currentEntityId, setCurrentEntityId } = useContextState();
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -137,6 +131,14 @@ const AdminEditPublication: FC<{
     setContent(data);
   };
 
+  const handleInsertImage = (imgLink: string) => {
+    setArticle({
+      ...article,
+      image: imgLink,
+    });
+    setIsShowUpload(true);
+  };
+
   const handleSubmit = async (isWithPreview: boolean) => {
     const clearedContent = content.replace(/<figure>&nbsp;<\/figure>/g, '');
 
@@ -166,13 +168,10 @@ const AdminEditPublication: FC<{
             article.slug
           );
           win?.location.reload();
-
-          // setId(res.id);
-          // callback(privateViewStates.editPublicationPreview);
         }
-        if (currentEntityId !== res.id) {
-          setId(res.id);
-        }
+        // if (currentEntityId !== res.id) {
+        //   setCurrentEntityId(res.id);
+        // }
       } else {
         alert('Что-то пошло не так');
       }
@@ -182,58 +181,43 @@ const AdminEditPublication: FC<{
     }
   };
 
-  useEffect(() => {
-    const timerId = setInterval(async () => {
-      await handleSubmit(false);
-      console.log('Save');
-    }, 1000 * 30);
-    return () => clearInterval(timerId);
-  });
+  // useEffect(() => {
+  //   const timerId = setInterval(async () => {
+  //     await handleSubmit(false);
+  //     console.log('Save');
+  //   }, 1000 * 30);
+  //   return () => clearInterval(timerId);
+  // });
 
   return (
     <section className={styles.main}>
+      {loading && (
+        <div className={styles.spinner}>
+          <Spinner />
+        </div>
+      )}
+      {!isShowUpload && (
+        <div className={styles.documents}>
+          <AdminDocumentList handleInsertImage={handleInsertImage} />
+        </div>
+      )}
       <div className={styles.upload}>
         {article.image !== '' && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={article.image} alt="img" />
         )}
-        <span>
-          Постер (Рекомендованный размер 700 х 400. Часто используемые картинки
-          можно грузить в раздел документы и оттуда копировать ссылку для
-          вставки)
-        </span>
+        <span>Постер (Рекомендованный размер 700 х 400)</span>
         <div className={styles.upload_buttons}>
+          <input accept="image/jpg" type="file" onChange={handleChange} />
+          <span>Или выберите из загруженных</span>
           <button
-            style={isShowUpload ? { outline: '1px solid #000' } : {}}
-            onClick={() => {
-              setIsShowUpload(true);
-            }}
-          >
-            Загрузка
-          </button>
-          <button
-            style={!isShowUpload ? { outline: '1px solid #000' } : {}}
             onClick={() => {
               setIsShowUpload(false);
             }}
           >
-            Вставить ссылку
+            Открыть файлы
           </button>
         </div>
-        {isShowUpload ? (
-          <input accept="image/jpg" type="file" onChange={handleChange} />
-        ) : (
-          <input
-            type={'text'}
-            // value={article.image}
-            onChange={(e) => {
-              setArticle({
-                ...article,
-                image: e.target.value,
-              });
-            }}
-          />
-        )}
       </div>
       <label>
         Заголовок статьи
@@ -350,7 +334,7 @@ const AdminEditPublication: FC<{
         <button
           onClick={async () => {
             await handleSubmit(false);
-            setId(null);
+            setCurrentEntityId(null);
             callback(privateViewStates.publications);
           }}
         >

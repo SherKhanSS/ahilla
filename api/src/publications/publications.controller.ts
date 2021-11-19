@@ -40,13 +40,6 @@ export class PublicationsController {
     return this.publicationsService.deletePublication(params.id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('add-image')
-  @UseInterceptors(FileInterceptor('image'))
-  createImage(@UploadedFile() image) {
-    return this.publicationsService.createImage(image);
-  }
-
   @Get('news/:offset/:limit/:increase/:sort')
   getNews(@Param() params) {
     return this.publicationsService.getNewsFromPublication(
@@ -134,6 +127,15 @@ export class PublicationsController {
   @Get('admins/list/:start')
   getFullList(@Param() params) {
     return this.publicationsService.getPublicationsForAdminList(params.start);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('admins/date-list/:start/:end')
+  getPublicationsByDateForAdminList(@Param() params) {
+    return this.publicationsService.getPublicationsByDateForAdminList(
+      params.start,
+      params.end,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

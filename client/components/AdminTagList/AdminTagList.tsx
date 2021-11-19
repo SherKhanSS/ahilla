@@ -6,13 +6,13 @@ import { useHttp } from '../../hooks/http';
 import SearchIcon from '../Icons/SearchIcon';
 import Pagination from 'react-js-pagination';
 import AdminTable from '../AdminTable/AdminTable';
+import { useContextState } from '../../context/state';
 
 const ITEMS_COUNT_DEFAULT = 30;
 
 const AdminTagList: FC<{
   callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ callback, setId }) => {
+}> = ({ callback }) => {
   const [tags, setTags] = useState([]);
   const [tagsCount, setTagsCount] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
@@ -20,6 +20,7 @@ const AdminTagList: FC<{
   const [isInputFill, setIsInputFill] = useState(false);
   const [activePage, setActivePage] = useState(1);
   const { request } = useHttp();
+  const { setCurrentEntityId } = useContextState();
 
   useEffect(() => {
     if (!isInputFill && !isSent) {
@@ -44,15 +45,13 @@ const AdminTagList: FC<{
   };
 
   const handleEdit = (id: number) => {
-    localStorage.setItem('currentEntityId', `${id}`);
+    setCurrentEntityId(id);
     callback(privateViewStates.editTag);
-    setId(id);
   };
 
   const handleNew = () => {
-    localStorage.removeItem('currentEntityId');
+    setCurrentEntityId(null);
     callback(privateViewStates.editTag);
-    setId(null);
   };
 
   const handleDelete = async (id: number) => {

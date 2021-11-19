@@ -6,13 +6,13 @@ import { useHttp } from '../../hooks/http';
 import SearchIcon from '../Icons/SearchIcon';
 import Pagination from 'react-js-pagination';
 import AdminTable from '../AdminTable/AdminTable';
+import { useContextState } from '../../context/state';
 
 const ITEMS_COUNT_DEFAULT = 30;
 
 const AdminAuthorList: FC<{
   callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ callback, setId }) => {
+}> = ({ callback }) => {
   const [authors, setAuthors] = useState([]);
   const [authorsCount, setAuthorsCount] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
@@ -20,6 +20,7 @@ const AdminAuthorList: FC<{
   const [isInputFill, setIsInputFill] = useState(false);
   const [activePage, setActivePage] = useState(1);
   const { request } = useHttp();
+  const { setCurrentEntityId } = useContextState();
 
   useEffect(() => {
     if (!isInputFill && !isSent) {
@@ -44,14 +45,12 @@ const AdminAuthorList: FC<{
   };
 
   const handleEdit = (id: number) => {
-    localStorage.setItem('currentEntityId', `${id}`);
-    setId(id);
+    setCurrentEntityId(id);
     callback(privateViewStates.editAuthor);
   };
 
   const handleNew = () => {
-    setId(null);
-    localStorage.removeItem('currentEntityId');
+    setCurrentEntityId(null);
     callback(privateViewStates.editAuthor);
   };
 

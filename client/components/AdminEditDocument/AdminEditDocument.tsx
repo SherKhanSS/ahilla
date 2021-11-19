@@ -1,26 +1,22 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import styles from './admin-edit-document.module.scss';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
-import cyrillicToTranslit from 'cyrillic-to-translit-js';
-import { saveToServer } from '../../utils';
-
-const transliteration = new cyrillicToTranslit();
 
 const MAX_TITLE = 100;
 
-const initialTag = {
-  name: '',
-  slug: '',
-};
-
 const AdminEditDocument: FC<{
   currentEntityId: number | null;
-  callback: (view: string) => void;
+  callback: (status: boolean) => void;
   setId: (id: number | null) => void;
 }> = ({ currentEntityId, callback, setId }) => {
-  const [document, setDocument] = useState(initialTag);
+  const [name, setName] = useState('');
   const { request } = useHttp();
+  const refFormData = useRef<FormData>();
+
+  useEffect(() => {
+    refFormData.current = new FormData();
+  }, []);
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -29,7 +25,7 @@ const AdminEditDocument: FC<{
           const document = await request(
             `${domainURL}/api/documents/${currentEntityId}`
           );
-          setDocument(document);
+          setName(document.name);
         } catch (err) {
           console.log(err);
         }
@@ -38,18 +34,39 @@ const AdminEditDocument: FC<{
   }, [currentEntityId, request]);
 
   const handleSubmit = async () => {
+    const token = localStorage.token ? localStorage.token : '';
+
+    if (refFormData.current !== undefined) {
+      refFormData.current.append('name', name);
+    }
+
+    const body = refFormData.current;
+
     try {
       const res =
         currentEntityId === null
-          ? await request(`${domainURL}/api/documents`, 'POST', document)
-          : await request(
-              `${domainURL}/api/documents/${currentEntityId}`,
-              'PUT',
-              document
+          ? await fetch(`${domainURL}/api/documents`, {
+              method: 'POST',
+              body,
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+          : await fetch(
+              `${domainURL}/api/documents/${currentEntityId}/${name}`,
+              {
+                method: 'PUT',
+                body,
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
             );
-      if (res.status === 201) {
+
+      const { status } = await res.json();
+      if (status === 201) {
         setId(null);
-        callback(privateViewStates.documents);
+        callback(false);
       } else {
         alert('Что-то пошло не так');
       }
@@ -60,50 +77,43 @@ const AdminEditDocument: FC<{
   };
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files !== null) {
+    if (e.target.files !== null && refFormData.current !== undefined) {
       const file = e.target.files[0];
-      const urlImg = await saveToServer(file);
-      setDocument({
-        ...document,
-        slug: urlImg,
-      });
+      refFormData.current.append('file', file);
     }
   };
 
   return (
-    <section className={styles.main}>
-      <label>
-        Название файла
-        <input type="file" onChange={handleChange} />
-      </label>
-      <label>
-        Название файла
-        <input
-          type={'text'}
-          value={document.name}
-          maxLength={MAX_TITLE}
-          onChange={(e) => {
-            setDocument({
-              ...document,
-              name: e.target.value,
-            });
-          }}
-        />
-      </label>
-      <label>
-        Slug (только для чтения)
-        <input readOnly={true} type={'text'} value={document.slug} />
-      </label>
-      <div className={styles.buttons}>
-        <button onClick={handleSubmit}>Сохранить</button>
-        <button
-          onClick={() => {
-            callback(privateViewStates.documents);
-            setId(null);
-          }}
-        >
-          Вернуться к списку
-        </button>
+    <section className={styles.main_wrap}>
+      <div className={styles.main}>
+        {!currentEntityId && (
+          <label>
+            Файл
+            <input type="file" onChange={handleChange} />
+          </label>
+        )}
+        <label>
+          Название файла
+          <input
+            type={'text'}
+            value={name}
+            maxLength={MAX_TITLE}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </label>
+        <div className={styles.buttons}>
+          <button onClick={handleSubmit}>Сохранить</button>
+          <button
+            onClick={() => {
+              setId(null);
+              callback(false);
+            }}
+          >
+            Закрыть
+          </button>
+        </div>
       </div>
     </section>
   );

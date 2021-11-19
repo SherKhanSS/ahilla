@@ -2,15 +2,21 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as uuid from 'uuid';
+import { log } from 'util';
 
 @Injectable()
 export class FilesService {
-  async createFile(file): Promise<string> {
+  async createFile(file): Promise<{
+    path: string;
+    name: string;
+    category: string;
+  }> {
     try {
       const { originalname } = file;
       const nameArr = originalname.split('.');
       const type = nameArr[nameArr.length - 1];
       let fileName;
+      let category;
 
       if (
         type === 'jpg' ||
@@ -19,8 +25,10 @@ export class FilesService {
         type === 'webp'
       ) {
         fileName = uuid.v4() + `.${type}`;
+        category = 'image';
       } else {
         fileName = originalname;
+        category = 'other';
       }
 
       const filePath = path.resolve(
@@ -42,12 +50,31 @@ export class FilesService {
         }
       });
 
-      return `${process.env.PART_FILE_PATH}${fileName}`;
+      return {
+        path: `${process.env.PART_FILE_PATH}${fileName}`,
+        name: originalname,
+        category,
+      };
     } catch (err) {
       throw new HttpException(
         'Произошла ошибка при записи файла',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+
+  async deleteFile(fullPath: string) {
+    const currentPath = fullPath.split('/').slice(3).join('/');
+    const filePath = path.resolve(__dirname, '..', 'static');
+    const pathForDelete = filePath + '/' + currentPath;
+
+    try {
+      console.log(pathForDelete);
+      await fs.unlink(pathForDelete, (e) => {
+        console.log(e);
+      });
+    } catch (e) {
+      console.log(e);
     }
   }
 }

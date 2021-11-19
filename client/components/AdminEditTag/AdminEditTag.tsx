@@ -3,6 +3,7 @@ import styles from './admin-edit-tag.module.scss';
 import { domainURL, privateViewStates } from '../../constants';
 import { useHttp } from '../../hooks/http';
 import cyrillicToTranslit from 'cyrillic-to-translit-js';
+import { useContextState } from '../../context/state';
 
 const transliteration = new cyrillicToTranslit();
 
@@ -14,12 +15,11 @@ const initialTag = {
 };
 
 const AdminEditTag: FC<{
-  currentEntityId: number | null;
   callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ currentEntityId, callback, setId }) => {
+}> = ({ callback }) => {
   const [tag, setTag] = useState(initialTag);
   const { request } = useHttp();
+  const { currentEntityId, setCurrentEntityId } = useContextState();
 
   useEffect(() => {
     if (currentEntityId !== null) {
@@ -45,7 +45,7 @@ const AdminEditTag: FC<{
               tag
             );
       if (res.status === 201) {
-        setId(null);
+        setCurrentEntityId(null);
         callback(privateViewStates.tags);
       } else {
         alert('Что-то пошло не так');
@@ -84,7 +84,7 @@ const AdminEditTag: FC<{
         <button
           onClick={() => {
             callback(privateViewStates.tags);
-            setId(null);
+            setCurrentEntityId(null);
           }}
         >
           Вернуться к списку

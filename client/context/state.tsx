@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { useHttp } from '../hooks/http';
 import { TagType } from '../types';
+import { privateViewStates } from '../constants';
 
 const initialTag = {
   id: 1,
@@ -60,8 +61,17 @@ export const Provider: FC<{ children: ReactNode }> = ({ children }) => {
   ]);
   const [datesMark, setDatesMark] = useState(initialDates);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [currentEntityId, setCurrentEntityId] = useState<null | number>(null);
+  const [currentEntityId, setEntityId] = useState<null | number>(null);
   const { request } = useHttp();
+
+  const setCurrentEntityId = (id: null | number) => {
+    if (id === null) {
+      localStorage.removeItem('currentEntityId');
+    } else {
+      localStorage.setItem('currentEntityId', `${id}`);
+    }
+    setEntityId(id);
+  };
 
   useEffect(() => {
     (async () => {

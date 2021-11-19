@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   button {
     @include button;
   }
@@ -66,6 +66,31 @@
   }
 }
 
+.date {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  input {
+    margin-top: 5px;
+  }
+
+  button {
+    border: none;
+    outline: none;
+    background-color: hsl(0, 0%, 90%);
+    padding: 5px 10px;
+    margin-right: 1px;
+    cursor: pointer;
+  }
+}
+
 .articles__titile {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -108,6 +133,21 @@
   .search {
     padding: 12px 0;
   }
+
+  .date {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      margin-bottom: 0;
+      width: 35%;
+    }
+
+    button {
+      align-self: flex-end;
+    }
+  }
 }
 
 @media (min-width: $desktop-width) {
@@ -118,6 +158,15 @@
   .articles__titile {
     font-size: 22px;
     line-height: 26px;
+  }
+
+  .date {
+    justify-content: center;
+
+    label {
+      margin-right: 20px;
+      width: 30%;
+    }
   }
 }
 

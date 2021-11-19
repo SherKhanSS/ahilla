@@ -6,11 +6,14 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentsDto } from './dto/create-documents.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('documents')
 export class DocumentsController {
@@ -18,14 +21,15 @@ export class DocumentsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() tagDto: CreateDocumentsDto) {
-    return this.documentsService.createDocument(tagDto);
+  @UseInterceptors(FileInterceptor('file'))
+  create(@Body() dto: CreateDocumentsDto, @UploadedFile() file) {
+    return this.documentsService.createDocument(dto, file);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(':id')
-  update(@Body() tagDto: CreateDocumentsDto, @Param() params) {
-    return this.documentsService.updateDocument(params.id, tagDto);
+  @Put(':id/:name')
+  update(@Param() params) {
+    return this.documentsService.updateDocument(params.id, params.name);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -46,9 +50,14 @@ export class DocumentsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('admins/list/:start')
+  @Get('admins/list/:start/:date_start/:date_end/:category')
   getAllForAdmin(@Param() params) {
-    return this.documentsService.getDocumentsForAdminList(params.start);
+    return this.documentsService.getDocumentsForAdminList(
+      params.start,
+      params.date_start,
+      params.date_end,
+      params.category,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

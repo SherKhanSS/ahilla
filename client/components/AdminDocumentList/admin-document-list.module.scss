@@ -24,7 +24,7 @@
 }
 
 .search__wrap {
-  padding: 10px 0 15px;
+  padding: 10px 0 0;
 }
 
 .search {
@@ -66,6 +66,15 @@
   }
 }
 
+.delete {
+  font-size: 26px;
+  font-weight: bold;
+  color: $color;
+  transform: rotate(45deg);
+  padding: 0 10px;
+  line-height: 0;
+}
+
 .articles__titile {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -95,6 +104,31 @@
   }
 }
 
+.date {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0 20px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  input, select {
+    margin-top: 5px;
+  }
+
+  button {
+    border: none;
+    outline: none;
+    background-color: hsl(0, 0%, 90%);
+    padding: 5px 10px;
+    margin-right: 1px;
+    cursor: pointer;
+  }
+}
+
 @media (min-width: $tablet-width) {
 
   .main {
@@ -102,11 +136,27 @@
   }
 
   .search__wrap {
-    padding: 15px 0 20px;
+    padding: 15px 0 0;
   }
 
   .search {
     padding: 12px 0;
+  }
+
+  .date {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 30px;
+
+    label {
+      margin-bottom: 0;
+      width: 25%;
+    }
+
+    button {
+      align-self: flex-end;
+    }
   }
 }
 
@@ -118,6 +168,17 @@
   .articles__titile {
     font-size: 22px;
     line-height: 26px;
+  }
+
+  .date {
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 40px;
+
+    label {
+      margin-right: 20px;
+      width: 24.5%;
+    }
   }
 }
 

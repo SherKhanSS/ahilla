@@ -6,23 +6,39 @@ import { useHttp } from '../../hooks/http';
 import SearchIcon from '../Icons/SearchIcon';
 import Pagination from 'react-js-pagination';
 import AdminTable from '../AdminTable/AdminTable';
+import { useContextState } from '../../context/state';
 
 const ITEMS_COUNT_DEFAULT = 30;
+const TRIMMING_DATE = 10;
 
 const AdminPublicationList: FC<{
   callback: (view: string) => void;
-  setId: (id: number | null) => void;
-}> = ({ callback, setId }) => {
+}> = ({ callback }) => {
   const [articles, setArticles] = useState([]);
   const [articlesCount, setArticlesCount] = useState(0);
   const [isSearch, setIsSearch] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [isInputFill, setIsInputFill] = useState(false);
   const [activePage, setActivePage] = useState(1);
+  const [dates, setDates] = useState({ start: '', end: '' });
   const { request } = useHttp();
+  const { setCurrentEntityId } = useContextState();
 
   useEffect(() => {
-    if (!isInputFill && !isSent) {
+    if (dates.start !== '' && dates.end !== '') {
+      (async () => {
+        try {
+          const articles = await request(
+            `${domainURL}/api/publications/admins/date-list/${dates.start}/${dates.end}`
+          );
+          setArticles(articles);
+        } catch (err) {}
+      })();
+    }
+  }, [dates.end, dates.start, request]);
+
+  useEffect(() => {
+    if (!isInputFill && !isSent && dates.start === '' && dates.end === '') {
       (async () => {
         const start = (activePage - 1) * ITEMS_COUNT_DEFAULT;
         try {
@@ -34,7 +50,7 @@ const AdminPublicationList: FC<{
         } catch (err) {}
       })();
     }
-  }, [activePage, isInputFill, isSent, request]);
+  }, [activePage, dates.end, dates.start, isInputFill, isSent, request]);
 
   const handlePageChange = async (pageNumber: number) => {
     if (pageNumber === activePage) {
@@ -61,15 +77,13 @@ const AdminPublicationList: FC<{
   };
 
   const handleEdit = (id: number) => {
-    localStorage.setItem('currentEntityId', `${id}`);
+    setCurrentEntityId(id);
     callback(privateViewStates.editPublication);
-    setId(id);
   };
 
   const handleNew = () => {
-    localStorage.removeItem('currentEntityId');
+    setCurrentEntityId(null);
     callback(privateViewStates.editPublication);
-    setId(null);
   };
 
   const handleDelete = async (id: number) => {
@@ -146,6 +160,44 @@ const AdminPublicationList: FC<{
               }}
             />
             <div>{isSearch && <Spinner />}</div>
+          </div>
+          <div className={styles.date}>
+            <label>
+              Начало выборки
+              <input
+                type={'date'}
+                value={dates.start.slice(0, TRIMMING_DATE) ?? ''}
+                onChange={(e) => {
+                  setDates({
+                    ...dates,
+                    start: e.target.value,
+                  });
+                }}
+              />
+            </label>
+            <label>
+              Конец выборки (минимум день)
+              <input
+                type={'date'}
+                value={dates.end.slice(0, TRIMMING_DATE) ?? ''}
+                onChange={(e) => {
+                  setDates({
+                    ...dates,
+                    end: e.target.value,
+                  });
+                }}
+              />
+            </label>
+            <button
+              onClick={() => {
+                setDates({
+                  start: '',
+                  end: '',
+                });
+              }}
+            >
+              Очистить даты
+            </button>
           </div>
         </div>
         <AdminTable

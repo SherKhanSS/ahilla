@@ -1,12 +1,26 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixins.scss';
 
+.main_wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  z-index: 1;
+}
+
 .main {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  max-width: $max-width;
-  margin: 0 auto;
+  width: calc(100% - 40px);
+  max-width: 600px;
+  margin: auto;
+  border: 1px solid $color;
+  background-color: #fff;
+  z-index: 2;
 
   label {
     margin: 10px 0;
@@ -65,7 +79,8 @@
 
 @media (min-width: $tablet-width) {
   .main {
-    padding: 20px;
+    padding: 40px;
+    width: calc(100% - 80px);
   }
 
   .buttons {
@@ -88,8 +103,6 @@
 
 @media (min-width: $desktop-width) {
   .main {
-    padding: 40px 200px;
-
     img {
       margin-bottom: 30px;
     }

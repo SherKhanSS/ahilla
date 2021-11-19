@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Publication } from './publications.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreatePublicationsDto } from './dto/create-publications.dto';
-import { FilesService } from '../files/files.service';
 import { Author } from '../authors/authors.model';
 import { PublicationsTags } from './publications-tags.model';
 import { Op } from 'sequelize';
@@ -26,7 +25,6 @@ export class PublicationsService {
     @InjectModel(Publication) private publicationRepository: typeof Publication,
     @InjectModel(PublicationsTags)
     private publicationsTagsRepository: typeof PublicationsTags,
-    private fileService: FilesService,
     private tagService: TagsService,
     @InjectMeiliSearch() private readonly meiliSearch: MeiliSearch,
   ) {}
@@ -96,11 +94,6 @@ export class PublicationsService {
     await index.deleteDocument(id);
 
     return { status: HttpStatus.OK };
-  }
-
-  async createImage(image) {
-    const fileName = await this.fileService.createFile(image);
-    return { uploadedImageName: fileName };
   }
 
   async getNewsFromPublication(offset, limit, increase, sort) {
@@ -353,6 +346,19 @@ export class PublicationsService {
     });
 
     return { count, articles: rows };
+  }
+
+  async getPublicationsByDateForAdminList(start, end) {
+    return await this.publicationRepository.findAll({
+      where: {
+        date: {
+          [Op.gte]: new Date(start),
+          [Op.lt]: new Date(end),
+        },
+      },
+      attributes: ['id', 'name', 'date', 'is_published'],
+      limit: 30,
+    });
   }
 
   async fillMeiliSearchPublications() {

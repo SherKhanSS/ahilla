@@ -1,0 +1,114 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.buttons, .buttons div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.name_name {
+  padding: 5px;
+}
+
+.mock {
+  width: 100%;
+  padding-bottom: 57%;
+  position: relative;
+  background-color: $color-active;
+
+  span {
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    left: calc(50% - 20px);
+  }
+}
+
+.row {
+  border: 1px solid $color;
+  width: calc(50% - 5px);
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, .7);
+}
+
+.body {
+  @include list-reset;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.buttons div {
+  padding: 5px;
+  cursor: pointer;
+  transition: $delay;
+
+  &:active {
+    opacity: .5;
+  }
+}
+
+.buttons div:not(:last-child) {
+  border-right: 1px solid $color;
+}
+
+.delete {
+  font-size: 26px;
+  font-weight: bold;
+  color: $color;
+  transform: rotate(45deg);
+  padding: 0;
+  line-height: 0;
+}
+
+@media (min-width: $tablet-width) {
+  .row {
+    width: calc(33% - 5px);
+  }
+
+  .buttons div {
+    padding: 10px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .body {
+    justify-content: flex-start;
+  }
+
+  .row {
+    width: calc(25% - 15px);
+    margin-bottom: 20px;
+  }
+
+  .row:not(:nth-child(4n)) {
+    margin-right: 20px;
+  }
+
+  .buttons div {
+    padding: 5px;
+  }
+}
