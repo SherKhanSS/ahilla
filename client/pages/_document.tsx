@@ -10,7 +10,6 @@ class MyDocument extends Document {
           {/*<link rel="icon" href="/favicon/icon.svg" type="image/svg+xml" />*/}
           <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
           <link rel="manifest" href="/favicon/manifest.webmanifest" />
-          <title key={'title'}>Ахилла</title>
         </Head>
         <body>
           <Main />
