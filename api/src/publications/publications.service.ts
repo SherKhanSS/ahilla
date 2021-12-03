@@ -247,9 +247,18 @@ export class PublicationsService {
   }
 
   async getPublicationById(id) {
-    return await this.publicationRepository.findByPk(id, {
+    const publication = await this.publicationRepository.findByPk(id, {
       include: { all: true },
     });
+
+    if (publication.description === '') {
+      publication.content = publication.content.replace(/\n/g, '</br>');
+      publication.description =
+        publication.content.replace(/<\/?[^>]+(>|$)/g, '').slice(0, 360) +
+        '...';
+    }
+
+    return publication;
   }
 
   async getPublicationBySlug(slug) {
@@ -271,6 +280,7 @@ export class PublicationsService {
     await publication.increment('views');
 
     if (publication.description === '') {
+      publication.content = publication.content.replace(/\n/g, '</br>');
       publication.description =
         publication.content.replace(/<\/?[^>]+(>|$)/g, '').slice(0, 360) +
         '...';

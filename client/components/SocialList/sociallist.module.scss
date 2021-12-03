@@ -24,15 +24,27 @@
     fill: #666;
   }
 
+  svg path + path {
+    fill: #fff;
+  }
+
   &:hover {
     path {
       fill: #000;
+    }
+
+    svg path + path {
+      fill: #fff;
     }
   }
 
   &:active {
     path {
       fill: $color-active;
+    }
+
+    svg path + path {
+      fill: #fff;
     }
   }
 }

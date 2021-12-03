@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState, useCallback } from 'react';
 import styles from './admin-edit-publication.module.scss';
 import Spinner from '../Icons/Spinner';
 import { domainURL, privateViewStates } from '../../constants';
@@ -139,55 +139,66 @@ const AdminEditPublication: FC<{
     setIsShowUpload(true);
   };
 
-  const handleSubmit = async (isWithPreview: boolean) => {
-    const clearedContent = content.replace(/<figure>&nbsp;<\/figure>/g, '');
+  const handleSubmit = useCallback(
+    async (isWithPreview: boolean) => {
+      const clearedContent = content.replace(/<figure>&nbsp;<\/figure>/g, '');
 
-    const date = new Date(article.date);
-    const newArticle = {
-      ...article,
-      content: clearedContent,
-      author_id: selectedAuthor?.value,
-      tags: selectedTags.map((it) => it.value),
-      date,
-    };
+      const date = new Date(article.date);
+      const newArticle = {
+        ...article,
+        content: clearedContent,
+        author_id: selectedAuthor?.value,
+        tags: selectedTags.map((it) => it.value),
+        date,
+      };
 
-    try {
-      const res =
-        currentEntityId === null
-          ? await request(`${domainURL}/api/publications`, 'POST', newArticle)
-          : await request(
-              `${domainURL}/api/publications/${currentEntityId}`,
-              'PUT',
-              newArticle
+      try {
+        const res =
+          currentEntityId === null
+            ? await request(`${domainURL}/api/publications`, 'POST', newArticle)
+            : await request(
+                `${domainURL}/api/publications/${currentEntityId}`,
+                'PUT',
+                newArticle
+              );
+
+        if (res.status === 201) {
+          if (isWithPreview) {
+            const win = window.open(
+              `/administration/preview/${res.id}`,
+              article.slug
             );
-
-      if (res.status === 201) {
-        if (isWithPreview) {
-          const win = window.open(
-            `/administration/preview/${res.id}`,
-            article.slug
-          );
-          win?.location.reload();
+            win?.location.reload();
+          }
+          if (currentEntityId !== res.id) {
+            setCurrentEntityId(res.id);
+          }
+        } else {
+          alert('Что-то пошло не так');
         }
-        // if (currentEntityId !== res.id) {
-        //   setCurrentEntityId(res.id);
-        // }
-      } else {
+      } catch (err) {
+        console.log(err);
         alert('Что-то пошло не так');
       }
-    } catch (err) {
-      console.log(err);
-      alert('Что-то пошло не так');
-    }
-  };
+    },
+    [
+      article,
+      content,
+      currentEntityId,
+      request,
+      selectedAuthor?.value,
+      selectedTags,
+      setCurrentEntityId,
+    ]
+  );
 
-  // useEffect(() => {
-  //   const timerId = setInterval(async () => {
-  //     await handleSubmit(false);
-  //     console.log('Save');
-  //   }, 1000 * 30);
-  //   return () => clearInterval(timerId);
-  // });
+  useEffect(() => {
+    const timerId = setInterval(async () => {
+      await handleSubmit(false);
+      console.log('save');
+    }, 1000 * 10);
+    return () => clearInterval(timerId);
+  }, [handleSubmit]);
 
   return (
     <section className={styles.main}>

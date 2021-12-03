@@ -35,7 +35,7 @@ const OnePublication: FC<ArticleType> = ({
   slug,
   id,
 }) => {
-  const editContent = content.replace(/\n/g, '</br>');
+  // const editContent = content.replace(/\n/g, '</br>');
   const { isAdmin } = useContextState();
 
   const handleEdit = (id: number) => {
@@ -93,7 +93,7 @@ const OnePublication: FC<ArticleType> = ({
         </div>
         <div className="text">
           <div className={'ck-content'}>
-            <div dangerouslySetInnerHTML={{ __html: editContent }} />
+            <div dangerouslySetInnerHTML={{ __html: content }} />
           </div>
           {/*<DangerousHtml str={editContent} />*/}
         </div>

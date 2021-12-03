@@ -19,7 +19,6 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
         <title key={'title'}>Ахилла</title>
         <meta
           key={'description'}

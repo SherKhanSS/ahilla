@@ -27,6 +27,10 @@ async function start() {
     async () => await publicationsService.fillMeiliSearchPublications(),
     1000 * 60 * 60 * 24,
   );
+  setInterval(
+    async () => await tagsService.getTagForMainPage(true),
+    1000 * 60 * 60 * 24,
+  );
 }
 
 start();

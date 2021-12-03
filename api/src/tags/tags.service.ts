@@ -20,6 +20,16 @@ const checkAndFillDescriptionDeleteContent = (publications) => {
 @Injectable()
 export class TagsService {
   tagsForMain = [];
+  sequelize = new Sequelize(
+    process.env.POSTGRES_DB,
+    process.env.POSTGRES_USER,
+    process.env.POSTGRES_PASSWORD,
+    {
+      dialect: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: +process.env.POSTGRES_PORT,
+    },
+  );
 
   constructor(
     @InjectModel(Tag) private tagRepository: typeof Tag,
@@ -112,24 +122,15 @@ export class TagsService {
     return { name, count, articles };
   }
 
-  async getTagForMainPage() {
-    if (this.tagsForMain.length === 0) {
-      const sequelize = new Sequelize(
-        process.env.POSTGRES_DB,
-        process.env.POSTGRES_USER,
-        process.env.POSTGRES_PASSWORD,
-        {
-          dialect: 'postgres',
-          host: process.env.POSTGRES_HOST,
-          port: +process.env.POSTGRES_PORT,
-        },
-      );
-      this.tagsForMain = await sequelize.query(
+  async getTagForMainPage(isTimer = false) {
+    if (this.tagsForMain.length === 0 || isTimer) {
+      this.tagsForMain = await this.sequelize.query(
         'select * from "tags" left join (select "tag_id" from (select count("publication_id") as "publications", "tag_id" from "publications_tags" group by "tag_id" order by "publications" DESC LIMIT 20) as t) as j on tags.id = j.tag_id where j.tag_id is Not NULL',
         {
           type: QueryTypes.SELECT,
         },
       );
+      console.log('Топ тегов обновлен');
     }
     return this.tagsForMain;
   }
