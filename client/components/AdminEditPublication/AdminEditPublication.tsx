@@ -22,6 +22,12 @@ const Select = dynamic(() => import('react-select'), {
 const Editor = dynamic(() => import('../AdminEditor/AdminEditor'), {
   ssr: false,
 });
+const AdminTinyEditor = dynamic(
+  () => import('../AdminTinyEditor/AdminTinyEditor'),
+  {
+    ssr: false,
+  }
+);
 const transliteration = new cyrillicToTranslit();
 
 const TRIMMING_DATE = 16;
@@ -192,13 +198,13 @@ const AdminEditPublication: FC<{
     ]
   );
 
-  useEffect(() => {
-    const timerId = setInterval(async () => {
-      await handleSubmit(false);
-      console.log('save');
-    }, 1000 * 10);
-    return () => clearInterval(timerId);
-  }, [handleSubmit]);
+  // useEffect(() => {
+  //   const timerId = setInterval(async () => {
+  //     await handleSubmit(false);
+  //     console.log('save');
+  //   }, 1000 * 10);
+  //   return () => clearInterval(timerId);
+  // }, [handleSubmit]);
 
   return (
     <section className={styles.main}>
@@ -230,6 +236,10 @@ const AdminEditPublication: FC<{
           </button>
         </div>
       </div>
+      <AdminTinyEditor
+        initial={initialContent}
+        onChangeEditor={onChangeEditor}
+      />
       <label>
         Заголовок статьи
         <input
